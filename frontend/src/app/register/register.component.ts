@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class RegisterComponent implements OnInit {
 
   username : string;
   password : string;
+  confirmPassword : string;
   phoneNumber : string;
   email : string;
   userType : string;
@@ -35,10 +37,26 @@ export class RegisterComponent implements OnInit {
   state : string;
 
 
+  // Fields for additional info on the page
   message : string;
 
 
-  register(){
+
+  register(form :NgForm){
+
+    if(form.invalid){
+
+      // If form is invalid by validators, mark every form as touched, so that validator message could be displayed
+      Object.keys(form.controls).forEach(key => {
+        form.controls[key].markAsTouched();
+      });
+
+      return;
+    }
+
+
+    // Validation passed, continue
+
 
     if(this.userType == 'client'){
       this.userService.registerClient(this.firstname, this.lastname, this.username, this.password, this.phoneNumber, this.email).subscribe(
@@ -67,4 +85,7 @@ export class RegisterComponent implements OnInit {
       );
     }
   }
+
+
+
 }
