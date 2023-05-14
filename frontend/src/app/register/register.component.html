@@ -1,0 +1,74 @@
+
+<h2>Registrujte se</h2>
+
+<form>
+    <label>Korisničko ime</label> &nbsp;
+    <input type="text" name="username" [(ngModel)]="username">
+    <br/>
+
+    <label>Lozinka</label> &nbsp;
+    <input type="password" name="password" [(ngModel)]="password">
+    <br/>
+
+    <label>Kontakt telefon</label> &nbsp;
+    <input type="text" name="phone" [(ngModel)]="phoneNumber">
+    <br/>
+
+    <label>E-mail adresa</label> &nbsp;
+    <input type="text" name="email" [(ngModel)]="email">
+    <br/>
+
+    <label>Registrujem se kao</label>
+    <br/>
+    <input type="radio" name="userTypeRadio" value="client" [(ngModel)]="userType">Klijent
+    <br/>
+    <input type="radio" name="userTypeRadio" value="agency" [(ngModel)]="userType">Agencija
+    <br/>
+
+    <div *ngIf="userType == 'client' ">
+        <br/>
+        <label>Ime</label> &nbsp;
+        <input type="text" name="firstname" [(ngModel)]="firstname">
+        <br/>
+
+        <label>Prezime</label> &nbsp;
+        <input type="text" name="lastname" [(ngModel)]="lastname">
+        <br/>
+    </div>
+
+    <div *ngIf="userType == 'agency' ">
+        <br/>
+        <label>Naziv agencije</label> &nbsp;
+        <input type="text" name="agencyName" [(ngModel)]="agencyName">
+        <br/>
+
+        <label>Maticni broj</label> &nbsp;
+        <input type="text" name="agencyId" [(ngModel)]="agencyId">
+        <br/>
+
+        <label>Kratak opis</label> &nbsp;
+        <textarea name="description" [(ngModel)]="description"></textarea>
+        <br/>
+
+        <label>Adresa agencije:</label> <br/>
+        <label>Ulica</label> &nbsp;
+        <input type="text" name="address" [(ngModel)]="agencyAddress"> &nbsp;
+        <label>Broj</label> &nbsp;
+        <input type="text" name="streetNumber" [(ngModel)]="streetNumber">
+        <br/>
+
+        <label>Grad</label> &nbsp;
+        <input type="text" name="city" [(ngModel)]="city">
+        <br/>
+
+        <label>Drzava</label> &nbsp;
+        <input type="text" name="state" [(ngModel)]="state">
+        <br/>
+    </div>
+
+    <br/>
+    <button (click)="register()">Registruj se</button>
+
+</form>
+
+{{message}}
