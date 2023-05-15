@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 let Client = new Schema(
     {
+        type : {type: String},
         firstname : {type : String},
         lastname : {type : String},
         username : {type : String},

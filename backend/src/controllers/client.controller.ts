@@ -12,6 +12,7 @@ export class ClientController{
 
         let client = new ClientModel(
             {
+                type : "client",    // Hardcode type as client
                 firstname : req.body.firstname,
                 lastname : req.body.lastname,
                 username : req.body.username,
