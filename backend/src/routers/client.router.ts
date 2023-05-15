@@ -10,4 +10,9 @@ clientRouter.route('/registerClient').post(
 );
 
 
+clientRouter.route('/loginClient').post(
+    (req, res) => new ClientController().loginClient(req, res)
+);
+
+
 export default clientRouter;

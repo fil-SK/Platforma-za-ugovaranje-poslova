@@ -17,7 +17,8 @@ export class AgencyController{
                 username : req.body.username,
                 password : req.body.password,
                 phoneNumber :req.body.phoneNumber,
-                email : req.body.email
+                email : req.body.email,
+                type : "agency"     // Hardcode the type
             }
         );
 
@@ -57,11 +58,26 @@ export class AgencyController{
 
             }
         } );
+ 
+    }
 
 
 
-
+    loginAgency = (req : express.Request, res : express.Response) => {
         
-        
+        // Get data from request
+        let username = req.body.username;
+        let password = req.body.password;
+
+
+        AgencyModel.findOne({'username' : username, 'password' : password}, (err, user) => {
+            if(err){
+                console.log(err);
+                res.json({'message' : 'failedToLogin'});
+            }
+            else{
+                res.json(user);
+            }
+        });
     }
 }

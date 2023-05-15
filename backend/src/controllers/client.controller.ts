@@ -58,4 +58,39 @@ export class ClientController{
         });
 
     }
+
+
+
+    loginClient = (req : express.Request, res : express.Response) => {
+
+        // Get data from request
+        let username = req.body.username;
+        let password = req.body.password;
+
+
+        ClientModel.findOne({'username' : username, 'password' : password}, (err, user) => {
+            if(err){
+                console.log(err);
+                res.json({'message' : 'failedToLogin'});
+            }
+            else{
+
+                if(user == null){
+                    res.json({'message' : 'userIsntClient'});
+                }
+
+                // Check if the returned user is client and not admin
+                else if(user.type == 'client'){
+                    res.json(user);
+                }
+                else{
+                    res.json({'message' : 'userIsAdmin'});
+                }
+
+            }
+        });
+
+
+    }
+    // TODO loginAdmin
 }
