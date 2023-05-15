@@ -22,15 +22,46 @@ export class AgencyController{
         );
 
 
-        agency.save( (err, resp) => {
-            if(err){
-                console.log(err);
-                res.json( {'message' : 'error'} );
+        // By the same logic as in client controller, we are nesting findOne functions, so that the second one will be called only if first one doesn't find matching user
+
+        // Check if username is unique
+        AgencyModel.findOne( {'username' : agency.username}, (err, user) =>{
+
+            if(user){
+                return res.json( {'message' : 'usernameNotUnique'} );
             }
             else{
-                res.json({'message' : 'registeredAgency'});
+
+                // Check if email is unique
+                AgencyModel.findOne( {'email' : agency.email}, (err, user) => {
+
+                    if(user){
+                        return res.json( {'message' : 'emailNotUnique'} );
+                    }
+                    else{
+
+                        // Both are unique - add to database
+
+                        agency.save( (err, resp) => {
+                            if(err){
+                                console.log(err);
+                                return res.json( {'message' : 'error'} );
+                            }
+                            else{
+                                return res.json({'message' : 'registeredAgency'});
+                            }
+                        } );
+
+                    }
+                } );
+
             }
         } );
+
+
+
+
+        
         
     }
 }

@@ -14,6 +14,11 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  // Current
+
+
+
   // Fields to get information from the form
 
   username : string;
@@ -61,9 +66,19 @@ export class RegisterComponent implements OnInit {
     if(this.userType == 'client'){
       this.userService.registerClient(this.firstname, this.lastname, this.username, this.password, this.phoneNumber, this.email).subscribe(
         (resp) => {
-          if(resp['message'] == 'registeredClient'){
+
+          if(resp['message'] == 'usernameNotUnique'){
+            this.message = 'Korisnicko ime vec postoji u sistemu!';
+          }
+
+          else if(resp['message'] == 'emailNotUnique'){
+            this.message = 'Email adresa vec postoji u sistemu!';
+          }
+
+          else if(resp['message'] == 'registeredClient'){
             this.message = 'Klijent uspesno registrovan!';
           }
+
           else{
             this.message = 'Greska pri registraciji!';
           }
@@ -75,9 +90,18 @@ export class RegisterComponent implements OnInit {
       this.userService.registerAgency(this.agencyName, this.agencyAddress, this.streetNumber, this.city, this.state, this.agencyId, this.description,
         this.username, this.password, this.phoneNumber, this.email).subscribe( (resp) => {
 
-          if(resp['message'] == 'registeredAgency'){
+          if(resp['message'] == 'usernameNotUnique'){
+            this.message = 'Korisnicko ime vec postoji u sistemu!';
+          }
+
+          else if(resp['message'] == 'emailNotUnique'){
+            this.message = 'Email adresa vec postoji u sistemu!';
+          }
+
+          else if(resp['message'] == 'registeredAgency'){
             this.message = 'Agencija uspesno registrovana!';
           }
+          
           else{
             this.message = 'Greska pri registraciji!';
           }
