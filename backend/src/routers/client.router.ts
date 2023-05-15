@@ -15,4 +15,9 @@ clientRouter.route('/loginClient').post(
 );
 
 
+clientRouter.route('/loginAdmin').post(
+    (req, res) => new ClientController().loginAdmin(req, res)
+);
+
+
 export default clientRouter;

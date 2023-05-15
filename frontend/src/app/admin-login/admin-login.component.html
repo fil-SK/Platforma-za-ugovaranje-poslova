@@ -1,0 +1,15 @@
+<h2>Prijava administratora u sistem</h2>
+
+<form>
+    <label>Korisničko ime</label> &nbsp;
+    <input type="text" name="username" [(ngModel)]="username">
+    <br/>
+
+    <label>Lozinka</label> &nbsp;
+    <input type="password" name="password" [(ngModel)]="password">
+    <br/><br/>
+
+    <button (click)="login()">Prijava na sistem</button>
+</form>
+
+{{message}}

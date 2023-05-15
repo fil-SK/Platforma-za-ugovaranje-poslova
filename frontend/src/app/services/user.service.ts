@@ -55,6 +55,7 @@ export class UserService {
     return this.http.post(`${this.uri}/client/loginClient`, data);
   }
 
+
   loginAgency(usernameForm, passwordForm){
     
     const data = {
@@ -63,5 +64,16 @@ export class UserService {
     }
 
     return this.http.post(`${this.uri}/agency/loginAgency`, data);
+  }
+
+  
+  loginAdmin(usernameForm, passwordForm){
+
+    const data = {
+      username : usernameForm,
+      password : passwordForm
+    }
+
+    return this.http.post(`${this.uri}/client/loginAdmin`, data);
   }
 }

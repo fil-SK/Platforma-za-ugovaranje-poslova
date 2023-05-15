@@ -11,6 +11,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { ClientComponent } from './client/client.component';
 import { AgencyComponent } from './agency/agency.component';
 import { AdminComponent } from './admin/admin.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { AdminComponent } from './admin/admin.component';
     ClientComponent,
     AgencyComponent,
     AdminComponent,
+    AdminLoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -92,5 +92,33 @@ export class ClientController{
 
 
     }
-    // TODO loginAdmin
+    
+
+    loginAdmin = (req : express.Request, res : express.Response) => {
+
+        // Get data from request
+        let username = req.body.username;
+        let password = req.body.password;
+
+        ClientModel.findOne({'username' : username, 'password' : password}, (err, admin) => {
+            if(err){
+                console.log(err);
+                res.json({'message' : 'errorWithLogin'});
+            }
+            else{
+
+                if(admin == null){
+                    res.json({'message' : 'userNotExists'});
+                }
+
+                else if(admin.type == 'admin'){
+                    res.json(admin);
+                }
+                else{
+                    res.json({'message' : 'userNotAdmin'});
+                }
+                
+            }
+        });
+    }
 }
