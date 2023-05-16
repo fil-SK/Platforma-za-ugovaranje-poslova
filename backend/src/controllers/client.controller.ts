@@ -1,24 +1,48 @@
 import express from 'express';
 import ClientModel from '../models/client';
 
+const multiparty = require('multiparty');
+
+import path from 'path';
+
 
 export class ClientController{
 
 
     registerClient = (req : express.Request, res : express.Response) => {
 
+        const image = req.file;
+        const imagePathServer = path.join('uploads', image.filename);
 
-        // Extract data from body
+        console.log("");
+        console.log("form data vrednosti iz kontrolera na bekendu");
+        
+        console.log(req.body);
+        console.log(req.file);
+
+        console.log(req.body.firstname);
+
+        // Console log each value in body of request
+        for (const key in req.body) {
+            if (Object.hasOwnProperty.call(req.body, key)) {
+              const value = req.body[key];
+              console.log(`${key}: ${value}`);
+            }
+        }
+
+        
+
 
         let client = new ClientModel(
             {
-                type : "client",    // Hardcode type as client
+                type : "client",                    // Hardcode type as client
                 firstname : req.body.firstname,
                 lastname : req.body.lastname,
                 username : req.body.username,
                 password : req.body.password,
-                phoneNumber : req.body.phoneNumber,
-                email : req.body.email
+                phoneNumber : req.body.phone,
+                email : req.body.email,
+                imagePath : imagePathServer
             }
         );
 

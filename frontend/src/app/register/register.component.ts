@@ -46,6 +46,14 @@ export class RegisterComponent implements OnInit {
   message : string;
 
 
+  image;
+  selectedImage(event){
+    if(event.target.files.length > 0){
+      this.image = event.target.files[0];
+    }
+  }
+
+
 
   register(form :NgForm){
 
@@ -62,9 +70,29 @@ export class RegisterComponent implements OnInit {
 
     // Validation passed, continue
 
+    const formData = new FormData();
+    //formData.append('image', this.image);
+    formData.set('firstname', this.firstname);
+    formData.set('lastname', this.lastname);
+    formData.set('username', this.username);
+    formData.set('password', this.password);
+    formData.set('phone', this.phoneNumber);
+    formData.set('email', this.email);
+    
+    formData.append('image', this.image);
+
+    console.log(formData);
+    
+    // Log, to check if values are correctly stored
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+
+    // const urlEncoded = new URLSearchParams(formData as any).toString();
+
 
     if(this.userType == 'client'){
-      this.userService.registerClient(this.firstname, this.lastname, this.username, this.password, this.phoneNumber, this.email).subscribe(
+      this.userService.registerClient(formData).subscribe( //formData
         (resp) => {
 
           if(resp['message'] == 'usernameNotUnique'){

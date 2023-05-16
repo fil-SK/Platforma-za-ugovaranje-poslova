@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -10,19 +10,17 @@ export class UserService {
 
   uri = 'http://localhost:4000';
 
+  
 
-  registerClient(firstnameForm, lastnameForm, usernameForm, passwordForm, phoneForm, emailForm){
 
-    const data = {
-      firstname : firstnameForm,
-      lastname : lastnameForm,
-      username : usernameForm,
-      password : passwordForm,
-      phoneNumber : phoneForm,
-      email : emailForm
+  registerClient(formData){
+
+    console.log("form data vrednosti iz servisa");
+    for (const value of formData.values()) {
+      console.log(value);
     }
 
-    return this.http.post(`${this.uri}/client/registerClient`, data);
+    return this.http.post(`${this.uri}/client/registerClient`, formData);
   }
 
   registerAgency(nameForm, streetForm, streetNumberForm, cityForm, stateForm, agencyIdForm, descForm, usernameForm, passwordForm, phoneForm, emailForm){

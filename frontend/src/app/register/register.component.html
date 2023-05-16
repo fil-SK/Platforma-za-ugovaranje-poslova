@@ -2,9 +2,9 @@
 
 <h2>Registrujte se</h2>
 
-<form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+<form #registerForm="ngForm" (ngSubmit)="register(registerForm)" enctype="multipart/form-data">
 
-
+<!-- application/x-www-form-urlencoded  use for sending form data without file send -->
     <!-- #xInput is used to display validation messages -->
     <label>Korisničko ime</label> &nbsp;
     <input type="text" name="username" [(ngModel)]="username" #usernameInput="ngModel" required>
@@ -50,6 +50,12 @@
         <div *ngIf="emailInput.errors?.['pattern']">Email ne zadovoljava format! Uneti format nesto@nesto.domen, gde je domen duzine 2-3 karaktera.</div>
     </div>
     <br/>
+
+
+    <label>Ubaci sliku (opciono):</label>
+    <input type="file" name="image" (change)="selectedImage($event)">
+    <br/>
+
 
 
     <label>Registrujem se kao</label>
