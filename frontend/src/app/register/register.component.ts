@@ -49,15 +49,28 @@ export class RegisterComponent implements OnInit {
   image;
   imageWidth : number;
   imageHeight : number;
-  wrongImageDimensions : string;
+  imageExtension : string;
+  wrongImageDimensionsMessage : string;
+  wrongImageExtensionMessage : string;
 
   selectedImage(event){
     if(event.target.files.length > 0){
       this.image = event.target.files[0];     // Get the image
 
-      // Check for the image resolution
-      const reader = new FileReader();
+      // Get the image format
+      const imageName = this.image.name;
+      const imageExtension = imageName.split('.').pop()?.toLowerCase();   // '?' operator ensures that the code handles cases where pop() returns 'undefined' and avoids potential runtime errors 
+      console.log('Ekstenzija je ' + imageExtension);
+      this.imageExtension = imageExtension;
 
+      // Clear error text if format is acceptable - optional
+      if(imageExtension == 'jpg' || imageExtension == 'png'){
+        this.wrongImageExtensionMessage = "";
+      }
+
+
+      // Get the image resolution
+      const reader = new FileReader();
       reader.onload = (e : any) => {
 
         const uploadedImage = new Image();
@@ -72,6 +85,13 @@ export class RegisterComponent implements OnInit {
           // Save width and height in component fields
           this.imageWidth = width;
           this.imageHeight = height;
+
+
+          // Clear error message if image resolution is in acceptable range - optional
+          if(width >= 100 && width <= 300 && height >= 100 && height <=300){
+            this.wrongImageDimensionsMessage = "";
+          }
+
         };
         uploadedImage.src = e.target.result;   
       };
@@ -95,10 +115,26 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+
+    // Validating image here, and not in selectedImage method to stop form from submitting if requirements are not met
+
+
+    // Validate image extension
+    if(!(this.imageExtension == 'jpg' || this.imageExtension == 'png')){
+      this.wrongImageExtensionMessage = "Slika nije u predvidjenom formatu! Slika moze biti samo u formatu 'jpg' ili 'png'!";
+      return;
+    }
+    else{
+      this.wrongImageExtensionMessage = "";
+    }
+
     // Validate image dimensions
     if(this.imageWidth < 100 || this.imageWidth > 300 || this.imageHeight < 100 || this.imageHeight > 300){
-      this.wrongImageDimensions = "Rezolucija slike nije u dozvoljenom opsegu! Slika moze biti minimalne rezolucije 100x100 i maksimalne rezolucije 300x300 piksela!";
+      this.wrongImageDimensionsMessage = "Rezolucija slike nije u dozvoljenom opsegu! Slika moze biti minimalne rezolucije 100x100 i maksimalne rezolucije 300x300 piksela!";
       return;
+    }
+    else{
+      this.wrongImageDimensionsMessage = "";
     }
 
 
