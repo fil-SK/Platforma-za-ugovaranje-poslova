@@ -11,16 +11,27 @@ export class ClientController{
 
     registerClient = (req : express.Request, res : express.Response) => {
 
-        const image = req.file;
-        const imagePathServer = path.join('uploads', image.filename);
+        let image;
+        let imagePathServer;
+
+        if(req.file){
+            // If user did upload an image then use his image, else take a default image for client
+            image = req.file;
+            imagePathServer = path.join('uploads', image.filename);
+        }
+        else{
+            imagePathServer = path.join('uploads', 'clientDefault.png');
+        }
+        
 
         console.log("");
         console.log("form data vrednosti iz kontrolera na bekendu");
         
         console.log(req.body);
-        console.log(req.file);
-
-        console.log(req.body.firstname);
+        if(req.file){
+            console.log(req.file);
+        }
+        
 
         // Console log each value in body of request
         for (const key in req.body) {

@@ -7,4 +7,5 @@ export class Client{
     password : string;
     phoneNumber : string;
     email : string;
+    imagePath: string;
 }
