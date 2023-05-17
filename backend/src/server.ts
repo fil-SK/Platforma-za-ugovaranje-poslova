@@ -8,6 +8,7 @@ import multer from 'multer';
 
 import clientRouter from './routers/client.router';
 import agencyRouter from './routers/agency.router';
+import adminRouter from './routers/admin.router';
 
 // ------------------------- Necessary usage -----------------------
 const app = express();
@@ -33,6 +34,8 @@ const router = express.Router();
 
 router.use('/client', clientRouter);
 router.use('/agency', agencyRouter);
+router.use('/admin', adminRouter);
+
 
 app.use('/', router);
 

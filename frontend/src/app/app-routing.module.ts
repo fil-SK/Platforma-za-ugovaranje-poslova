@@ -6,6 +6,7 @@ import { AgencyComponent } from './agency/agency.component';
 import { ClientComponent } from './client/client.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: "adminLogin", component : AdminLoginComponent},
   {path : "login", component : LoginComponent},
   {path : "register", component : RegisterComponent},
+  {path : "logout", component : LogoutComponent},
 
   {path : "client", component : ClientComponent},
   {path : "agency", component : AgencyComponent},

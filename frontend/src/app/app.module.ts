@@ -13,6 +13,7 @@ import { AgencyComponent } from './agency/agency.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     AdminComponent,
     AdminLoginComponent,
     NavbarComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,

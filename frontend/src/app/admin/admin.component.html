@@ -1,1 +1,34 @@
 <h1>Admin pocetna strana</h1>
+
+<h3>Svi klijenti:</h3>
+
+<table>
+    <tr>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>Username</th>
+    </tr>
+
+    <tr *ngFor = "let clientIterator of allClients">
+        <td>{{clientIterator.firstname}}</td>
+        <td>{{clientIterator.lastname}}</td>
+        <td>{{clientIterator.username}}</td>
+    </tr>
+</table>
+
+<br/><br/><br/>
+<h3>Sve agencije:</h3>
+
+<table>
+    <tr>
+        <th>Naziv agencije</th>
+        <th>Maticni broj</th>
+        <th>E mail</th>
+    </tr>
+
+    <tr *ngFor = "let agencyIterator of allAgencies">
+        <td>{{agencyIterator.agencyName}}</td>
+        <td>{{agencyIterator.agencyId}}</td>
+        <td>{{agencyIterator.email}}</td>
+    </tr>
+</table>

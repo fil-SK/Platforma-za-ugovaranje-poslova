@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
           if(databaseUserAgency){
             // Returned agency from database - navigate to agency page
             this.router.navigate(['agency']);
+            localStorage.setItem('user', JSON.stringify(databaseUserAgency));   // Save user in local storage
           }
           else{
             // It's not admin, client or agency - user doesn't exist in database
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit {
       else{
         // Returned client from database - navigate to client page
         this.router.navigate(['client']);
+        localStorage.setItem('user', JSON.stringify(databaseUserClient));
       }
 
     });
