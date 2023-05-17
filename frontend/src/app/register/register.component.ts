@@ -120,7 +120,7 @@ export class RegisterComponent implements OnInit {
 
 
     // Validate image extension
-    if(!(this.imageExtension == 'jpg' || this.imageExtension == 'png')){
+    if(!(this.imageExtension == 'jpg' || this.imageExtension == 'png') && this.image != null){
       this.wrongImageExtensionMessage = "Slika nije u predvidjenom formatu! Slika moze biti samo u formatu 'jpg' ili 'png'!";
       return;
     }
@@ -193,6 +193,10 @@ export class RegisterComponent implements OnInit {
 
           else if(resp['message'] == 'emailNotUnique'){
             this.message = 'Email adresa vec postoji u sistemu!';
+          }
+
+          else if(resp['message'] == 'agencyIdNotUnique'){
+            this.message = 'Maticni broj vec postoji u sistemu!';
           }
 
           else if(resp['message'] == 'registeredAgency'){

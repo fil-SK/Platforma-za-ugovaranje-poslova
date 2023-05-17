@@ -41,18 +41,29 @@ export class AgencyController{
                     }
                     else{
 
-                        // Both are unique - add to database
-
-                        agency.save( (err, resp) => {
-                            if(err){
-                                console.log(err);
-                                return res.json( {'message' : 'error'} );
+                        // Check if agencyId is unique
+                        AgencyModel.findOne({'agencyId' : agency.agencyId}, (err, user) => {
+                            if(user){
+                                return res.json({'message' : 'agencyIdNotUnique'});
                             }
-                            else{
-                                return res.json({'message' : 'registeredAgency'});
-                            }
-                        } );
 
+                            else {
+
+                                // Are unique - add to database
+
+                                agency.save( (err, resp) => {
+                                    if(err){
+                                        console.log(err);
+                                        return res.json( {'message' : 'error'} );
+                                    }
+                                    else{
+                                        return res.json({'message' : 'registeredAgency'});
+                                    }
+                                } );
+
+                            }
+                        });
+                        
                     }
                 } );
 
