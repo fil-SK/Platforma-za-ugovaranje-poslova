@@ -8,6 +8,11 @@ import multer from 'multer';
 const agencyRouter = express.Router();
 
 
+agencyRouter.route('/verifyAgencyUnique').post(
+    (req, res) => new AgencyController().verifyAgencyUnique(req, res)
+);
+
+
 agencyRouter.route('/registerAgency').post(
     multer({
         storage : multer.diskStorage(

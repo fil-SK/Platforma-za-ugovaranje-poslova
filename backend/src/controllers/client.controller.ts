@@ -9,6 +9,43 @@ import path from 'path';
 export class ClientController{
 
 
+    verifyClientUnique = (req : express.Request, res : express.Response) => {
+
+        let client = new ClientModel(
+            {
+                username : req.body.username,
+                email : req.body.email
+            }
+        );
+
+
+        // Check if username and email from the request already exist in the database
+        // Nest findOne functions, to make sure that the second findOne function is called ONLY if the first one doesn't find matching user
+        // Because findOne is asynchronous, non-blocking
+
+        // First check for username
+        ClientModel.findOne({'username' : client.username}, (err, user) => {
+
+            if(user){   // If user is returned, then user with that username already exists in database
+                return res.json({'message' : 'usernameNotUnique'});
+            }
+            else{
+
+                // Check email
+                ClientModel.findOne({'email' : client.email}, (err, user) => {
+
+                    if(user){
+                        return res.json({'message' : 'emailNotUnique'})
+                    }
+                    else{
+                        return res.json({'message' : 'userNotInDatabase'});     // If this returns, we can insert the user in database
+                    }
+                })
+            }
+        });
+
+    }
+
     registerClient = (req : express.Request, res : express.Response) => {
 
         let image;
@@ -27,6 +64,7 @@ export class ClientController{
         console.log("");
         console.log("form data vrednosti iz kontrolera na bekendu");
         
+
         console.log(req.body);
         if(req.file){
             console.log(req.file);
@@ -41,8 +79,7 @@ export class ClientController{
             }
         }
 
-        
-
+        // Prepare client with data from request
 
         let client = new ClientModel(
             {
@@ -57,40 +94,16 @@ export class ClientController{
             }
         );
 
-        // Nest findOne functions, to make sure that the second findOne function is called ONLY if the first one doesn't find matching user
-        // Because findOne is asynchronous, non-blocking
-
-        // Check if username is unique
-        ClientModel.findOne({'username' : client.username}, (err, user) => {
-
-            if(user){
-                return res.json( {'message' : 'usernameNotUnique'} );
+        client.save( (err, resp) => {
+                            
+            if(err){
+                console.log(err);
+                return res.json({'message' : 'error'});
             }
             else {
-
-                // Check if email is unique
-                ClientModel.findOne( {'email' : client.email}, (err, user) => {
-                    
-                    if(user){
-                        return res.json( {'message' : 'emailNotUnique'} );
-                    }
-                    else {
-
-                        // Both are unique - add to database
-                        client.save( (err, resp) => {
-                            
-                            if(err){
-                                console.log(err);
-                                return res.json({'message' : 'error'});
-                            }
-                            else {
-                                return res.json({'message' : 'registeredClient'});
-                            }
-                        } );
-                    }
-                });
+                return res.json({'message' : 'registeredClient'});
             }
-        });
+        } );
 
     }
 

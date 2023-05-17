@@ -11,6 +11,27 @@ export class UserService {
   uri = 'http://localhost:4000';
 
   
+  verifyClient(usernameForm, emailForm){
+
+    const data = {
+      username : usernameForm,
+      email : emailForm
+    };
+
+    return this.http.post(`${this.uri}/client/verifyClientUnique`, data);
+  }
+
+  verifyAgency(usernameForm, emailForm, agencyIdForm){
+
+    const data = {
+      username : usernameForm,
+      email : emailForm,
+      agencyId : agencyIdForm
+    };
+
+    return this.http.post(`${this.uri}/agency/verifyAgencyUnique`, data);
+  }
+
 
 
   registerClient(formData){

@@ -142,94 +142,118 @@ export class RegisterComponent implements OnInit {
 
     if(this.userType == 'client'){
 
-      const formData = new FormData();
-      formData.set('firstname', this.firstname);
-      formData.set('lastname', this.lastname);
-      formData.set('username', this.username);
-      formData.set('password', this.password);
-      formData.set('phone', this.phoneNumber);
-      formData.set('email', this.email);
-      
-      formData.append('image', this.image);
-  
-      console.log(formData);
-      
-      // Log, to check if values are correctly stored
-      for (const value of formData.values()) {
-        console.log(value);
-      }
-  
-      // const urlEncoded = new URLSearchParams(formData as any).toString();
-
-      this.userService.registerClient(formData).subscribe(
-        (resp) => {
-
-          if(resp['message'] == 'usernameNotUnique'){
-            this.message = 'Korisnicko ime vec postoji u sistemu!';
-          }
-
-          else if(resp['message'] == 'emailNotUnique'){
-            this.message = 'Email adresa vec postoji u sistemu!';
-          }
-
-          else if(resp['message'] == 'registeredClient'){
-            this.message = 'Klijent uspesno registrovan!';
-          }
-
-          else{
-            this.message = 'Greska pri registraciji!';
-          }
+      // First, verify if the client info from the form (username and email) are unique
+      this.userService.verifyClient(this.username, this.email).subscribe( resp => {
+        
+        if(resp['message'] == 'usernameNotUnique'){
+          this.message = 'Korisnicko ime vec postoji u sistemu!';
+          return;
         }
-      );
+
+        else if(resp['message'] == 'emailNotUnique'){
+          this.message = 'Email adresa vec postoji u sistemu!';
+          return;
+        }
+
+        else if(resp['message'] == 'userNotInDatabase'){
+
+          // User with this username and email doesn't exist in database, so we can add him
+
+
+          // Prepare data for the request
+          const formData = new FormData();
+          formData.set('firstname', this.firstname);
+          formData.set('lastname', this.lastname);
+          formData.set('username', this.username);
+          formData.set('password', this.password);
+          formData.set('phone', this.phoneNumber);
+          formData.set('email', this.email);
+          formData.append('image', this.image);
+
+
+          // Check if values are correctly stored in FormData
+          for (const value of formData.values()) {
+            console.log(value);
+          }
+
+          this.userService.registerClient(formData).subscribe( res => {
+
+            if(res['message'] == 'registeredClient'){
+              this.message = 'Klijent uspesno registrovan!';
+            }
+            else{
+              this.message = 'Greska pri registraciji!';
+            }
+          });
+
+        }
+
+      });
+
     }
     
     else if(this.userType == 'agency'){
 
-      const formData = new FormData();
-      formData.set('agencyName', this.agencyName);
-      formData.set('streetAddress', this.agencyAddress);
-      formData.set('streetNumber', this.streetNumber);
-      formData.set('city', this.city);
-      formData.set('state', this.state);
-      formData.set('agencyId', this.agencyId);
-      formData.set('description', this.description);
-      formData.set('username', this.username);
-      formData.set('password', this.password);
-      formData.set('phone', this.phoneNumber);
-      formData.set('email', this.email);
 
-      formData.append('image', this.image);
+      // Verify if agency info from the form (username, email, agencyId) are unique
+      this.userService.verifyAgency(this.username, this.email, this.agencyId).subscribe( resp => {
 
-      console.log(formData);
-      // Log, to check if values are correctly stored
-      for (const value of formData.values()) {
-        console.log(value);
-      }
-
-
-      this.userService.registerAgency(formData).subscribe( (resp) => {
-
-          if(resp['message'] == 'usernameNotUnique'){
-            this.message = 'Korisnicko ime vec postoji u sistemu!';
-          }
-
-          else if(resp['message'] == 'emailNotUnique'){
-            this.message = 'Email adresa vec postoji u sistemu!';
-          }
-
-          else if(resp['message'] == 'agencyIdNotUnique'){
-            this.message = 'Maticni broj vec postoji u sistemu!';
-          }
-
-          else if(resp['message'] == 'registeredAgency'){
-            this.message = 'Agencija uspesno registrovana!';
-          }
-          
-          else{
-            this.message = 'Greska pri registraciji!';
-          }
+        if(resp['message'] == 'usernameNotUnique'){
+          this.message = 'Korisnicko ime vec postoji u sistemu!';
+          return;
         }
-      );
+
+        else if(resp['message'] == 'emailNotUnique'){
+          this.message = 'Email adresa vec postoji u sistemu!';
+          return;
+        }
+
+        else if(resp['message'] == 'agencyIdNotUnique'){
+          this.message = 'Maticni broj vec postoji u sistemu!';
+          return;
+        }
+
+        else if(resp['message'] == 'userNotInDatabase'){
+
+          // Agency with this username, email and agencyId doesn't exist in database, so we can add it
+
+
+          // Prepare data for the request
+          const formData = new FormData();
+          formData.set('agencyName', this.agencyName);
+          formData.set('streetAddress', this.agencyAddress);
+          formData.set('streetNumber', this.streetNumber);
+          formData.set('city', this.city);
+          formData.set('state', this.state);
+          formData.set('agencyId', this.agencyId);
+          formData.set('description', this.description);
+          formData.set('username', this.username);
+          formData.set('password', this.password);
+          formData.set('phone', this.phoneNumber);
+          formData.set('email', this.email);
+    
+          formData.append('image', this.image);
+
+
+          // Check if values are correctly stored in FormData
+          for (const value of formData.values()) {
+            console.log(value);
+          }
+
+
+          this.userService.registerAgency(formData).subscribe( res => {
+            if(res['message'] == 'registeredAgency'){
+              this.message = 'Agencija uspesno registrovana!';
+            }
+            else{
+              this.message = 'Greska pri registraciji!';
+            }
+          });
+        }
+
+      });
+
+
     }
   }
 

@@ -7,9 +7,11 @@ import multer from 'multer';
 
 const clientRouter = express.Router();
 
-// Problem koji postoji jeste sto si ovde, na liniji 5, pravio novi multer, a nisi korisio onaj koji je napravljen u server.ts fajlu
-// Samim tim, onaj multer iz server.ts fajla ce da obradi elemente forme, ali multer iz ovog fajla za njih ne zna, pa ti se zato ne salju u post zahtev
-// Znaci samo moras da skontas kako da multer iz server.ts iskoristis u client.router.ts
+
+clientRouter.route('/verifyClientUnique').post(
+    (req, res) => new ClientController().verifyClientUnique(req, res)
+);
+
 
 clientRouter.route('/registerClient').post(
     multer({
@@ -27,12 +29,6 @@ clientRouter.route('/registerClient').post(
     (req, res) => new ClientController().registerClient(req, res)
 );
 
-/*
-clientRouter.route('/registerClient').post(
-    upload.single('image'),
-    (req, res) => new ClientController().registerClient(req, res)
-);
-*/
 
 clientRouter.route('/loginClient').post(
     (req, res) => new ClientController().loginClient(req, res)

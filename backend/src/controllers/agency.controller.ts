@@ -5,6 +5,54 @@ import path from 'path';
 
 export class AgencyController{
 
+
+    verifyAgencyUnique = (req : express.Request, res : express.Response) => {
+
+        let agency = new AgencyModel(
+            {
+                username : req.body.username,
+                email : req.body.email,
+                agencyId : req.body.agencyId
+            }
+        );
+
+
+        // Analogous as verifyClientUnique method
+        // We are nesting findOne functions, so that the second one will be called only if first one doesn't find matching user
+        
+        // Check if username is unique
+        AgencyModel.findOne({'username' : agency.username}, (err, user) => {
+            
+            if(user){
+                return res.json( {'message' : 'usernameNotUnique'} );
+            }
+            else{
+
+                // Check if email is unique
+                AgencyModel.findOne({'email' : agency.email}, (err, user) => {
+
+                    if(user){
+                        return res.json( {'message' : 'emailNotUnique'} );
+                    }
+                    else{
+
+                        // Check if agencyId is unique
+                        AgencyModel.findOne({'agencyId' : agency.agencyId}, (err, user) =>{
+                            if(user){
+                                return res.json({'message' : 'agencyIdNotUnique'});
+                            }
+                            else{
+                                return res.json({'message' : 'userNotInDatabase'});     // If we return this then we can insert agency into database
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+    }
+
+
     registerAgency = (req : express.Request, res : express.Response) => {
 
 
@@ -30,7 +78,7 @@ export class AgencyController{
         }
 
 
-
+        // Extract agency data from the body of request 
         let agency = new AgencyModel(
             {
                 agencyName : req.body.agencyName,
@@ -50,50 +98,14 @@ export class AgencyController{
         );
 
 
-        // By the same logic as in client controller, we are nesting findOne functions, so that the second one will be called only if first one doesn't find matching user
-
-        // Check if username is unique
-        AgencyModel.findOne( {'username' : agency.username}, (err, user) =>{
-
-            if(user){
-                return res.json( {'message' : 'usernameNotUnique'} );
+        // Insert agency into database
+        agency.save( (err, resp) => {
+            if(err){
+                console.log(err);
+                return res.json( {'message' : 'error'} );
             }
             else{
-
-                // Check if email is unique
-                AgencyModel.findOne( {'email' : agency.email}, (err, user) => {
-
-                    if(user){
-                        return res.json( {'message' : 'emailNotUnique'} );
-                    }
-                    else{
-
-                        // Check if agencyId is unique
-                        AgencyModel.findOne({'agencyId' : agency.agencyId}, (err, user) => {
-                            if(user){
-                                return res.json({'message' : 'agencyIdNotUnique'});
-                            }
-
-                            else {
-
-                                // Are unique - add to database
-
-                                agency.save( (err, resp) => {
-                                    if(err){
-                                        console.log(err);
-                                        return res.json( {'message' : 'error'} );
-                                    }
-                                    else{
-                                        return res.json({'message' : 'registeredAgency'});
-                                    }
-                                } );
-
-                            }
-                        });
-
-                    }
-                } );
-
+                return res.json({'message' : 'registeredAgency'});
             }
         } );
  
