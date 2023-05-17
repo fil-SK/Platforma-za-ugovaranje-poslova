@@ -20,4 +20,12 @@ export class AdminService {
     return this.http.get(`${this.uri}/admin/getAllAgencies`);
   }
 
+  getPendingClients(){
+    return this.http.get(`${this.uri}/admin/getPendingClients`);
+  }
+
+  getPendingAgencies(){
+    return this.http.get(`${this.uri}/admin/getPendingAgencies`);
+  }
+
 }

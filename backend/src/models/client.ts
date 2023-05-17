@@ -12,7 +12,8 @@ let Client = new Schema(
         password : {type : String},
         phoneNumber : {type : String},
         email : {type : String},
-        imagePath : {type : String}
+        imagePath : {type : String},
+        regStatus : {type : String}     // pending, accepted, denied
     }
 );
 

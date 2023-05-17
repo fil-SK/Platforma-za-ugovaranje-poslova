@@ -93,7 +93,8 @@ export class AgencyController{
                 phoneNumber :req.body.phone,
                 email : req.body.email,
                 type : "agency",     // Hardcode the type
-                imagePath : imagePathServer
+                imagePath : imagePathServer,
+                regStatus : "pending"
             }
         );
 

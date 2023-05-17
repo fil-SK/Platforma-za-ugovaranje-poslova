@@ -13,11 +13,16 @@ export class AdminComponent implements OnInit {
   constructor(private adminService : AdminService) { }
 
   ngOnInit(): void {
+    
     this.getAllClients();
     this.getAllAgencies();
+    this.getPendingClients();
+    this.getPendingAgencies();
   }
 
 
+  allPendingClients : Client[];
+  allPendingAgencies : Agency[];
   allClients : Client[];
   allAgencies : Agency[];
 
@@ -32,5 +37,17 @@ export class AdminComponent implements OnInit {
     this.adminService.getAllAgencies().subscribe( (agenciesList : Agency[]) => {
       this.allAgencies = agenciesList;
     });
+  }
+
+  getPendingClients(){
+    this.adminService.getPendingClients().subscribe( (pendingClientsList : Client[]) => {
+      this.allPendingClients = pendingClientsList;
+    } );
+  }
+
+  getPendingAgencies(){
+    this.adminService.getPendingAgencies().subscribe( (pendingAgenciesList : Agency[]) => {
+      this.allPendingAgencies = pendingAgenciesList;
+    } );
   }
 }

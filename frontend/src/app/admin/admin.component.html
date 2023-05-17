@@ -1,5 +1,37 @@
 <h1>Admin pocetna strana</h1>
 
+<h3>Neodobreni klijenti:</h3>
+<table>
+    <tr>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>Username</th>
+    </tr>
+
+    <tr *ngFor = "let pendingClientIterator of allPendingClients">
+        <td>{{pendingClientIterator.firstname}}</td>
+        <td>{{pendingClientIterator.lastname}}</td>
+        <td>{{pendingClientIterator.username}}</td>
+    </tr>
+</table>
+<hr/>
+
+<h3>Neodobrene agencije:</h3>
+<table>
+    <tr>
+        <th>Naziv agencije</th>
+        <th>Maticni broj</th>
+        <th>E mail</th>
+    </tr>
+
+    <tr *ngFor = "let pendingAgencyIterator of allPendingAgencies">
+        <td>{{pendingAgencyIterator.agencyName}}</td>
+        <td>{{pendingAgencyIterator.agencyId}}</td>
+        <td>{{pendingAgencyIterator.email}}</td>
+    </tr>
+</table>
+<hr/>
+
 <h3>Svi klijenti:</h3>
 
 <table>
@@ -15,8 +47,8 @@
         <td>{{clientIterator.username}}</td>
     </tr>
 </table>
+<hr/>
 
-<br/><br/><br/>
 <h3>Sve agencije:</h3>
 
 <table>

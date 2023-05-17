@@ -17,7 +17,8 @@ let Agency = new Schema(
         phoneNumber : {type : String},
         email : {type : String},
         type : {type : String},
-        imagePath : {type : String}
+        imagePath : {type : String},
+        regStatus : {type : String}     // pending, accepted, denied
     }
 );
 

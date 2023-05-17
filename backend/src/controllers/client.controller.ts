@@ -90,7 +90,8 @@ export class ClientController{
                 password : req.body.password,
                 phoneNumber : req.body.phone,
                 email : req.body.email,
-                imagePath : imagePathServer
+                imagePath : imagePathServer,
+                regStatus : "pending"
             }
         );
 
