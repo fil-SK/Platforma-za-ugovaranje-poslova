@@ -54,6 +54,9 @@
 
     <label>Ubaci sliku (opciono):</label>
     <input type="file" name="image" (change)="selectedImage($event)">
+    <div *ngIf="registerForm.submitted && imageWidth < 100 || imageWidth > 300 || imageHeight < 100 || imageHeight > 300">
+        <p class="validatorMessage">{{wrongImageDimensions}}</p>
+    </div>
     <br/>
 
 

@@ -47,9 +47,37 @@ export class RegisterComponent implements OnInit {
 
 
   image;
+  imageWidth : number;
+  imageHeight : number;
+  wrongImageDimensions : string;
+
   selectedImage(event){
     if(event.target.files.length > 0){
-      this.image = event.target.files[0];
+      this.image = event.target.files[0];     // Get the image
+
+      // Check for the image resolution
+      const reader = new FileReader();
+
+      reader.onload = (e : any) => {
+
+        const uploadedImage = new Image();
+        
+        uploadedImage.onload = () => {
+          const width = uploadedImage.naturalWidth;
+          const height = uploadedImage.naturalHeight;
+
+          console.log('Image width:', width);
+          console.log('Image height:', height);
+
+          // Save width and height in component fields
+          this.imageWidth = width;
+          this.imageHeight = height;
+        };
+        uploadedImage.src = e.target.result;   
+      };
+
+      reader.readAsDataURL(this.image);    // Converts to data URL
+
     }
   }
 
@@ -67,11 +95,16 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    // Validate image dimensions
+    if(this.imageWidth < 100 || this.imageWidth > 300 || this.imageHeight < 100 || this.imageHeight > 300){
+      this.wrongImageDimensions = "Rezolucija slike nije u dozvoljenom opsegu! Slika moze biti minimalne rezolucije 100x100 i maksimalne rezolucije 300x300 piksela!";
+      return;
+    }
+
 
     // Validation passed, continue
 
     const formData = new FormData();
-    //formData.append('image', this.image);
     formData.set('firstname', this.firstname);
     formData.set('lastname', this.lastname);
     formData.set('username', this.username);
@@ -92,7 +125,7 @@ export class RegisterComponent implements OnInit {
 
 
     if(this.userType == 'client'){
-      this.userService.registerClient(formData).subscribe( //formData
+      this.userService.registerClient(formData).subscribe(
         (resp) => {
 
           if(resp['message'] == 'usernameNotUnique'){
