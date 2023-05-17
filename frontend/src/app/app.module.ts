@@ -12,6 +12,7 @@ import { ClientComponent } from './client/client.component';
 import { AgencyComponent } from './agency/agency.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
     AgencyComponent,
     AdminComponent,
     AdminLoginComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
