@@ -38,9 +38,23 @@ export class LoginComponent implements OnInit {
         this.userService.loginAgency(this.username, this.password).subscribe( (databaseUserAgency) => {
 
           if(databaseUserAgency){
-            // Returned agency from database - navigate to agency page
-            this.router.navigate(['agency']);
-            localStorage.setItem('user', JSON.stringify(databaseUserAgency));   // Save user in local storage
+            // Returned agency from database 
+
+            // Check if agency is marked as 'pending' or 'declined' - if it is then deny login
+            if(databaseUserAgency['message'] == 'regStatusPending'){
+              this.message = "Administrator jos uvek nije odobrio regisraciju ovoj agenciji!";
+              return;
+            }
+            else if(databaseUserAgency['message'] == 'regStatusDeclined'){
+              this.message = "Administrator je odbio zahtev za registraciju ove agencije!";
+              return;
+            }
+            else{
+              // Agency is 'accepted' - navigate to agency page
+              this.router.navigate(['agency']);
+              localStorage.setItem('user', JSON.stringify(databaseUserAgency));   // Save user in local storage
+            }
+            
           }
           else{
             // It's not admin, client or agency - user doesn't exist in database
@@ -50,9 +64,21 @@ export class LoginComponent implements OnInit {
       }
 
       else{
-        // Returned client from database - navigate to client page
-        this.router.navigate(['client']);
-        localStorage.setItem('user', JSON.stringify(databaseUserClient));
+        // Returned client from database 
+
+        // Check if client is marked as 'pending' or 'declined' - if it is then deny login
+        if(databaseUserClient['message'] == 'regStatusPending'){
+          this.message = "Administrator jos uvek nije odobrio registraciju ovom klijentu!";
+          return;
+        }
+        else if(databaseUserClient['message'] == 'regStatusDeclined'){
+          this.message = "Administrator je odbio zahtev za registraciju ovog klijenta!";
+        }
+        else{
+          // Client is 'accepted' - navigate to client page
+          this.router.navigate(['client']);
+          localStorage.setItem('user', JSON.stringify(databaseUserClient));
+        }
       }
 
     });

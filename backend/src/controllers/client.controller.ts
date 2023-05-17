@@ -130,7 +130,17 @@ export class ClientController{
 
                 // Check if the returned user is client and not admin
                 else if(user.type == 'client'){
-                    res.json(user);
+
+                    if(user.regStatus == 'pending'){
+                        res.json({'message' : 'regStatusPending'});
+                    }
+                    else if(user.regStatus == 'declined'){
+                        res.json({'message' : 'regStatusDeclined'});
+                    }
+                    else{
+                        res.json(user);     // Status is 'accepted' so login is allowed
+                    }
+                    
                 }
                 else{
                     res.json({'message' : 'userIsAdmin'});

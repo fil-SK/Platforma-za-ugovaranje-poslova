@@ -127,7 +127,18 @@ export class AgencyController{
                 res.json({'message' : 'failedToLogin'});
             }
             else{
-                res.json(user);
+
+                // Check for registration status
+                if(user.regStatus == 'pending'){
+                    res.json({'message' : 'regStatusPending'});
+                }
+                else if(user.regStatus == 'declined'){
+                    res.json({'message' : 'regStatusDeclined'});
+                }
+                else{
+                    res.json(user);
+                }
+                
             }
         });
     }
