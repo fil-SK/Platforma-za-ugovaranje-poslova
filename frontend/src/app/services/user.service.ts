@@ -23,23 +23,14 @@ export class UserService {
     return this.http.post(`${this.uri}/client/registerClient`, formData);
   }
 
-  registerAgency(nameForm, streetForm, streetNumberForm, cityForm, stateForm, agencyIdForm, descForm, usernameForm, passwordForm, phoneForm, emailForm){
+  registerAgency(formData){
 
-    const data = {
-      agencyName : nameForm,
-      streetAddress : streetForm,
-      streetNumber : streetNumberForm,
-      city : cityForm,
-      state : stateForm,
-      agencyId : agencyIdForm,
-      desctiption : descForm,
-      username : usernameForm,
-      password : passwordForm,
-      phoneNumber : phoneForm,
-      email : emailForm
+    console.log("form data vrednosti iz servisa");
+    for (const value of formData.values()) {
+      console.log(value);
     }
 
-    return this.http.post(`${this.uri}/agency/registerAgency`, data);
+    return this.http.post(`${this.uri}/agency/registerAgency`, formData);
   }
 
 

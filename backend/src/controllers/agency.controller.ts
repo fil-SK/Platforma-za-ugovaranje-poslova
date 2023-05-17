@@ -1,9 +1,35 @@
 import express from 'express';
 import AgencyModel from '../models/agency';
 
+import path from 'path';
+
 export class AgencyController{
 
     registerAgency = (req : express.Request, res : express.Response) => {
+
+
+        let image;
+        let imagePathServer;
+
+        if(req.file){
+            // If user did upload an image then use his image, else take a default image for agency
+            image = req.file;
+            imagePathServer = path.join('uploads', image.filename);
+        }
+        else{
+            imagePathServer = path.join('uploads', 'agencyDefault.png');
+        }
+
+
+        console.log("");
+        console.log("form data vrednosti iz kontrolera na bekendu");
+        
+        console.log(req.body);
+        if(req.file){
+            console.log(req.file);
+        }
+
+
 
         let agency = new AgencyModel(
             {
@@ -16,9 +42,10 @@ export class AgencyController{
                 description : req.body.description,
                 username : req.body.username,
                 password : req.body.password,
-                phoneNumber :req.body.phoneNumber,
+                phoneNumber :req.body.phone,
                 email : req.body.email,
-                type : "agency"     // Hardcode the type
+                type : "agency",     // Hardcode the type
+                imagePath : imagePathServer
             }
         );
 
@@ -63,7 +90,7 @@ export class AgencyController{
 
                             }
                         });
-                        
+
                     }
                 } );
 

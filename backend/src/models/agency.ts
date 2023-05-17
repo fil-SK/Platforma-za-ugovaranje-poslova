@@ -16,8 +16,8 @@ let Agency = new Schema(
         password : {type : String},
         phoneNumber : {type : String},
         email : {type : String},
-
-        type : {type : String}
+        type : {type : String},
+        imagePath : {type : String}
     }
 );
 

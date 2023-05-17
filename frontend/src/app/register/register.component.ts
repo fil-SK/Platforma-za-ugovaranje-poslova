@@ -140,27 +140,27 @@ export class RegisterComponent implements OnInit {
 
     // Validation passed, continue
 
-    const formData = new FormData();
-    formData.set('firstname', this.firstname);
-    formData.set('lastname', this.lastname);
-    formData.set('username', this.username);
-    formData.set('password', this.password);
-    formData.set('phone', this.phoneNumber);
-    formData.set('email', this.email);
-    
-    formData.append('image', this.image);
-
-    console.log(formData);
-    
-    // Log, to check if values are correctly stored
-    for (const value of formData.values()) {
-      console.log(value);
-    }
-
-    // const urlEncoded = new URLSearchParams(formData as any).toString();
-
-
     if(this.userType == 'client'){
+
+      const formData = new FormData();
+      formData.set('firstname', this.firstname);
+      formData.set('lastname', this.lastname);
+      formData.set('username', this.username);
+      formData.set('password', this.password);
+      formData.set('phone', this.phoneNumber);
+      formData.set('email', this.email);
+      
+      formData.append('image', this.image);
+  
+      console.log(formData);
+      
+      // Log, to check if values are correctly stored
+      for (const value of formData.values()) {
+        console.log(value);
+      }
+  
+      // const urlEncoded = new URLSearchParams(formData as any).toString();
+
       this.userService.registerClient(formData).subscribe(
         (resp) => {
 
@@ -184,8 +184,30 @@ export class RegisterComponent implements OnInit {
     }
     
     else if(this.userType == 'agency'){
-      this.userService.registerAgency(this.agencyName, this.agencyAddress, this.streetNumber, this.city, this.state, this.agencyId, this.description,
-        this.username, this.password, this.phoneNumber, this.email).subscribe( (resp) => {
+
+      const formData = new FormData();
+      formData.set('agencyName', this.agencyName);
+      formData.set('streetAddress', this.agencyAddress);
+      formData.set('streetNumber', this.streetNumber);
+      formData.set('city', this.city);
+      formData.set('state', this.state);
+      formData.set('agencyId', this.agencyId);
+      formData.set('description', this.description);
+      formData.set('username', this.username);
+      formData.set('password', this.password);
+      formData.set('phone', this.phoneNumber);
+      formData.set('email', this.email);
+
+      formData.append('image', this.image);
+
+      console.log(formData);
+      // Log, to check if values are correctly stored
+      for (const value of formData.values()) {
+        console.log(value);
+      }
+
+
+      this.userService.registerAgency(formData).subscribe( (resp) => {
 
           if(resp['message'] == 'usernameNotUnique'){
             this.message = 'Korisnicko ime vec postoji u sistemu!';
