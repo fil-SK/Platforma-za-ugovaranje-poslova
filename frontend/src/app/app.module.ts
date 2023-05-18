@@ -14,6 +14,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { LogoutComponent } from './logout/logout.component';
     AdminLoginComponent,
     NavbarComponent,
     LogoutComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

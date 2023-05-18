@@ -16,7 +16,7 @@
 
     <label>Lozinka</label> &nbsp;
     <input type="password" name="password" [(ngModel)]="password" #passwordInput="ngModel"
-        pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?]).*[a-zA-Z].{6,11}$" required >
+        pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?]{6,12}$" required >
         <!-- \x22 je heksadecimalni zapis za " znake navoda -->
         <div *ngIf="registerForm.submitted && passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="validatorMessage">
             <div *ngIf="passwordInput.errors?.['required']">Lozinka je obavezna!</div>

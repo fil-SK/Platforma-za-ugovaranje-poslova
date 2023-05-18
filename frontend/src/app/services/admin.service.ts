@@ -28,4 +28,14 @@ export class AdminService {
     return this.http.get(`${this.uri}/admin/getPendingAgencies`);
   }
 
+
+  changePassword(usernameLogged, newPassword){
+    const data = {
+      username : usernameLogged,
+      password : newPassword
+    };
+
+    return this.http.post(`${this.uri}/admin/changePassword`, data);
+  }
+
 }

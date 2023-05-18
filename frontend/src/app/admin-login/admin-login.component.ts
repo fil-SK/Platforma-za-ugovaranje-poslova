@@ -34,6 +34,7 @@ export class AdminLoginComponent implements OnInit {
       }
 
       else if(admin){
+        localStorage.setItem('user', JSON.stringify(admin));
         this.router.navigate(['admin']);
       }
 

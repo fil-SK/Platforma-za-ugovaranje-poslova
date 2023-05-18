@@ -40,4 +40,9 @@ clientRouter.route('/loginAdmin').post(
 );
 
 
+clientRouter.route('/changePassword').post(
+    (req,res) => new ClientController().changePassword(req, res)
+);
+
+
 export default clientRouter;

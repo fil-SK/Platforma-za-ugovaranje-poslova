@@ -180,4 +180,20 @@ export class ClientController{
             }
         });
     }
+
+
+    changePassword = (req : express.Request, res : express.Response) => {
+
+        let loggedUserUsername = req.body.username;
+        let newPassword = req.body.password;
+
+        ClientModel.updateOne({'username' : loggedUserUsername}, {$set : {'password' : newPassword}}, (error, resp) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                res.json({'message' : 'changedPassword'});
+            }
+        });
+    }
 }

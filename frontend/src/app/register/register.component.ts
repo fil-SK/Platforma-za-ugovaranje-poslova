@@ -115,6 +115,11 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    // Check if password and repeatPassword form elements match
+    if(this.password != this.confirmPassword){
+      return;
+    }
+
 
     // Validating image here, and not in selectedImage method to stop form from submitting if requirements are not met
 

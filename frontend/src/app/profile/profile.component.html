@@ -1,0 +1,93 @@
+<p>profile works!</p>
+
+<h1>Ovo je profil korisnika {{loggedUser.username}}</h1>
+
+
+
+<form>
+    <div *ngIf="loggedUser.type == 'client' ">
+        <label>Ime</label>
+        <input type="text" name="firstname" [(ngModel)]="firstname">
+        <br/>
+
+        <label>Prezime</label>
+        <input type="text" name="lastname" [(ngModel)]="lastname">
+        <br/>
+
+        <label>E-mail</label>
+        <input type="text" name="email" [(ngModel)]="email">
+        <br/>
+
+        <label>Kontakt telefon</label>
+        <input type="text" name="phone" [(ngModel)]="phoneNumber">
+        <br/>
+    </div>
+
+    <div *ngIf="loggedUser.type == 'agency' ">
+        <label>Naziv agencije</label>
+        <input type="text" name="agencyName" [(ngModel)]="agencyName">
+        <br/>
+    
+        <label>Ulica</label>
+        <input type="text" name="streetAddress" [(ngModel)]="streetAddress">
+        <br/>
+
+        <label>Broj</label>
+        <input type="text" name="streetNumber" [(ngModel)]="streetNumber">
+        <br/>
+    
+        <label>Kratak opis</label>
+        <input type="text" name="description" [(ngModel)]="description">
+        <br/>
+    
+        <label>E-mail</label>
+        <input type="text" name="email" [(ngModel)]="email">
+        <br/>
+    
+        <label>Kontakt telefon</label>
+        <input type="text" name="phone" [(ngModel)]="phoneNumber">
+        <br/>
+    </div>
+
+    <br/>
+    <button (click)="updateData()">Azuriraj podatke</button>
+</form>
+
+<br/><br/><br/><br/>
+
+<form #changePasswordForm="ngForm" (ngSubmit)="changePassword(changePasswordForm)" enctype="application/x-www-form-urlencoded">
+    <h3>Promeni lozinku</h3>
+    <br/>
+
+    <label>Stara lozinka</label>
+    <input type="password" name="oldPassword" [(ngModel)]="oldPassword" #oldPasswordInput="ngModel" required >
+    <div *ngIf="changePasswordForm.submitted && oldPasswordInput.invalid && (oldPasswordInput.dirty || oldPasswordInput.touched)" class="validatorMessage">
+        <div *ngIf="oldPasswordInput.errors?.['required']">Morate uneti staru lozinku!</div>
+    </div>
+    <div *ngIf="changePasswordForm.submitted && (oldPassword != loggedUser.password) && (oldPassword != '')" class="validatorMessage">Pogrešno uneta stara lozinka!</div>
+    <br/>
+
+    
+    <label>Nova lozinka</label>
+    <input type="password" name="newPassword" [(ngModel)]="newPassword" #newPasswordInput="ngModel"
+    pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?]{6,12}$" required >
+    <!-- \x22 je heksadecimalni zapis za " znake navoda -->
+    <div *ngIf="changePasswordForm.submitted && newPasswordInput.invalid && (newPasswordInput.dirty || newPasswordInput.touched)" class="validatorMessage">
+        <div *ngIf="newPasswordInput.errors?.['required']">Morate uneti novu lozinku!</div>
+        <div *ngIf="newPasswordInput.errors?.['pattern']">Lozinka mora da sadrzi najmanje 6, a najvise 12 karaktera, bar jedno veliko slovo, jedan broj i jedan specijalni karakter, i mora poceti velikim slovom.</div>
+      </div>
+    <br/>
+
+
+    <label>Nova lozinka (još jednom)</label>
+    <input type="password" name="againNewPassword" [(ngModel)]="againNewPassword" #againNewPasswordInput="ngModel" required>
+    <div *ngIf="changePasswordForm.submitted && againNewPasswordInput.invalid && (againNewPasswordInput.dirty || againNewPasswordInput.touched)" class="validatorMessage">
+        <div *ngIf="againNewPasswordInput.errors?.['required']">Morate ponovo uneti lozinku!</div>
+    </div>
+    <div *ngIf="changePasswordForm.submitted && newPassword != againNewPassword" class="validatorMessage">Lozinke se ne poklapaju!</div>
+    <br/>
+
+
+    <button type="submit">Promeni lozinku</button>
+</form>
+

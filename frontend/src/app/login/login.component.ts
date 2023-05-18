@@ -49,16 +49,20 @@ export class LoginComponent implements OnInit {
               this.message = "Administrator je odbio zahtev za registraciju ove agencije!";
               return;
             }
+            else if(databaseUserAgency['message'] == 'userIsntAgency'){
+              this.message = "Trazeni korisnik ne postoji u bazi!";
+            }
             else{
               // Agency is 'accepted' - navigate to agency page
-              this.router.navigate(['agency']);
               localStorage.setItem('user', JSON.stringify(databaseUserAgency));   // Save user in local storage
+              this.router.navigate(['agency']);
             }
             
           }
-          else{
+          else{ // If returned null
             // It's not admin, client or agency - user doesn't exist in database
             this.message = "Trazeni korisnik ne postoji u bazi!";
+            return;
           }
         });
       }
@@ -76,8 +80,8 @@ export class LoginComponent implements OnInit {
         }
         else{
           // Client is 'accepted' - navigate to client page
-          this.router.navigate(['client']);
           localStorage.setItem('user', JSON.stringify(databaseUserClient));
+          this.router.navigate(['client']);
         }
       }
 

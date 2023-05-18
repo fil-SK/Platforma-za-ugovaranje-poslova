@@ -128,17 +128,37 @@ export class AgencyController{
             }
             else{
 
-                // Check for registration status
-                if(user.regStatus == 'pending'){
-                    res.json({'message' : 'regStatusPending'});
-                }
-                else if(user.regStatus == 'declined'){
-                    res.json({'message' : 'regStatusDeclined'});
+                if(user){
+                    // Check for registration status
+                    if(user.regStatus == 'pending'){
+                        res.json({'message' : 'regStatusPending'});
+                    }
+                    else if(user.regStatus == 'declined'){
+                        res.json({'message' : 'regStatusDeclined'});
+                    }
+                    else{   // Agency is accepted - return agency object
+                        res.json(user);
+                    }
                 }
                 else{
-                    res.json(user);
+                    res.json({'message' : 'userIsntAgency'});
                 }
-                
+            }
+        });
+    }
+
+
+    changePassword = (req : express.Request, res : express.Response) => {
+
+        let loggedUserUsername = req.body.username;
+        let newPassword = req.body.password;
+
+        AgencyModel.updateOne({'username' : loggedUserUsername}, {$set : {'password' : newPassword}}, (error, resp) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                res.json({'message' : 'changedPassword'});
             }
         });
     }

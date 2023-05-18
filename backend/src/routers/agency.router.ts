@@ -35,4 +35,9 @@ agencyRouter.route('/loginAgency').post(
 );
 
 
+agencyRouter.route('/changePassword').post(
+    (req, res) => new AgencyController().changePassword(req, res)
+);
+
+
 export default agencyRouter;
