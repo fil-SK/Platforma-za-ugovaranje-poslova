@@ -19,6 +19,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));    // Enables passing of URL encoded data
 
+app.use('/uploads', express.static('uploads'));     // This line is going to allow frontend to fetch the image from the backend server
 
 // ---------------------- Database connection ----------------------
 mongoose.connect('mongodb://127.0.0.1:27017/agencyDB');

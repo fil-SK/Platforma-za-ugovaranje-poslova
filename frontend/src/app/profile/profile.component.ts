@@ -64,6 +64,16 @@ export class ProfileComponent implements OnInit {
     this.oldPassword = "";    // Initially set the default value to empty string, to enable validation
   }
 
+  getImageUrl(){
+    const backendUri = "http://localhost:4000";
+
+    const pathBackslash = this.loggedUser.imagePath;
+    const imagePathForwardSlash = pathBackslash.replace(/\\/g, '/');    // Path is saved with backslash but I need to use forward slash, so replace them
+
+    console.log(imagePathForwardSlash);                                 // Logging to check if path is good
+   
+    return `${backendUri}/${imagePathForwardSlash}`;                    // Return the path to the image for the logged user
+  }
 
   updateData(){
     // TODO

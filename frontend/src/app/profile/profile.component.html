@@ -3,8 +3,12 @@
 <h1>Ovo je profil korisnika {{loggedUser.username}}</h1>
 
 
+<img [src]="getImageUrl()">
 
 <form>
+
+    
+
     <div *ngIf="loggedUser.type == 'client' ">
         <label>Ime</label>
         <input type="text" name="firstname" [(ngModel)]="firstname">
