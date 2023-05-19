@@ -1,1 +1,51 @@
-<p>real-estate works!</p>
+
+
+<h2>Svi objekti klijenta:</h2>
+
+
+<br/><br/><br/>
+
+<h3>Dodaj novi objekat:</h3> <br/>
+
+<form>
+    <h5>Unesite informacije o objektu</h5> <br/>
+
+    <label>Tip objekta</label><br/>
+    <input type="radio" id="radioStan" name="realEstateTypeRadio" value="stan" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioStan">Stan</label>
+    <br/>
+    <input type="radio" id="radioKuca" name="realEstateTypeRadio" value="kuca" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioKuca">Kuća</label>
+    <br/>
+
+
+    <label>Ulica</label> &nbsp;
+    <input type="text" name="address" [(ngModel)]="realEstateAddress" #realEstateAddressInput="ngModel" required>
+    <br/>
+
+
+    <label>Broj</label> &nbsp;
+    <input type="text" name="streetNumber" [(ngModel)]="realEstateStreetNumber" #realEstateStreetNumberInput="ngModel" required pattern="^\d{0,4}$">
+    <br/>
+
+
+    (mora da bude veci od 0 i manji ili jednak 3 UBACI VALIDATOR ZA OVO)
+    <label>Broj prostorija</label> &nbsp;
+    <input type="text" name="numberOfRooms" [(ngModel)]="numberOfRooms" #numberOfRoomsInput="ngModel" required>
+    <br/>
+ 
+
+    (ne sme biti negativan broj)
+    <label>Kvadratura</label> &nbsp;
+    <input type="text" name="squareFootage" [(ngModel)]="squareFootage" #squareFootageInput="ngModel" required>
+    <br/> <br/>
+
+    
+    <label>Skica objekta</label> <br/>
+
+    <!-- Objekat se unosi preko JSON fajla. Inicijalno je ucitan default objekat. Ako klijent ucita svoj, onda se koristi njegov JSON fajl, inace se ucitava defaultni -->
+
+
+</form>
+
+<canvas #realEstateCanvas class="canvas-styling" width="500" height="400"></canvas>
+
+<br/><br/><br/>
