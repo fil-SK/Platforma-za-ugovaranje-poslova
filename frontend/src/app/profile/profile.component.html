@@ -1,4 +1,4 @@
-<p>profile works!</p>
+
 
 <h1>Ovo je profil korisnika {{loggedUser.username}}</h1>
 
@@ -10,6 +10,24 @@
     
 
     <div *ngIf="loggedUser.type == 'client' ">
+        <label>Ime</label>
+        <input type="text" name="firstname" [(ngModel)]="firstname">
+        <br/>
+
+        <label>Prezime</label>
+        <input type="text" name="lastname" [(ngModel)]="lastname">
+        <br/>
+
+        <label>E-mail</label>
+        <input type="text" name="email" [(ngModel)]="email">
+        <br/>
+
+        <label>Kontakt telefon</label>
+        <input type="text" name="phone" [(ngModel)]="phoneNumber">
+        <br/>
+    </div>
+
+    <div *ngIf="loggedUser.type == 'admin' ">
         <label>Ime</label>
         <input type="text" name="firstname" [(ngModel)]="firstname">
         <br/>
@@ -95,3 +113,4 @@
     <button type="submit">Promeni lozinku</button>
 </form>
 
+<br/><br/><br/><br/>

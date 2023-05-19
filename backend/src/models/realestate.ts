@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 let RealEstate = new Schema(
     {
+        realEstateId : {type : Number},
         type : {type : String},
         address : {type : String},
         numberOfRooms : {type : Number},

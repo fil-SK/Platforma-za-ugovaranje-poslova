@@ -54,11 +54,17 @@ export class ProfileComponent implements OnInit {
       this.firstname = this.loggedUser.firstname;
       this.lastname = this.loggedUser.lastname;
     }
-    else{ // Fill the rest for the agency
+    else if(this.loggedUser.type == "agency"){
+      // Fill the rest for the agency
       this.agencyName = this.loggedUser.agencyName;
       this.streetAddress = this.loggedUser.streetAddress;
       this.streetNumber = this.loggedUser.streetNumber;
       this.description = this.loggedUser.description;
+    }
+    else if(this.loggedUser.type == "admin"){ 
+      // Fill for the admin
+      this.firstname = this.loggedUser.firstname;
+      this.lastname = this.loggedUser.lastname;
     }
 
     this.oldPassword = "";    // Initially set the default value to empty string, to enable validation
