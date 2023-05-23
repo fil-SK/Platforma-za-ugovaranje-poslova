@@ -39,6 +39,45 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
     if(user){
       this.loggedUser = JSON.parse(user);
     }
+
+    this.usingDefaultSchema = true;
+  }
+
+
+  uploadedSchema;
+  usingDefaultSchema : boolean;
+  extractedRealEstate : RealEstate = new RealEstate();
+  selectedSchema(event){
+    
+    if(event.target.files.length > 0){
+      this.usingDefaultSchema = false;                // Since we are uploading a JSON file, we are not using default schema
+
+      this.uploadedSchema = event.target.files[0];    // Get the JSON file
+
+
+      // Make a POST request to immediately extract data from the JSON file
+      const formData = new FormData();
+      formData.append('jsonSchema', this.uploadedSchema);
+
+      // Return JSON object !!! TODO
+      this.clientService.uploadJSONSchema(formData).subscribe( (res : RealEstate) => {
+
+        console.log("Vratila se sema sa bekenda!");
+
+        this.extractedRealEstate.ownerUsername = this.loggedUser.username;
+        this.extractedRealEstate.type = res.type;
+        this.extractedRealEstate.address = res.address;
+        this.extractedRealEstate.numberOfRooms = res.numberOfRooms;
+        this.extractedRealEstate.squareFootage = res.squareFootage;
+        this.extractedRealEstate.doorImagePath = 'http://localhost:4000/uploads/doorVector.png';
+        this.extractedRealEstate.roomArray = res.roomArray;
+
+
+      });
+
+      console.log("Proslo se poziv servisa za upload seme!");
+    }
+
   }
 
 
@@ -60,7 +99,7 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
       context.drawImage(doorImage, 370, 160, 25, 40);
       context.drawImage(doorImage, 260, 310, 25, 40);
     }
-  
+
   }
 
   fillValuesForDefaultRealEstate(){
@@ -115,7 +154,7 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
 
   insertRealEstate(form : NgForm){
     
-    if(form.invalid){
+    if(form.invalid && this.usingDefaultSchema){    // Trigger validation check only if using default schema, so rest of data needs to be taken from form
 
       // If form is invalid by validators, mark every form as touched, so that validator message could be displayed
       Object.keys(form.controls).forEach(key => {
@@ -126,7 +165,14 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
     }
 
     // If using the default schema (odradi proveru tako sto ces da vidis da li si dohvatio ista iz input file podatka, ako je to null onda koristis ovu default semu a ako nije onda uzimas podatke iz JSON fajla koji si ucitao)
-    let newRealEstate = this.fillValuesForDefaultRealEstate();
+    let newRealEstate;
+    if(this.usingDefaultSchema){
+      newRealEstate = this.fillValuesForDefaultRealEstate();
+    }
+    else{
+      newRealEstate = this.extractedRealEstate;
+    }
+    
 
     console.log("Uneti svi podaci");
     console.log(newRealEstate);

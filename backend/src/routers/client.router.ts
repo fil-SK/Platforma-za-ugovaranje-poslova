@@ -60,4 +60,17 @@ clientRouter.route('/addNewRealEstate').post(
 );
 
 
+clientRouter.route('/uploadJSONSchema').post(
+    multer({
+        storage : multer.diskStorage(
+            {
+                destination : (req, file, cb) => {
+                    cb(null, 'uploads/');
+                }
+            })
+    }).single('jsonSchema'),
+    (req, res) => new ClientController().extractFromUploadedJSON(req, res)
+);
+
+
 export default clientRouter;

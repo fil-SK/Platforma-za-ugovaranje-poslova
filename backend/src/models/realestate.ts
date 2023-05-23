@@ -20,6 +20,7 @@ let Room = new Schema(
             height : {type : Number}
         },
 
+        doorPosition : {type : String},
         roomColor : {type : String}
     }
 );

@@ -16,5 +16,6 @@ export class Room {
         height : number
     };
 
+    doorPosition : string;
     roomColor : string;             // So that client can track the progress of that room
 }

@@ -11,12 +11,12 @@
     <h5>Unesite informacije o objektu</h5> <br/>
 
     <label>Tip objekta</label><br/>
-    <input type="radio" id="radioStan" name="realEstateTypeRadio" value="stan" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioStan">Stan</label>
+    <input type="radio" id="radioStan" name="realEstateTypeRadio" value="stan" [(ngModel)]="realEstateType" #typeInput="ngModel" required [disabled]="usingDefaultSchema"><label for="radioStan">Stan</label>
     <br/>
-    <input type="radio" id="radioKuca" name="realEstateTypeRadio" value="kuca" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioKuca">Kuća</label>
+    <input type="radio" id="radioKuca" name="realEstateTypeRadio" value="kuca" [(ngModel)]="realEstateType" #typeInput="ngModel" required [disabled]="usingDefaultSchema"><label for="radioKuca">Kuća</label>
     <br/>
-    <div *ngIf="insertRealEstateForm.submitted && typeInput.invalid" class="validatorMessage">
-        <div *ngIf="typeInput.errors?.['required']">Morate odabrati tip objekta!</div>
+    <div *ngIf="usingDefaultSchema && insertRealEstateForm.submitted && typeInput.invalid" class="validatorMessage">
+        <div *ngIf="usingDefaultSchema && typeInput.errors?.['required']">Morate odabrati tip objekta!</div>
     </div>
 
 
@@ -56,13 +56,14 @@
     
     <label>Skica objekta</label> <br/>
     <label>Ukoliko ne unesete ništa, koristite podrazumevanu skicu datu ispod. Ako želite da koristite vašu skicu, unesite je preko dugmeta za unos skice.</label> <br/>
+    <input type="file" name="realEstateSchema" (change)="selectedSchema($event)">
 
     <!-- Objekat se unosi preko JSON fajla. Inicijalno je ucitan default objekat. Ako klijent ucita svoj, onda se koristi njegov JSON fajl, inace se ucitava defaultni -->
 
     <canvas #realEstateCanvas class="canvas-styling" width="500" height="400"></canvas> <br/>
 
     <label>Unesite vašu skicu</label> <br/>
-    
+
     
     <button type="submit">Dodaj objekat</button>
 

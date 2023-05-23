@@ -4,7 +4,11 @@ import IdTrackingModel from '../models/idTracking';
 
 const multiparty = require('multiparty');
 
-import path from 'path';
+import path from 'path';        // To use path
+
+import fs from 'fs';            // Imports NodeJS module for working with file system
+
+
 
 
 export class ClientController{
@@ -244,5 +248,39 @@ export class ClientController{
             }
         });
 
+    }
+
+
+
+    extractFromUploadedJSON = (req : express.Request, res : express.Response) => {
+
+        // Get file from the filepath and read its content
+        const filePath = req.file.path;
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const jsonData = JSON.parse(fileContent);
+
+
+        // Create an object from JSON file
+        let newRealEstate = {};
+        const data = {
+            type : jsonData.type,
+            address : jsonData.address,
+            numberOfRooms : jsonData.numberOfRooms,
+            roomArray : jsonData.roomArray,
+            doorImagePath : jsonData.doorImagePath
+        };
+        /*
+        newRealEstate.type = jsonData.type;
+        newRealEstate.address = jsonData.address;
+        newRealEstate.numberOfRooms = jsonData.numberOfRooms;
+        newRealEstate.roomArray = jsonData.roomArray;
+        newRealEstate.doorImagePath = jsonData.doorImagePath;
+*/
+        fs.unlinkSync(filePath);        // Delete uploaded file
+
+        console.log("Uploadovan JSON fajl na bekendu izgleda ovako: ");
+        console.log(data);
+
+        res.json(data);        // Return extracted object
     }
 }

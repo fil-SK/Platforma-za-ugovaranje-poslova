@@ -56,13 +56,11 @@ export class ClientService {
 
     return this.http.post(`${this.uri}/realEstate/realEstateIntoCollection`, data);
   }
-  /*insertRealEstate(newRealEstate){
+  
 
-    const data = {
-      realEstate : newRealEstate
-    };
+  uploadJSONSchema(formData){
 
-    return this.http.post(`${this.uri}/client/insertRealEstate`, data);
+    return this.http.post(`${this.uri}/client/uploadJSONSchema`, formData);
+
   }
-  */
 }
