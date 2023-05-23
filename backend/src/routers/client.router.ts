@@ -41,7 +41,22 @@ clientRouter.route('/loginAdmin').post(
 
 
 clientRouter.route('/changePassword').post(
-    (req,res) => new ClientController().changePassword(req, res)
+    (req, res) => new ClientController().changePassword(req, res)
+);
+
+
+clientRouter.route('/getId').get(
+    (req, res) => new ClientController().getLastRoomAndRealEstateId(req, res)
+);
+
+
+clientRouter.route('/updateId').post(
+    (req, res) => new ClientController().insertNewLastUsedRoomAndRealEstateId(req, res)
+);
+
+
+clientRouter.route('/addNewRealEstate').post(
+    (req, res) => new ClientController().insertRealEstateToClient(req, res)
 );
 
 

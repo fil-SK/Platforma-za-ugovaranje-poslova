@@ -1,5 +1,7 @@
 export class Room {
 
+    roomId : number;
+
     roomCoord : {
         x : number,
         y : number,
@@ -14,5 +16,5 @@ export class Room {
         height : number
     };
 
-    doorImagePath : string;
+    roomColor : string;             // So that client can track the progress of that room
 }

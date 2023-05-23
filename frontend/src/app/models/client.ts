@@ -1,3 +1,5 @@
+import { RealEstate } from "./realestate";
+
 export class Client{
 
     type : string;
@@ -8,4 +10,5 @@ export class Client{
     phoneNumber : string;
     email : string;
     imagePath: string;
+    realEstateArray : Array<number> = [];
 }

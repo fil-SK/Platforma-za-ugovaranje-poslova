@@ -1,5 +1,12 @@
 
 .canvas-styling{
-    border-color: black;
-    border: 1px solid;
+    margin: 50px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid black;
+}
+
+
+.validatorMessage{
+    color: red;
 }

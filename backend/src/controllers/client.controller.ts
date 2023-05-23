@@ -1,5 +1,6 @@
 import express from 'express';
 import ClientModel from '../models/client';
+import IdTrackingModel from '../models/idTracking';
 
 const multiparty = require('multiparty');
 
@@ -195,5 +196,53 @@ export class ClientController{
                 res.json({'message' : 'changedPassword'});
             }
         });
+    }
+
+
+    getLastRoomAndRealEstateId = (req: express.Request, res : express.Response) => {
+
+        IdTrackingModel.findOne({}, (err, idData) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(idData);
+            }
+        });
+
+
+    }
+
+    insertNewLastUsedRoomAndRealEstateId = (req : express.Request, res : express.Response) => {
+
+        let lastRoomId = req.body.roomId;
+        let lastRealEstateId = req.body.realEstateId;
+
+        // Filter is {}, because there is only one row in the collection, therefore I'm updating entire collection, which consists of only one element (with two fields)
+        IdTrackingModel.updateOne({}, {$set : {'roomId' : lastRoomId, 'realEstateId' : lastRealEstateId}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            if(resp){
+                res.json({'message' : 'dbIdUpdated'});
+            }
+        });
+    }
+
+
+    insertRealEstateToClient = (req : express.Request, res : express.Response) => {
+
+        let username = req.body.clientUsername;
+        let newRealEstateId = req.body.realEstateId;
+
+        ClientModel.findOneAndUpdate({'username' : username}, {$push : {'realEstateArray' : newRealEstateId}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                return res.json({'message' : 'updatedClient'});
+            }
+        });
+
     }
 }
