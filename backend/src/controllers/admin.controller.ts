@@ -86,4 +86,19 @@ export class AdminController{
             }
         });
     }
+
+
+    declineClient = (req : express.Request, res : express.Response) => {
+
+        let clientUsername = req.body.clientUsername;
+
+        ClientModel.updateOne({'username' : clientUsername}, {$set : {'regStatus' : 'declined'}}, (error, resp) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                res.json({'message' : 'clientDeclined'});
+            }
+        });
+    }
 }

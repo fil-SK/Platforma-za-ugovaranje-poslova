@@ -59,7 +59,7 @@ export class AdminComponent implements OnInit {
 
 
   acceptClientRegRequest(pendingClient){
-    
+
     // Set regStatus to accepted for that client
     this.adminService.acceptClientRegRequest(pendingClient.username).subscribe( res => {
       if(res['message'] == 'clientAccepted'){
@@ -71,8 +71,15 @@ export class AdminComponent implements OnInit {
   }
 
   declineClientRegRequest(pendingClient){
-    // TODO
-    // regStatus declined
+
+    // Set regStatus to declined for that client
+    this.adminService.declineClientRegRequest(pendingClient.username).subscribe( res => {
+      if(res['message'] == 'clientDeclined'){
+        console.log("Klijent uspesno odbijen!");
+
+        this.ngOnInit();      // Reinitialize the component so that updated data is fetched from the database
+      }
+    });
   }
 
   acceptAgencyRegRequest(pendingAgency){

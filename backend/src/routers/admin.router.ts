@@ -37,4 +37,9 @@ adminRouter.route('/acceptClient').post(
 );
 
 
+adminRouter.route('/declineClient').post(
+    (req, res) => new AdminController().declineClient(req, res)
+);
+
+
 export default adminRouter;

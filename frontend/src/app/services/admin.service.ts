@@ -48,4 +48,14 @@ export class AdminService {
     return this.http.post(`${this.uri}/admin/acceptClient`, data);
   }
 
+
+  declineClientRegRequest(username){
+
+    const data = {
+      clientUsername : username
+    };
+
+    return this.http.post(`${this.uri}/admin/declineClient`, data);
+  }
+
 }
