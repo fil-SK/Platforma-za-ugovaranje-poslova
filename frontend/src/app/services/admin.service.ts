@@ -58,4 +58,24 @@ export class AdminService {
     return this.http.post(`${this.uri}/admin/declineClient`, data);
   }
 
+
+  acceptAgencyRegRequest(username){
+
+    const data = {
+      agencyUsername : username
+    };
+
+    return this.http.post(`${this.uri}/admin/acceptAgency`, data);
+  }
+
+
+  declineAgencyRegRequest(username){
+
+    const data = {
+      agencyUsername : username
+    };
+
+    return this.http.post(`${this.uri}/admin/declineAgency`, data);
+  }
+
 }

@@ -101,4 +101,34 @@ export class AdminController{
             }
         });
     }
+
+
+    acceptAgency = (req : express.Request, res : express.Response) => {
+
+        let agencyUsername = req.body.agencyUsername;
+
+        AgencyModel.updateOne({'username' : agencyUsername}, {$set : {'regStatus' : 'accepted'}}, (error, resp) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                res.json({'message' : 'agencyAccepted'});
+            }
+        });
+    }
+
+
+    declineAgency = (req : express.Request, res : express.Response) => {
+
+        let agencyUsername = req.body.agencyUsername;
+
+        AgencyModel.updateOne({'username' : agencyUsername}, {$set : {'regStatus' : 'declined'}}, (error, resp) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                res.json({'message' : 'agencyDeclined'});
+            }
+        });
+    }
 }

@@ -83,10 +83,26 @@ export class AdminComponent implements OnInit {
   }
 
   acceptAgencyRegRequest(pendingAgency){
-    // TODO
+    
+    // Set regStatus to accepted for that agency
+    this.adminService.acceptAgencyRegRequest(pendingAgency.username).subscribe( res => {
+      if(res['message'] == 'agencyAccepted'){
+        console.log("Agencija uspesno registrovana!");
+
+        this.ngOnInit();    // Reinitialize the component so that updated data is fetched from the database
+      }
+    });
   }
 
   declineAgencyRegRequest(pendingAgency){
-    // TODO
+    
+    // Set regStatus to declined for that agency
+    this.adminService.declineAgencyRegRequest(pendingAgency.username).subscribe( res => {
+      if(res['message'] == 'agencyDeclined'){
+        console.log("Agencija je uspesno odbijena!");
+
+        this.ngOnInit();    // Reinitialize the component so that updated data is fetched from the database
+      }
+    });
   }
 }

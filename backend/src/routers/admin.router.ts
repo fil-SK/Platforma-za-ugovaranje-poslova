@@ -42,4 +42,14 @@ adminRouter.route('/declineClient').post(
 );
 
 
+adminRouter.route('/acceptAgency').post(
+    (req, res) => new AdminController().acceptAgency(req, res)
+);
+
+
+adminRouter.route('/declineAgency').post(
+    (req, res) => new AdminController().declineAgency(req, res)
+);
+
+
 export default adminRouter;
