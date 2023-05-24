@@ -6,12 +6,19 @@
         <th>Ime</th>
         <th>Prezime</th>
         <th>Username</th>
+        <th>Akcija</th>
     </tr>
 
     <tr *ngFor = "let pendingClientIterator of allPendingClients">
         <td>{{pendingClientIterator.firstname}}</td>
         <td>{{pendingClientIterator.lastname}}</td>
         <td>{{pendingClientIterator.username}}</td>
+        <td>
+            <button (click)="acceptClientRegRequest(pendingClientIterator)">Prihvati</button>
+        </td>
+        <td>
+            <button (click)="declineClientRegRequest(pendingClientIterator)">Odbij</button>
+        </td>
     </tr>
 </table>
 <hr/>
@@ -22,17 +29,24 @@
         <th>Naziv agencije</th>
         <th>Maticni broj</th>
         <th>E mail</th>
+        <th>Akcija</th>
     </tr>
 
     <tr *ngFor = "let pendingAgencyIterator of allPendingAgencies">
         <td>{{pendingAgencyIterator.agencyName}}</td>
         <td>{{pendingAgencyIterator.agencyId}}</td>
         <td>{{pendingAgencyIterator.email}}</td>
+        <td>
+            <button (click)="acceptAgencyRegRequest(pendingAgencyIterator)">Prihvati</button>
+        </td>
+        <td>
+            <button (click)="declineAgencyRegRequest(pendingAgencyIterator)">Odbij</button>
+        </td>
     </tr>
 </table>
 <hr/>
 
-<h3>Svi klijenti:</h3>
+<h3>Svi klijenti:(nek ti svaki klijent bude clickable, pa da ti se otvori nov prozor sa njegovim podacim kad kliknes na njega)</h3>
 
 <table>
     <tr>
@@ -49,7 +63,7 @@
 </table>
 <hr/>
 
-<h3>Sve agencije:</h3>
+<h3>Sve agencije:(isto kao za klijenta, nek ti bude clickable)</h3>
 
 <table>
     <tr>

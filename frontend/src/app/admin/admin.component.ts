@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 import { Agency } from '../models/agency';
 import { Client } from '../models/client';
 import { AdminService } from '../services/admin.service';
@@ -10,7 +11,7 @@ import { AdminService } from '../services/admin.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private adminService : AdminService) { }
+  constructor(private adminService : AdminService, private router : Router) { }
 
   ngOnInit(): void {
     
@@ -27,11 +28,14 @@ export class AdminComponent implements OnInit {
   allAgencies : Agency[];
 
 
+
+
   getAllClients(){
     this.adminService.getAllClients().subscribe( (clientList : Client[]) => {
       this.allClients = clientList;
     });
   }
+
 
   getAllAgencies(){
     this.adminService.getAllAgencies().subscribe( (agenciesList : Agency[]) => {
@@ -39,15 +43,43 @@ export class AdminComponent implements OnInit {
     });
   }
 
+
   getPendingClients(){
     this.adminService.getPendingClients().subscribe( (pendingClientsList : Client[]) => {
       this.allPendingClients = pendingClientsList;
     } );
   }
 
+
   getPendingAgencies(){
     this.adminService.getPendingAgencies().subscribe( (pendingAgenciesList : Agency[]) => {
       this.allPendingAgencies = pendingAgenciesList;
     } );
+  }
+
+
+  acceptClientRegRequest(pendingClient){
+    
+    // Set regStatus to accepted for that client
+    this.adminService.acceptClientRegRequest(pendingClient.username).subscribe( res => {
+      if(res['message'] == 'clientAccepted'){
+        console.log("Klijent uspesno registrovan!");
+
+        this.ngOnInit();      // Reinitialize the component so that updated data is fetched from the database
+      }
+    });
+  }
+
+  declineClientRegRequest(pendingClient){
+    // TODO
+    // regStatus declined
+  }
+
+  acceptAgencyRegRequest(pendingAgency){
+    // TODO
+  }
+
+  declineAgencyRegRequest(pendingAgency){
+    // TODO
   }
 }

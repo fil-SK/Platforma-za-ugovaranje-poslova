@@ -38,4 +38,14 @@ export class AdminService {
     return this.http.post(`${this.uri}/admin/changePassword`, data);
   }
 
+
+  acceptClientRegRequest(username){
+    
+    const data = {
+      clientUsername : username
+    };
+
+    return this.http.post(`${this.uri}/admin/acceptClient`, data);
+  }
+
 }

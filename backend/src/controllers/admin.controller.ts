@@ -70,4 +70,20 @@ export class AdminController{
             }
         });
     }
+
+
+    acceptClient = (req : express.Request, res : express.Response) => {
+
+        let clientUsername = req.body.clientUsername;
+        
+
+        ClientModel.updateOne({'username' : clientUsername}, {$set : {'regStatus' : 'accepted'}}, (error, resp) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                res.json({'message' : 'clientAccepted'});
+            }
+        });
+    }
 }

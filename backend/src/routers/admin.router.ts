@@ -32,4 +32,9 @@ adminRouter.route('/changePassword').post(
 );
 
 
+adminRouter.route('/acceptClient').post(
+    (req, res) => new AdminController().acceptClient(req, res)
+);
+
+
 export default adminRouter;
