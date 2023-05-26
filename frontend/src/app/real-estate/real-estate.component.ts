@@ -264,4 +264,10 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
     });
 
   }
+
+
+
+  test123(){
+    console.log("Clickable je!");
+  }
 }

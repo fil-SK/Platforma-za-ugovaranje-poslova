@@ -10,3 +10,7 @@
 .validatorMessage{
     color: red;
 }
+
+.outerDivStyle{
+    display: inline-block;  /* Behave as an inline-level block element; adjust width based on the widest inner div */
+}

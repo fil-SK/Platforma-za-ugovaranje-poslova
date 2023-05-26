@@ -16,6 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RealEstateComponent } from './real-estate/real-estate.component';
+import { SimpleRealEstateDetailsComponent } from './simple-real-estate-details/simple-real-estate-details.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { RealEstateComponent } from './real-estate/real-estate.component';
     LogoutComponent,
     ProfileComponent,
     RealEstateComponent,
+    SimpleRealEstateDetailsComponent
   ],
   imports: [
     BrowserModule,
