@@ -8,12 +8,10 @@
 
 <div *ngIf="allClientRealEstates && allClientRealEstates.length > 0">
     <div class="outerDivStyle">
-        <div *ngFor = "let realEstateIterator of allClientRealEstates" (click)="test123()">
+        <div *ngFor = "let realEstateIterator of allClientRealEstates" (click)="goToRealEstatePage(realEstateIterator)">
             <app-simple-real-estate-details [realEstateInstance]="realEstateIterator"></app-simple-real-estate-details>
         </div>
     </div>
-    
-    
     
     <!-- <table>
         <tr>
@@ -30,11 +28,12 @@
             <td>{{realEstateIterator.squareFootage}}</td>
         </tr>
     </table> -->
+
 </div>
 <hr/>
 
 
-<br/><br/><br/>
+<br/>
 
 <h3>Dodaj novi objekat:</h3> <br/>
 

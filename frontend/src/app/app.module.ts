@@ -17,6 +17,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RealEstateComponent } from './real-estate/real-estate.component';
 import { SimpleRealEstateDetailsComponent } from './simple-real-estate-details/simple-real-estate-details.component';
+import { FullRealEstateDetailsComponent } from './full-real-estate-details/full-real-estate-details.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SimpleRealEstateDetailsComponent } from './simple-real-estate-details/s
     LogoutComponent,
     ProfileComponent,
     RealEstateComponent,
-    SimpleRealEstateDetailsComponent
+    SimpleRealEstateDetailsComponent,
+    FullRealEstateDetailsComponent
   ],
   imports: [
     BrowserModule,

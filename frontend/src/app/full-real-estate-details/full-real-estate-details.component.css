@@ -1,0 +1,13 @@
+
+.fullRealEstateDetails{
+    font-size: 18px;
+    font-weight: bold
+}
+
+
+.canvas-styling{
+    margin: 50px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid black;
+}

@@ -1,0 +1,18 @@
+<h2>Svi detalji objekta</h2> <br/>
+
+
+<div>
+    <label class="fullRealEstateDetails">Tip objekta:</label>     <label style="font-size: 18px;">{{selectedRealEstate.type}}</label> <br/>
+    <label class="fullRealEstateDetails">Adresa objekta:</label>  <label style="font-size: 18px;">{{selectedRealEstate.address}}</label> <br/>
+    <label class="fullRealEstateDetails">Broj prostorija:</label> <label style="font-size: 18px;">{{selectedRealEstate.numberOfRooms}}</label> <br/>
+    <label class="fullRealEstateDetails">Kvadratura:</label>      <label style="font-size: 18px;">{{selectedRealEstate.squareFootage}}</label> <br/>
+
+    <br/> <label class="fullRealEstateDetails">Skica:</label>
+</div>
+
+
+<canvas #displayRealEstateSchemaCanvas class="canvas-styling" width="500" height="400"></canvas>
+    
+
+
+<button (click)="returnToRealEstatePage()">Povratak na stranicu o objektima</button>

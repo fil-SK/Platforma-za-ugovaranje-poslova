@@ -10,6 +10,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RealEstateComponent } from './real-estate/real-estate.component';
 import { RegisterComponent } from './register/register.component';
+import { FullRealEstateDetailsComponent } from './full-real-estate-details/full-real-estate-details.component';
 
 const routes: Routes = [
   {path : "", component : HomePageComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path : "admin", component : AdminComponent},
 
   {path : "profile", component : ProfileComponent},
-  {path: "realEstate", component : RealEstateComponent}
+  {path: "realEstate", component : RealEstateComponent},
+  {path: "realEstateDetails", component: FullRealEstateDetailsComponent}
 ];
 
 @NgModule({

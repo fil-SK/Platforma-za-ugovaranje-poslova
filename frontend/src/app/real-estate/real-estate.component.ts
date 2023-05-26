@@ -112,43 +112,43 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
 
   fillValuesForDefaultRealEstate(){
 
-  // If working with the default schema
+    // If working with the default schema
 
-  let newRealEstate : RealEstate = new RealEstate();
+    let newRealEstate : RealEstate = new RealEstate();
 
-  newRealEstate.ownerUsername = this.loggedUser.username;
-  newRealEstate.type = this.realEstateType;
-  newRealEstate.address = this.realEstateAddress + " " + this.realEstateStreetNumber;
-  newRealEstate.numberOfRooms = this.numberOfRooms;
-  newRealEstate.squareFootage = this.squareFootage;
-  newRealEstate.doorImagePath = 'http://localhost:4000/uploads/doorVector.png';
+    newRealEstate.ownerUsername = this.loggedUser.username;
+    newRealEstate.type = this.realEstateType;
+    newRealEstate.address = this.realEstateAddress + " " + this.realEstateStreetNumber;
+    newRealEstate.numberOfRooms = this.numberOfRooms;
+    newRealEstate.squareFootage = this.squareFootage;
+    newRealEstate.doorImagePath = 'http://localhost:4000/uploads/doorVector.png';
 
-  let room1 : Room = new Room();
-  room1.roomCoord = {x : 50, y : 50, width : 250, height : 150};
-  room1.doorCoord = {x : 220, y : 160, width : 25, height : 40};
-  room1.doorPosition = "normal";
-  room1.roomColor = 'white';
+    let room1 : Room = new Room();
+    room1.roomCoord = {x : 50, y : 50, width : 250, height : 150};
+    room1.doorCoord = {x : 220, y : 160, width : 25, height : 40};
+    room1.doorPosition = "normal";
+    room1.roomColor = 'white';
 
-  let room2 : Room = new Room();
-  room2.roomCoord = {x : 300, y : 50, width : 140, height : 150};
-  room2.doorCoord = {x : 370, y : 160, width : 25, height : 40};
-  room2.doorPosition = "normal";
-  room2.roomColor = 'white';
+    let room2 : Room = new Room();
+    room2.roomCoord = {x : 300, y : 50, width : 140, height : 150};
+    room2.doorCoord = {x : 370, y : 160, width : 25, height : 40};
+    room2.doorPosition = "normal";
+    room2.roomColor = 'white';
 
-  let room3 : Room = new Room();
-  room3.roomCoord = {x : 160, y : 200, width : 280, height : 150};
-  room3.doorCoord = {x : 260, y : 310, width : 25, height : 40};
-  room3.doorPosition = "normal";
-  room3.roomColor = 'white';
+    let room3 : Room = new Room();
+    room3.roomCoord = {x : 160, y : 200, width : 280, height : 150};
+    room3.doorCoord = {x : 260, y : 310, width : 25, height : 40};
+    room3.doorPosition = "normal";
+    room3.roomColor = 'white';
 
-  // newRealEstate.ownerUsername = localStorage.getItem('user')
+    // newRealEstate.ownerUsername = localStorage.getItem('user')
 
-  newRealEstate.roomArray = [];
-  newRealEstate.roomArray.push(room1);
-  newRealEstate.roomArray.push(room2);
-  newRealEstate.roomArray.push(room3);
+    newRealEstate.roomArray = [];
+    newRealEstate.roomArray.push(room1);
+    newRealEstate.roomArray.push(room2);
+    newRealEstate.roomArray.push(room3);
 
-  return newRealEstate;
+    return newRealEstate;
   }
 
 
@@ -236,6 +236,7 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
                 alert('Objekat je uspesno dodat!');
 
                 this.router.navigate(['realEstate']);   // Navigate to the same page, so that init is done again and new object is visible in the list of all objects
+                this.ngOnInit();                        // Reinitialize component
               }
 
               });
@@ -267,7 +268,11 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
 
 
 
-  test123(){
-    console.log("Clickable je!");
+  goToRealEstatePage(selectedRealEstate){
+    // Upon clicking on particular real estate, add that real estate to local storage
+    // Then redirect to the component which will display all the details and functionalities with that real estate
+
+    localStorage.setItem('selectedRealEstate', JSON.stringify(selectedRealEstate));   // Save real estate in local storage
+    this.router.navigate(['realEstateDetails']);
   }
 }
