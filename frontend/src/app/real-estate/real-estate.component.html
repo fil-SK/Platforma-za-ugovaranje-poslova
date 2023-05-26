@@ -1,6 +1,29 @@
 
 
 <h2>Svi objekti klijenta:</h2>
+<!-- Ovde dodaj prikaz komponente, za sve objekte klijenta, gde ce komponenta znati kako da se prikaze jedan element, i da komponenta bude clickable -->
+<div *ngIf="!allClientRealEstates || allClientRealEstates.length == 0">
+    Klijent trenutno nema objekata!
+</div>
+
+<div *ngIf="allClientRealEstates && allClientRealEstates.length > 0">
+    <table>
+        <tr>
+            <th>Tip</th>
+            <th>Adresa</th>
+            <th>Broj prostorija</th>
+            <th>Kvadratura</th>
+        </tr>
+
+        <tr *ngFor = "let realEstateIterator of allClientRealEstates">
+            <td>{{realEstateIterator.type}}</td>
+            <td>{{realEstateIterator.address}}</td>
+            <td>{{realEstateIterator.numberOfRooms}}</td>
+            <td>{{realEstateIterator.squareFootage}}</td>
+        </tr>
+    </table>
+</div>
+<hr/>
 
 
 <br/><br/><br/>
@@ -11,9 +34,9 @@
     <h5>Unesite informacije o objektu</h5> <br/>
 
     <label>Tip objekta</label><br/>
-    <input type="radio" id="radioStan" name="realEstateTypeRadio" value="stan" [(ngModel)]="realEstateType" #typeInput="ngModel" required [disabled]="usingDefaultSchema"><label for="radioStan">Stan</label>
+    <input type="radio" id="radioStan" name="realEstateTypeRadio" value="stan" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioStan">Stan</label>
     <br/>
-    <input type="radio" id="radioKuca" name="realEstateTypeRadio" value="kuca" [(ngModel)]="realEstateType" #typeInput="ngModel" required [disabled]="usingDefaultSchema"><label for="radioKuca">Kuća</label>
+    <input type="radio" id="radioKuca" name="realEstateTypeRadio" value="kuca" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioKuca">Kuća</label>
     <br/>
     <div *ngIf="usingDefaultSchema && insertRealEstateForm.submitted && typeInput.invalid" class="validatorMessage">
         <div *ngIf="usingDefaultSchema && typeInput.errors?.['required']">Morate odabrati tip objekta!</div>

@@ -9,4 +9,9 @@ realEstateRouter.route('/realEstateIntoCollection').post(
 );
 
 
+realEstateRouter.route('/getAllClientRealEstate').post(
+    (req, res) => new RealEstateController().getAllRealEstatesForClient(req, res)
+);
+
+
 export default realEstateRouter;

@@ -36,4 +36,21 @@ export class RealEstateController{
             }
         });
     }
+
+
+
+    getAllRealEstatesForClient = async (req : express.Request, res : express.Response) => {
+
+
+        try {
+            const username = req.body.clientUsername;
+            const allRealEstates = await RealEstateModel.find({ username }).exec();
+        
+            res.json(allRealEstates);
+          }
+        catch(err){
+            console.log(err);
+        }
+
+    }
 }

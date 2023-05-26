@@ -63,4 +63,14 @@ export class ClientService {
     return this.http.post(`${this.uri}/client/uploadJSONSchema`, formData);
 
   }
+
+
+  getAllRealEstatesForClient(clientUsername){
+
+    const data = {
+      username : clientUsername
+    };
+
+    return this.http.post(`${this.uri}/realEstate/getAllClientRealEstate`, data);
+  }
 }

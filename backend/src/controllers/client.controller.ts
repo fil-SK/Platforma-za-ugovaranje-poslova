@@ -266,16 +266,12 @@ export class ClientController{
             type : jsonData.type,
             address : jsonData.address,
             numberOfRooms : jsonData.numberOfRooms,
+            squareFootage : jsonData.squareFootage,
             roomArray : jsonData.roomArray,
             doorImagePath : jsonData.doorImagePath
         };
-        /*
-        newRealEstate.type = jsonData.type;
-        newRealEstate.address = jsonData.address;
-        newRealEstate.numberOfRooms = jsonData.numberOfRooms;
-        newRealEstate.roomArray = jsonData.roomArray;
-        newRealEstate.doorImagePath = jsonData.doorImagePath;
-*/
+        
+
         fs.unlinkSync(filePath);        // Delete uploaded file
 
         console.log("Uploadovan JSON fajl na bekendu izgleda ovako: ");
@@ -283,4 +279,6 @@ export class ClientController{
 
         res.json(data);        // Return extracted object
     }
+
+
 }
