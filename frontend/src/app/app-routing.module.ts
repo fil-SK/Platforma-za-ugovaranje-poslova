@@ -11,6 +11,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { RealEstateComponent } from './real-estate/real-estate.component';
 import { RegisterComponent } from './register/register.component';
 import { FullRealEstateDetailsComponent } from './full-real-estate-details/full-real-estate-details.component';
+import { AllAgenciesPageComponent } from './all-agencies-page/all-agencies-page.component';
 
 const routes: Routes = [
   {path : "", component : HomePageComponent},
@@ -25,7 +26,9 @@ const routes: Routes = [
 
   {path : "profile", component : ProfileComponent},
   {path: "realEstate", component : RealEstateComponent},
-  {path: "realEstateDetails", component: FullRealEstateDetailsComponent}
+  {path: "realEstateDetails", component: FullRealEstateDetailsComponent},
+
+  {path: "allAgenciesPage", component : AllAgenciesPageComponent}
 ];
 
 @NgModule({

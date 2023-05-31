@@ -18,6 +18,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { RealEstateComponent } from './real-estate/real-estate.component';
 import { SimpleRealEstateDetailsComponent } from './simple-real-estate-details/simple-real-estate-details.component';
 import { FullRealEstateDetailsComponent } from './full-real-estate-details/full-real-estate-details.component';
+import { AllAgenciesPageComponent } from './all-agencies-page/all-agencies-page.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FullRealEstateDetailsComponent } from './full-real-estate-details/full-
     ProfileComponent,
     RealEstateComponent,
     SimpleRealEstateDetailsComponent,
-    FullRealEstateDetailsComponent
+    FullRealEstateDetailsComponent,
+    AllAgenciesPageComponent
   ],
   imports: [
     BrowserModule,
