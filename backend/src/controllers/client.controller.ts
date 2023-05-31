@@ -1,6 +1,7 @@
 import express from 'express';
 import ClientModel from '../models/client';
 import IdTrackingModel from '../models/idTracking';
+import AgencyModel from '../models/agency';
 
 const multiparty = require('multiparty');
 
@@ -281,4 +282,16 @@ export class ClientController{
     }
 
 
+
+    getAllAgencies = (req : express.Request, res : express.Response) => {
+        
+        AgencyModel.find({'regStatus' : 'accepted'}, (error, agencies) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                res.json(agencies);
+            }
+        });
+    }
 }

@@ -1,1 +1,32 @@
-<p>all-agencies-page works!</p>
+
+<h1 class="text-center">Sve agencije</h1>
+
+<br/> <br/>
+
+<h4>Pretrazi agenciju</h4>
+<form>
+    <label>Pretrazujem po:</label> <br/>
+    <input id="nazivPretraga" type="checkbox" [(ngModel)]="searchByName"><label for="nazivPretraga">nazivu</label> <br/>
+    <input id="adresaPretraga" type="checkbox" [(ngModel)]="searchByAddress"><label for="adresaPretraga">adresi</label> <br/>
+
+    <input placeholder="Search" [(ngModel)]="searchParam">
+    <button type="submit" (click)="searchForAgencies()">Pretrazi</button>
+  </form>
+<hr width="30%" />
+
+
+<br/><br/>
+<h5>Za više informacija o agenciji, kao i za podnošenje zahteva, kliknite na agenciju.</h5>
+
+
+<div *ngIf="!allAgencies || allAgencies.length == 0">
+    Nema agencija u sistemu!
+</div>
+
+<div *ngIf="allAgencies && allAgencies.length > 0">
+    <div class="outerDivStyle">
+        <div *ngFor = "let agenciesIterator of allAgencies" (click)="goToAgencyPage(agenciesIterator)">
+            <app-simple-agency-details [agencyInstance]="agenciesIterator"></app-simple-agency-details>
+        </div>
+    </div>
+</div>

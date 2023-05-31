@@ -73,4 +73,19 @@ export class ClientService {
 
     return this.http.post(`${this.uri}/realEstate/getAllClientRealEstate`, data);
   }
+
+
+  getAllAgencies(){
+    return this.http.get(`${this.uri}/client/getAllAgencies`);
+  }
+
+
+  searchAgenciesByName(agName){
+
+    const data = {
+      agencyName : agName
+    };
+
+    return this.http.post(`${this.uri}/client/searchAgencyByName`, data);
+  }
 }

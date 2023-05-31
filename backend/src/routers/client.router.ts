@@ -73,4 +73,8 @@ clientRouter.route('/uploadJSONSchema').post(
 );
 
 
+clientRouter.route('/getAllAgencies').get(
+    (req, res) => new ClientController().getAllAgencies(req, res)
+);
+
 export default clientRouter;

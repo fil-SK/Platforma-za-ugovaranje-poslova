@@ -1,0 +1,26 @@
+<h2>Profil agencije {{selectedAgency.agencyName}}</h2>
+
+<br/> <br/>
+
+<!-- Klasa je nad labelom a ne divom jer ne zelim da se primeni i na stavke koje citam od te agencije -->
+<div>
+    <label class="fullAgencyDetailsAndRequest">Naziv agencije:</label>  <label style="font-size: 18px;">{{selectedAgency.agencyName}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Adresa:</label>          <label style="font-size: 18px;">{{selectedAgency.streetAddress}} {{selectedAgency.streetNumber}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Grad:</label>            <label style="font-size: 18px;">{{selectedAgency.city}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Država</label>           <label style="font-size: 18px;">{{selectedAgency.state}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Broj telefona:</label>   <label style="font-size: 18px;">{{selectedAgency.phoneNumber}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">E-mail adresa:</label>   <label style="font-size: 18px;">{{selectedAgency.email}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Opis:</label>            <label style="font-size: 18px;">{{selectedAgency.description}}</label> <br/>
+</div>
+
+<br/> 
+
+<button (click)="returnToAllAgenciesPage()">Povratak na stranicu sa agencijama</button>
+
+<br/> <br/> <br/>
+
+
+<h3>Ocene i komentari</h3>
+<div *ngIf="!agencyReviews || agencyReviews.length == 0">
+    Za ovu agenciju nema ocena i komentara!
+</div>
