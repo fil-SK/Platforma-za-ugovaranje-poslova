@@ -88,4 +88,27 @@ export class ClientService {
 
     return this.http.post(`${this.uri}/client/searchAgencyByName`, data);
   }
+
+
+  searchAgencyByAddress(street, number){
+
+    const data = {
+      streetAddress : street,
+      streetNumber : number
+    };
+
+    return this.http.post(`${this.uri}/client/searchAgencyByAddress`, data);
+  }
+
+
+  searchAgencyByNameAndAddress(name, street, number){
+
+    const data = {
+      agencyName : name,
+      streetAddress : street,
+      streetNumber : number
+    };
+
+    return this.http.post(`${this.uri}/client/searchAgencyByNameAndAddress`, data);
+  }
 }

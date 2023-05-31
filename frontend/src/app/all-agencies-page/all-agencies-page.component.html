@@ -6,18 +6,40 @@
 <h4>Pretrazi agenciju</h4>
 <form>
     <label>Pretrazujem po:</label> <br/>
-    <input id="nazivPretraga" type="checkbox" [(ngModel)]="searchByName"><label for="nazivPretraga">nazivu</label> <br/>
-    <input id="adresaPretraga" type="checkbox" [(ngModel)]="searchByAddress"><label for="adresaPretraga">adresi</label> <br/>
+    <input id="nazivPretraga" type="checkbox" name="searchByName" [(ngModel)]="searchByName"><label for="nazivPretraga">nazivu</label> <br/>
+    <input id="adresaPretraga" type="checkbox" name="searchByAddress" [(ngModel)]="searchByAddress"><label for="adresaPretraga">adresi</label> <br/>
 
-    <input placeholder="Search" [(ngModel)]="searchParam">
+    <div *ngIf="searchByName">
+        <input placeholder="Naziv agencije" name="searchParamName" [(ngModel)]="searchParamName">
+    </div>
+
+    <div *ngIf="searchByAddress">
+        <input name="searchParamStreet" placeholder="Naziv ulice" [(ngModel)]="searchParamStreet"> <br/>
+        <input name="searchParamStreetNumber" placeholder="Broj ulice" [(ngModel)]="searchParamStreetNumber">
+    </div>
+
+
+    <br/>
     <button type="submit" (click)="searchForAgencies()">Pretrazi</button>
   </form>
+
+<p style="color: red">{{error}}</p>
+
 <hr width="30%" />
 
 
 <br/><br/>
 <h5>Za više informacija o agenciji, kao i za podnošenje zahteva, kliknite na agenciju.</h5>
 
+
+<br/>
+<label>Sortiraj agencije po:</label>
+<select name="dropDownSelectedValue" [(ngModel)]="dropDownSelectedValue" (change)="sortAgencies()">
+    <option *ngFor="let valueIterator of dropDownListValues" [value]="valueIterator">{{valueIterator}}</option>
+</select>
+<br/>
+
+<br/>
 
 <div *ngIf="!allAgencies || allAgencies.length == 0">
     Nema agencija u sistemu!
