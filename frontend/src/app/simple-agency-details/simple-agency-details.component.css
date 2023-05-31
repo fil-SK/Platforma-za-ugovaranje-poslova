@@ -12,3 +12,14 @@
 .boldedParag{
     font-weight: bold;
 }
+
+.imageDimensions{
+    width: 150px;
+    height: 100px;
+}
+
+.innerDiv{
+    display: inline-block;
+    width: 50%;
+    box-sizing: border-box;
+}

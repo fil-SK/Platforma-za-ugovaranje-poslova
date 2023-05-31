@@ -30,6 +30,17 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
     }
   }
 
+  getImageUrl(){
+    const backendUri = "http://localhost:4000";
+
+    const pathBackslash = this.selectedAgency.imagePath;
+    const imagePathForwardSlash = pathBackslash.replace(/\\/g, '/');    // Path is saved with backslash but I need to use forward slash, so replace them
+
+    console.log(imagePathForwardSlash);                                 // Logging to check if path is good
+   
+    return `${backendUri}/${imagePathForwardSlash}`;                    // Return the path to the image for the logged user
+  }
+
 
   returnToAllAgenciesPage(){
     localStorage.removeItem('selectedAgency');

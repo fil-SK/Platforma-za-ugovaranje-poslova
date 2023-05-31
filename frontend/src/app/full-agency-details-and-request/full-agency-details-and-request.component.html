@@ -2,6 +2,8 @@
 
 <br/> <br/>
 
+<img [src]="getImageUrl()">
+
 <!-- Klasa je nad labelom a ne divom jer ne zelim da se primeni i na stavke koje citam od te agencije -->
 <div>
     <label class="fullAgencyDetailsAndRequest">Naziv agencije:</label>  <label style="font-size: 18px;">{{selectedAgency.agencyName}}</label> <br/>
@@ -19,6 +21,10 @@
 
 <br/> <br/> <br/>
 
+<!-- TODO UBACI DIV DA SE OVAJ DEO VIDI SAMO AKO JE KORISNIK ULOGOVAN -->
+<h3>Zatrazi saradnju</h3>
+
+<br/> <br/> <br/>
 
 <h3>Ocene i komentari</h3>
 <div *ngIf="!agencyReviews || agencyReviews.length == 0">
