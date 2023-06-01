@@ -13,6 +13,7 @@ import { RegisterComponent } from './register/register.component';
 import { FullRealEstateDetailsComponent } from './full-real-estate-details/full-real-estate-details.component';
 import { AllAgenciesPageComponent } from './all-agencies-page/all-agencies-page.component';
 import { FullAgencyDetailsAndRequestComponent } from './full-agency-details-and-request/full-agency-details-and-request.component';
+import { BusinessComponent } from './business/business.component';
 
 const routes: Routes = [
   {path : "", component : HomePageComponent},
@@ -30,7 +31,9 @@ const routes: Routes = [
   {path: "realEstateDetails", component: FullRealEstateDetailsComponent},
 
   {path: "allAgenciesPage", component : AllAgenciesPageComponent},
-  {path: "agencyDetailsAndRequest", component : FullAgencyDetailsAndRequestComponent}
+  {path: "agencyDetailsAndRequest", component : FullAgencyDetailsAndRequestComponent},
+
+  {path: "business", component : BusinessComponent}
 ];
 
 @NgModule({

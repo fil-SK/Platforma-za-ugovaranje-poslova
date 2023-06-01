@@ -21,6 +21,7 @@ import { FullRealEstateDetailsComponent } from './full-real-estate-details/full-
 import { AllAgenciesPageComponent } from './all-agencies-page/all-agencies-page.component';
 import { SimpleAgencyDetailsComponent } from './simple-agency-details/simple-agency-details.component';
 import { FullAgencyDetailsAndRequestComponent } from './full-agency-details-and-request/full-agency-details-and-request.component';
+import { BusinessComponent } from './business/business.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { FullAgencyDetailsAndRequestComponent } from './full-agency-details-and-
     FullRealEstateDetailsComponent,
     AllAgenciesPageComponent,
     SimpleAgencyDetailsComponent,
-    FullAgencyDetailsAndRequestComponent
+    FullAgencyDetailsAndRequestComponent,
+    BusinessComponent
   ],
   imports: [
     BrowserModule,
