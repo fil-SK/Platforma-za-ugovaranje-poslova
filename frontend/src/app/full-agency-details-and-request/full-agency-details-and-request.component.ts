@@ -151,7 +151,7 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
 
       // Pripremi request objekat koji treba da posaljes na bazu
       const requestData = {
-        requestId : this.selectedRealEstateId,
+        requestId : newRequestId,
 
         agencyUsername : this.selectedAgency.username,
         clientUsername : this.loggedUser.username,
