@@ -74,6 +74,10 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
     this.clientService.getAllRealEstatesForClient(this.loggedUser.username).subscribe( (allRealEstates : RealEstate[]) => {
       this.allClientRealEstates = allRealEstates;
 
+      let arrayToFilter = allRealEstates;
+
+      this.allClientRealEstates = arrayToFilter.filter( (estate) => {return estate.underRenovation == false} );
+
       this.prepareRealEstatesForDropDownList();     // Pozovi metodu tek nakon sto se svi podaci dohvate
     });
   }
@@ -170,17 +174,26 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
         }
 
 
-        // Azuriraj requestId u bazi
-        this.clientService.insertNewRequestIdIntoDatabase(newRequestId).subscribe( res => {
-          if(res['message'] == 'updatedRequestId'){
-            console.log("Uspesno azuriran requestId u bazi!");
+        // Azuriraj da je objekat pod renoviranjem, kako ne bi mogao da se odabere ponovo dok se ne zavrsi
+        this.clientService.markRealEstateForRenovation(this.selectedRealEstateId).subscribe( res => {
+          if(res['message'] == 'realEstateMarked'){
+            console.log("Objekat je uspesno oznacen kao pod renoviranjem!");
 
-            alert('Uspesno poslat zahtev!');
-            this.ngOnInit();                          // Reinitialize the component
+
+            // Azuriraj requestId u bazi
+            this.clientService.insertNewRequestIdIntoDatabase(newRequestId).subscribe( res => {
+              if(res['message'] == 'updatedRequestId'){
+                console.log("Uspesno azuriran requestId u bazi!");
+
+                alert('Uspesno poslat zahtev!');
+                
+                this.returnToAllAgenciesPage();                        // Redirect to allAgencies page
+              }
+
+            });
+
           }
-
         });
-
 
       });
 

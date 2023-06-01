@@ -21,7 +21,8 @@ export class RealEstateController{
                 squareFootage : newRealEstate.squareFootage,
 
                 roomArray : newRealEstate.roomArray,
-                doorImagePath : newRealEstate.doorImagePath
+                doorImagePath : newRealEstate.doorImagePath,
+                underRenovation : newRealEstate.underRenovation
 
             }
         );
@@ -52,5 +53,20 @@ export class RealEstateController{
             console.log(err);
         }
 
+    }
+
+
+    markForRenovation = (req : express.Request, res : express.Response) => {
+
+        let realEstateId = req.body.realEstateId;
+
+        RealEstateModel.updateOne({'realEstateId' : realEstateId}, {$set : {'underRenovation' : true}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            if(resp){
+                res.json({'message' : 'realEstateMarked'});
+            }
+        });
     }
 }

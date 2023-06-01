@@ -38,7 +38,8 @@ let RealEstate = new Schema(
         squareFootage : {type : Number},
 
         roomArray : [Room],                 // Has an array of rooms, described with Room schema
-        doorImagePath : {type : String}
+        doorImagePath : {type : String},
+        underRenovation : {type : Boolean}
     }
 );
 

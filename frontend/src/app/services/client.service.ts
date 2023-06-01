@@ -131,4 +131,13 @@ export class ClientService {
 
     return this.http.post(`${this.uri}/client/insertNewRequestId`, data);
   }
+
+
+  markRealEstateForRenovation(id){
+    const data = {
+      realEstateId : id
+    };
+
+    return this.http.post(`${this.uri}/realEstate/markForRenovation`, data);
+  }
 }

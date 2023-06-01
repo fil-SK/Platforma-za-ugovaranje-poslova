@@ -11,4 +11,5 @@ export class RealEstate {
     
     roomArray : Array<Room> = [];
     doorImagePath : string;
+    underRenovation : boolean;
 }

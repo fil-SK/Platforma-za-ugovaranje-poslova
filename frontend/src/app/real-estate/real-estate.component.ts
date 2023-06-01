@@ -79,7 +79,7 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
         this.extractedRealEstate.squareFootage = res.squareFootage;
         this.extractedRealEstate.doorImagePath = 'http://localhost:4000/uploads/doorVector.png';
         this.extractedRealEstate.roomArray = res.roomArray;
-
+        this.extractedRealEstate.underRenovation = res.underRenovation;
 
       });
 
@@ -122,6 +122,8 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
     newRealEstate.numberOfRooms = this.numberOfRooms;
     newRealEstate.squareFootage = this.squareFootage;
     newRealEstate.doorImagePath = 'http://localhost:4000/uploads/doorVector.png';
+
+    newRealEstate.underRenovation = false;
 
     let room1 : Room = new Room();
     room1.roomCoord = {x : 50, y : 50, width : 250, height : 150};
