@@ -19,7 +19,7 @@
 }
 
 .innerDiv{
-    display: inline-block;
-    width: 50%;
-    box-sizing: border-box;
+    display: inline-block;              /* so that other elements can float next to it */
+    width: 50%;                         /* 50% of outer, containing div */
+    box-sizing: border-box;             /* alters box behavior, changing dimensions doesn't alter overall size of element */
 }

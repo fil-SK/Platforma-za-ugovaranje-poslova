@@ -9,7 +9,8 @@ const Schema = mongoose.Schema;
 let IDTracking = new Schema(
     {
         realEstateId : {type : Number},
-        roomId : {type : Number}
+        roomId : {type : Number},
+        requestId : {type : Number}
     }
 );
 

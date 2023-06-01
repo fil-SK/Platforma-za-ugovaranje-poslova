@@ -2,6 +2,7 @@ import express from 'express';
 import ClientModel from '../models/client';
 import IdTrackingModel from '../models/idTracking';
 import AgencyModel from '../models/agency';
+import RequestModel from '../models/request';
 
 const multiparty = require('multiparty');
 
@@ -293,5 +294,126 @@ export class ClientController{
                 res.json(agencies);
             }
         });
+    }
+
+
+    searchAgencyByName = (req : express.Request, res : express.Response) => {
+
+        let agencyName = req.body.agencyName;
+
+        AgencyModel.find({'agencyName' : agencyName}, (error, agencies) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                if(agencies.length == 0){
+                    res.json({'message' : 'noAgencies'});
+                }
+                else{
+                    res.json(agencies);
+                }
+            }
+        });
+    }
+
+
+    searchAgencyByAddress = (req : express.Request, res : express.Response) => {
+
+        let streetAddress = req.body.streetAddress;
+        let streetNumber = req.body.streetNumber;
+
+        AgencyModel.find({'streetAddress' : streetAddress, 'streetNumber' : streetNumber}, (error, agencies) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                if(agencies.length == 0){
+                    res.json({'message' : 'noAgencies'});
+                }
+                else{
+                    res.json(agencies);
+                }
+            }
+        });
+    }
+
+
+    searchAgencyByNameAndAddress = (req : express.Request, res : express.Response) => {
+
+        let agencyName = req.body.agencyName;
+        let streetAddress = req.body.streetAddress;
+        let streetNumber = req.body.streetNumber;
+
+        AgencyModel.find({'agencyName' : agencyName ,'streetAddress' : streetAddress, 'streetNumber' : streetNumber}, (error, agencies) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                if(agencies.length == 0){
+                    res.json({'message' : 'noAgencies'});
+                }
+                else{
+                    res.json(agencies);
+                }
+            }
+        });
+    }
+
+
+    getLastRequestId = (req : express.Request, res : express.Response) => {
+
+        // This will fetch all rows from database - need to take only necessary one
+        IdTrackingModel.findOne({}, (err, idData) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(idData);
+            }
+        });
+    }
+
+
+    insertNewRequestId = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        // Filter is {}, because there is only one row in the collection, therefore I'm updating entire collection, which consists of only one element (with two fields)
+        IdTrackingModel.updateOne({}, {$set : {'requestId' : requestId}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            if(resp){
+                res.json({'message' : 'updatedRequestId'});
+            }
+        });
+
+    }
+
+
+    makeRequest = (req : express.Request, res : express.Response) => {
+
+        let request = new RequestModel(
+            {
+                requestId : req.body.requestId,
+                agencyUsername : req.body.agencyUsername,
+                clientUsername : req.body.clientUsername,
+                realEstateId : req.body.realEstateId,
+                startDate : req.body.startDate,
+                endDate : req.body.endDate,
+                clientRequestStatus : req.body.clientRequestStatus,
+                requestStatus : req.body.requestStatus
+            }
+        );
+
+        request.save( (err, resp) => {
+            if(err){
+                console.log(err);
+                return res.json({'message' : 'error'});
+            }
+            else{
+                return res.json({'message' : 'requestSent'});
+            }
+        } );
     }
 }

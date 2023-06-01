@@ -111,4 +111,24 @@ export class ClientService {
 
     return this.http.post(`${this.uri}/client/searchAgencyByNameAndAddress`, data);
   }
+
+
+  getLastRequestId(){
+    return this.http.get(`${this.uri}/client/getLastRequestId`);
+  }
+
+
+  insertRequestIntoDatabase(data){
+
+    return this.http.post(`${this.uri}/client/makeRequest`, data);
+  }
+
+  insertNewRequestIdIntoDatabase(id){
+
+    const data = {
+      requestId : id
+    };
+
+    return this.http.post(`${this.uri}/client/insertNewRequestId`, data);
+  }
 }

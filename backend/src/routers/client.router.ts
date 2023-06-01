@@ -77,4 +77,34 @@ clientRouter.route('/getAllAgencies').get(
     (req, res) => new ClientController().getAllAgencies(req, res)
 );
 
+
+clientRouter.route('/searchAgencyByName').post(
+    (req, res) => new ClientController().searchAgencyByName(req, res)
+);
+
+
+clientRouter.route('/searchAgencyByAddress').post(
+    (req, res) => new ClientController().searchAgencyByAddress(req, res)
+);
+
+
+clientRouter.route('/searchAgencyByNameAndAddress').post(
+    (req, res) => new ClientController().searchAgencyByNameAndAddress(req, res)
+);
+
+
+clientRouter.route('/getLastRequestId').get(
+    (req, res) => new ClientController().getLastRequestId(req, res)
+);
+
+
+clientRouter.route('/makeRequest').post(
+    (req, res) => new ClientController().makeRequest(req, res)
+);
+
+
+clientRouter.route('/insertNewRequestId').post(
+    (req, res) => new ClientController().insertNewRequestId(req, res)
+);
+
 export default clientRouter;

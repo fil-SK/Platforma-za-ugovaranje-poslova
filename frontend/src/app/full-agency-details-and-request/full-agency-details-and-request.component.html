@@ -6,27 +6,60 @@
 
 <!-- Klasa je nad labelom a ne divom jer ne zelim da se primeni i na stavke koje citam od te agencije -->
 <div>
-    <label class="fullAgencyDetailsAndRequest">Naziv agencije:</label>  <label style="font-size: 18px;">{{selectedAgency.agencyName}}</label> <br/>
-    <label class="fullAgencyDetailsAndRequest">Adresa:</label>          <label style="font-size: 18px;">{{selectedAgency.streetAddress}} {{selectedAgency.streetNumber}}</label> <br/>
-    <label class="fullAgencyDetailsAndRequest">Grad:</label>            <label style="font-size: 18px;">{{selectedAgency.city}}</label> <br/>
-    <label class="fullAgencyDetailsAndRequest">Država</label>           <label style="font-size: 18px;">{{selectedAgency.state}}</label> <br/>
-    <label class="fullAgencyDetailsAndRequest">Broj telefona:</label>   <label style="font-size: 18px;">{{selectedAgency.phoneNumber}}</label> <br/>
-    <label class="fullAgencyDetailsAndRequest">E-mail adresa:</label>   <label style="font-size: 18px;">{{selectedAgency.email}}</label> <br/>
-    <label class="fullAgencyDetailsAndRequest">Opis:</label>            <label style="font-size: 18px;">{{selectedAgency.description}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Naziv agencije: </label>  <label style="font-size: 18px;">{{selectedAgency.agencyName}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Adresa: </label>          <label style="font-size: 18px;">{{selectedAgency.streetAddress}} {{selectedAgency.streetNumber}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Grad: </label>            <label style="font-size: 18px;">{{selectedAgency.city}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Država: </label>           <label style="font-size: 18px;">{{selectedAgency.state}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Broj telefona: </label>   <label style="font-size: 18px;">{{selectedAgency.phoneNumber}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">E-mail adresa: </label>   <label style="font-size: 18px;">{{selectedAgency.email}}</label> <br/>
+    <label class="fullAgencyDetailsAndRequest">Opis: </label>            <label style="font-size: 18px;">{{selectedAgency.description}}</label> <br/>
 </div>
 
 <br/> 
 
 <button (click)="returnToAllAgenciesPage()">Povratak na stranicu sa agencijama</button>
 
+<hr width="30%" />
+
 <br/> <br/> <br/>
 
 <!-- TODO UBACI DIV DA SE OVAJ DEO VIDI SAMO AKO JE KORISNIK ULOGOVAN -->
 <h3>Zatrazi saradnju</h3>
 
+<form #makeRequestForm="ngForm" (ngSubmit)="makeRequest(makeRequestForm)">
+
+    <label>Odaberite objekat za uredjivanje:</label> <br/>
+    <label>Objekti dati kao: <i>tip, adresa, broj prostorija, kvadratura</i></label> <br/>
+    <select name="dropDownSelectedRealEstate" [(ngModel)]="selectedRealEstate" #dropDownSelectedRealEstate="ngModel" (change)="getRealEstateId()" required>
+        <option *ngFor="let realEstateIterator of stringList" [value]="realEstateIterator">{{realEstateIterator}}</option>
+    </select> <br/>
+    <div *ngIf="makeRequestForm.submitted">
+        <div *ngIf="dropDownSelectedRealEstate.errors?.['required']" class="validatorMessage">Morate odabrati objekat!</div>
+    </div>
+
+    <label>Vremenski period izvrsavanja zahteva:</label> <br/>
+    <label>Datum pocetka:</label> <input type="date" name="inputStartDate" [(ngModel)]="inputStartDate" #startingDate="ngModel" required> <br/>
+    <div *ngIf="makeRequestForm.submitted && startingDate.invalid">
+        <div *ngIf="startingDate.errors?.['required']" class="validatorMessage">Morate odabrati datum pocetka!</div>
+    </div>
+    <label>Datum zavrsetka:</label> <input type="date" name="inputEndDate" [(ngModel)]="inputEndDate" #endingDate="ngModel" required> <br/>
+    <div *ngIf="makeRequestForm.submitted && endingDate.invalid">
+        <div *ngIf="endingDate.errors?.['required']" class="validatorMessage">Morate odabrati datum zavrsetka!</div>
+    </div>
+    <p class="validatorMessage">{{error}}</p>
+
+    <button type="submit">Podnesi zahtev</button>
+</form>
+
+<hr width="30%" />
+
 <br/> <br/> <br/>
 
 <h3>Ocene i komentari</h3>
-<div *ngIf="!agencyReviews || agencyReviews.length == 0">
+<!-- 
+    <div *ngIf="!agencyReviews || agencyReviews.length == 0">
     Za ovu agenciju nema ocena i komentara!
 </div>
+ -->
+
+<hr width="30%" />
