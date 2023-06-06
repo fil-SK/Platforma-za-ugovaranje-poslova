@@ -1,0 +1,77 @@
+
+<br/>
+<h3>Stranica agencije  {{agency.agencyName}}</h3>
+<br/><br/>
+
+
+<form #updateAgencyForm="ngForm" (ngSubmit)="updateAgencyInDB(updateAgencyForm)">
+    <img [src]="getAgencyImage()"><br /> <br /><br />
+
+    <label>Naziv agencije</label><br />
+    <input type="text" name="agencyName" [(ngModel)]="agencyName" #agencyNameInput="ngModel" required><br />
+    <div *ngIf="updateAgencyForm.submitted && agencyNameInput.invalid && (agencyNameInput.dirty || agencyNameInput.touched)" class="validatorMessage">
+        <div *ngIf="agencyNameInput.errors?.['required']">Morate uneti naziv agencije!</div>
+    </div>
+
+
+    <label>Ulica</label><br />
+    <input type="text" name="agencyStreetName" [(ngModel)]="agencyStreetName" #agencyStreetNameInput="ngModel" required><br />
+    <div *ngIf="updateAgencyForm.submitted && agencyStreetNameInput.invalid && (agencyStreetNameInput.dirty || agencyStreetNameInput.touched)" class="validatorMessage">
+        <div *ngIf="agencyStreetNameInput.errors?.['required']">Morate uneti naziv ulice!</div>
+    </div>
+
+
+    <label>Broj</label><br />
+    <input type="text" name="agencyStreetNumber" [(ngModel)]="agencyStreetNumber" #agencyStreetNumberInput="ngModel" required pattern="^\d{0,4}$"><br />
+    <div *ngIf="updateAgencyForm.submitted && agencyStreetNumberInput.invalid && (agencyStreetNumberInput.dirty || agencyStreetNumberInput.touched)" class="validatorMessage">
+        <div *ngIf="agencyStreetNumberInput.errors?.['required']">Morate uneti broj ulice!</div>
+        <div *ngIf="agencyStreetNumberInput.errors?.['pattern']">Morate uneti cifru! Broj ulice moze biti najvise do 4 cifre!</div>
+    </div>
+
+
+    <label>Grad</label><br />
+    <input type="text" name="agencyCity" [(ngModel)]="agencyCity" #agencyCityInput="ngModel" required><br />
+    <div *ngIf="updateAgencyForm.submitted && agencyCityInput.invalid && (agencyCityInput.dirty || agencyCityInput.touched)" class="validatorMessage">
+        <div *ngIf="agencyCityInput.errors?.['required']">Morate uneti grad!</div>
+    </div>
+
+
+    <label>Drzava</label><br />
+    <input type="text" name="agencyState" [(ngModel)]="agencyState" #agencyStateInput="ngModel" required><br />
+    <div *ngIf="updateAgencyForm.submitted && agencyStateInput.invalid && (agencyStateInput.dirty || agencyStateInput.touched)" class="validatorMessage">
+        <div *ngIf="agencyStateInput.errors?.['required']">Morate uneti drzavu!</div>
+    </div>
+
+
+    <label>Opis</label><br />
+    <textarea name="agencyDescription" [(ngModel)]="agencyDescription" #agencyDescriptionInput="ngModel" required></textarea><br />
+    <div *ngIf="updateAgencyForm.submitted && agencyDescriptionInput.invalid && (agencyDescriptionInput.dirty || agencyDescriptionInput.touched)" class="validatorMessage">
+        <div *ngIf="agencyDescriptionInput.errors?.['required']">Morate uneti opis agencije!</div>
+    </div>
+
+
+    <label>Broj telefona</label><br />
+    <input type="text" name="agencyPhone" [(ngModel)]="agencyPhone" #agencyPhoneInput="ngModel" required pattern="^\+?\d{1,14}$"><br />
+    <div *ngIf="updateAgencyForm.submitted && agencyPhoneInput.invalid && (agencyPhoneInput.dirty || agencyPhoneInput.touched)" class="validatorMessage">
+        <div *ngIf="agencyPhoneInput.errors?.['required']">Morate uneti broj telefona!</div>
+        <div *ngIf="agencyPhoneInput.errors?.['pattern']">Morate uneti broj! Broj je maksimalne duzine do 15 karaktera (ukljucujuci znak '+')</div>
+    </div>
+
+
+    <label>E-mail</label><br />
+    <input type="text" name="agencyEmail" [(ngModel)]="agencyEmail" #agencyEmailInput="ngModel" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"><br />
+    <div *ngIf="updateAgencyForm.submitted && agencyEmailInput.invalid && (agencyEmailInput.dirty || agencyEmailInput.touched)" class="validatorMessage">
+        <div *ngIf="agencyEmailInput.errors?.['required']">Morate uneti email!</div>
+        <div *ngIf="agencyEmailInput.errors?.['pattern']">Email ne zadovoljava format! Uneti format nesto@nesto.domen, gde je domen duzine 2-3 karaktera.</div>
+    </div>
+
+
+    <br /><label>Akcija</label><br />
+    <button type="submit">Azuriraj</button> &nbsp;
+    <button type="button" (click)="deleteAgencyFromDB()">Obrisi</button>
+</form>
+
+
+<br /><br />
+<button (click)="returnToAdminPage()">Povratak na admin panel</button>
+<br /><br />

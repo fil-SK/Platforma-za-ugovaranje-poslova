@@ -134,10 +134,102 @@ export class ClientService {
 
 
   markRealEstateForRenovation(id){
+    
     const data = {
       realEstateId : id
     };
 
     return this.http.post(`${this.uri}/realEstate/markForRenovation`, data);
+  }
+
+
+  getAllClientRequests(username){
+    
+    const data = {
+      clientUsername : username
+    };
+
+    return this.http.post(`${this.uri}/client/getAllRequestsForClient`, data);
+  }
+
+
+  getRealEstateForThisId(id){
+
+    const data = {
+      realEstateId : id
+    };
+
+    return this.http.post(`${this.uri}/realEstate/getRealEstateWithId`, data);
+  }
+
+
+  getClientWithThisUsername(clientUsername){
+
+    const data = {
+      username : clientUsername
+    };
+
+    return this.http.post(`${this.uri}/client/getClientWithThisUsername`, data);
+  }
+
+
+  getRequestWithThisId(reqId){
+
+    const data = {
+      requestId : reqId
+    };
+
+    return this.http.post(`${this.uri}/client/getRequestWithId`, data);
+  }
+
+
+  acceptAgencyOffer(reqId){
+
+    const data = {
+      requestId : reqId
+    };
+
+    return this.http.post(`${this.uri}/client/acceptOffer`, data);
+  }
+
+
+  rejectAgencyOffer(reqId){
+
+    const data = {
+      requestId : reqId
+    };
+
+    return this.http.post(`${this.uri}/client/rejectOffer`, data);
+  }
+
+
+  markRequestAsCompleted(reqId){
+
+    const data = {
+      requestId : reqId
+    };
+
+    return this.http.post(`${this.uri}/client/setRequestAsCompleted`, data);
+  }
+
+
+  insertReview(reqId, review){
+
+    const data = {
+      requestId : reqId,
+      review : review
+    };
+
+    return this.http.post(`${this.uri}/client/insertReview`, data);
+  }
+
+
+  deleteReview(reqId){
+
+    const data = {
+      requestId : reqId
+    };
+
+    return this.http.post(`${this.uri}/client/deleteReview`, data);
   }
 }

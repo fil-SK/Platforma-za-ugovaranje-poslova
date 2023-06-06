@@ -31,6 +31,8 @@ export class ClientController{
         // Because findOne is asynchronous, non-blocking
 
         // First check for username
+
+        // First check in ClientModel
         ClientModel.findOne({'username' : client.username}, (err, user) => {
 
             if(user){   // If user is returned, then user with that username already exists in database
@@ -38,16 +40,44 @@ export class ClientController{
             }
             else{
 
-                // Check email
-                ClientModel.findOne({'email' : client.email}, (err, user) => {
+                // Then check in AgencyModel
+                AgencyModel.findOne({'username' : client.username}, (err, agency) => {
 
-                    if(user){
-                        return res.json({'message' : 'emailNotUnique'})
+                    if(agency){   // If user is returned, then user with that username already exists in database
+                        return res.json({'message' : 'usernameNotUnique'});
                     }
+
                     else{
-                        return res.json({'message' : 'userNotInDatabase'});     // If this returns, we can insert the user in database
+
+                        // Check email
+
+                        //Check first in ClientModel
+                        ClientModel.findOne({'email' : client.email}, (err, user2) => {
+
+                            if(user2){
+                                return res.json({'message' : 'emailNotUnique'})
+                            }
+
+                            else{
+
+                                // Then check in AgencyModel
+                                AgencyModel.findOne({'email' : client.email}, (err, agency2) => {
+
+                                    if(agency2){
+                                        return res.json({'message' : 'emailNotUnique'})
+                                    }
+
+                                    else{
+                                        return res.json({'message' : 'userNotInDatabase'});     // If this returns, we can insert the user in database
+                                    }
+                                });
+
+                            }
+                        });
                     }
-                })
+                });
+
+                
             }
         });
 
@@ -416,4 +446,134 @@ export class ClientController{
             }
         } );
     }
+
+
+    getAllRequestsForUser = (req : express.Request, res : express.Response) => {
+
+        let clientUsername = req.body.clientUsername;
+
+        // Get all requests for client with this username, and only if that request is not the request that the client already rejected
+        RequestModel.find({'clientUsername' : clientUsername, 'requestStatus' : {$ne : 'rejected'} }, (err, requests) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(requests.length == 0){
+                    res.json({'message' : 'noRequests'});
+                }
+                else{
+                    res.json(requests);
+                }
+            }
+        });
+    }
+
+
+    getClientWithThisUsername = (req : express.Request, res : express.Response) => {
+
+        let clientUsername = req.body.username;
+
+        ClientModel.findOne({'username' : clientUsername}, (err, client) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(client);
+            }
+        });
+    }
+
+
+    getRequestWithThisId = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        RequestModel.findOne({'requestId' : requestId}, (err, request) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(request);
+            }
+        });
+    }
+
+
+    clientAcceptAgencyOffer = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        RequestModel.updateOne({'requestId' : requestId}, {$set : {'clientResponseToOffer' : 'offerAccepted', 'requestStatus' : 'ongoing'}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'offerAccepted'});
+            }
+        });
+    }
+
+
+    clientRejectAgencyOffer = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        RequestModel.updateOne({'requestId' : requestId}, {$set : {'clientResponseToOffer' : 'offerRejected', 'requestStatus' : 'rejected'}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'offerRejected'});
+            }
+        });
+    }
+
+
+    markRequestAsCompleted = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        RequestModel.updateOne({'requestId' : requestId}, {$set : {'requestStatus' : 'completed'}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'setAsCompleted'});
+            }
+        });
+
+    }
+
+
+    insertReview = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+        let review = req.body.review;
+
+        RequestModel.updateOne({'requestId' : requestId}, {$set : {'review' : review}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'reviewAdded'});
+            }
+        });
+    }
+
+
+    deleteReview =  (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        RequestModel.updateOne({'requestId' : requestId}, {$unset : {'review' : '' }}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'reviewDeleted'});
+            }
+        });
+
+    }
+
 }

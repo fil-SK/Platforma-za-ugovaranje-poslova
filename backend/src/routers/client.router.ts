@@ -107,4 +107,46 @@ clientRouter.route('/insertNewRequestId').post(
     (req, res) => new ClientController().insertNewRequestId(req, res)
 );
 
+
+clientRouter.route('/getAllRequestsForClient').post(
+    (req, res) => new ClientController().getAllRequestsForUser(req, res)
+);
+
+
+clientRouter.route('/getClientWithThisUsername').post(
+    (req, res) => new ClientController().getClientWithThisUsername(req, res)
+);
+
+
+clientRouter.route('/getRequestWithId').post(
+    (req, res) => new ClientController().getRequestWithThisId(req, res)
+);
+
+
+clientRouter.route('/acceptOffer').post(
+    (req, res) => new ClientController().clientAcceptAgencyOffer(req, res)
+);
+
+
+clientRouter.route('/rejectOffer').post(
+    (req, res) => new ClientController().clientRejectAgencyOffer(req ,res)
+);
+
+
+clientRouter.route('/setRequestAsCompleted').post(
+    (req, res) => new ClientController().markRequestAsCompleted(req, res)
+);
+
+
+clientRouter.route('/insertReview').post(
+    (req, res) => new ClientController().insertReview(req, res)
+);
+
+
+clientRouter.route('/deleteReview').post(
+    (req, res) => new ClientController().deleteReview(req, res)
+);
+
+
+
 export default clientRouter;

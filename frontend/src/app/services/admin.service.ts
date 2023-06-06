@@ -78,4 +78,62 @@ export class AdminService {
     return this.http.post(`${this.uri}/admin/declineAgency`, data);
   }
 
+
+  getLastWorkerId(){
+    return this.http.get(`${this.uri}/admin/getLastWorkerId`);
+  }
+
+
+  insertNewWorkerId(wId){
+    const data = {
+      workerId : wId
+    };
+    
+    return this.http.post(`${this.uri}/admin/insertNewLastWorkerId`, data);
+  }
+
+  insertNewWorker(data){
+    return this.http.post(`${this.uri}/admin/insertNewWorker`, data);
+  }
+
+
+  deleteClientWithUsername(clientUsername){
+
+    const data = {
+      username : clientUsername
+    };
+
+    return this.http.post(`${this.uri}/admin/deleteClient`, data);
+  }
+
+
+  updateClientWithUsername(clientUsername, clientFirstname, clientLastname, clientEmail, clientPhone){
+
+    const data = {
+      username : clientUsername,
+      firstname : clientFirstname,
+      lastname : clientLastname,
+      email : clientEmail,
+      phoneNumber : clientPhone
+    };
+
+    return this.http.post(`${this.uri}/admin/updateClientInDB`, data);
+  }
+
+
+  deleteAgencyWithUsername(agencyUsername){
+
+    const data = {
+      username : agencyUsername
+    };
+
+    return this.http.post(`${this.uri}/admin/deleteAgencyFromDB`, data);
+  }
+
+
+  updateAgencyWithUsername(data){
+
+    return this.http.post(`${this.uri}/admin/updateAgencyFromDB`, data);
+  }
+
 }

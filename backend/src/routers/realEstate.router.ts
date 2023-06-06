@@ -19,4 +19,9 @@ realEstateRouter.route('/markForRenovation').post(
 );
 
 
+realEstateRouter.route('/getRealEstateWithId').post(
+    (req, res) => new RealEstateController().getRealEstateWithId(req, res)
+);
+
+
 export default realEstateRouter;

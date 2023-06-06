@@ -1,0 +1,10 @@
+
+
+<div class="simpleBusinessDetailsClass" [class.greenText]="requestInstance.clientRequestStatus == 'agencyAccepted'" [class.redText]="requestInstance.clientRequestStatus == 'agencyRejected'" >
+    <div>
+        <label class="boldedParag">Identifikator zahteva/posla: </label>    {{requestInstance.requestId}} <br/>
+        <label class="boldedParag">Datum pocetka: </label>                  {{requestStartDate}} <br/>
+        <label class="boldedParag">Datum zavrsetka: </label>                {{requestEndDate}} <br/>
+        <label class="boldedParag">Status: </label>                         {{requestInstance.requestStatus}} <br/>
+    </div>
+</div>

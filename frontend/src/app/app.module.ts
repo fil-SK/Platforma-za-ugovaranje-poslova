@@ -22,6 +22,14 @@ import { AllAgenciesPageComponent } from './all-agencies-page/all-agencies-page.
 import { SimpleAgencyDetailsComponent } from './simple-agency-details/simple-agency-details.component';
 import { FullAgencyDetailsAndRequestComponent } from './full-agency-details-and-request/full-agency-details-and-request.component';
 import { BusinessComponent } from './business/business.component';
+import { SimpleBusinessDetailsComponent } from './simple-business-details/simple-business-details.component';
+import { FullRequestPageComponent } from './full-request-page/full-request-page.component';
+import { AgencyRequestSimpleComponent } from './agency-request-simple/agency-request-simple.component';
+import { AgencyRequestFullComponent } from './agency-request-full/agency-request-full.component';
+import { FooterComponent } from './footer/footer.component';
+import { AdminViewsClientComponent } from './admin-views-client/admin-views-client.component';
+import { AdminViewsAgencyComponent } from './admin-views-agency/admin-views-agency.component';
+import { AdminDoingRegistrationComponent } from './admin-doing-registration/admin-doing-registration.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +50,15 @@ import { BusinessComponent } from './business/business.component';
     AllAgenciesPageComponent,
     SimpleAgencyDetailsComponent,
     FullAgencyDetailsAndRequestComponent,
-    BusinessComponent
+    BusinessComponent,
+    SimpleBusinessDetailsComponent,
+    FullRequestPageComponent,
+    AgencyRequestSimpleComponent,
+    AgencyRequestFullComponent,
+    FooterComponent,
+    AdminViewsClientComponent,
+    AdminViewsAgencyComponent,
+    AdminDoingRegistrationComponent
   ],
   imports: [
     BrowserModule,

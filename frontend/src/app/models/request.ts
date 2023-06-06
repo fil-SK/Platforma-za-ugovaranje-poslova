@@ -12,6 +12,7 @@ export class Request{
     endDate : Date;
 
     clientRequestStatus : string;       // clientRequested, agencyAccepted, agencyRejected
+    agencyOffer : number;
     clientResponseToOffer : string;     // offerAccepted, offerRejected
     requestStatus : string;             // none (initially), ongoing, agencyDone, completed
 

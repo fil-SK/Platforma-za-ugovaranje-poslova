@@ -10,7 +10,8 @@ let IDTracking = new Schema(
     {
         realEstateId : {type : Number},
         roomId : {type : Number},
-        requestId : {type : Number}
+        requestId : {type : Number},
+        workerId : {type : Number}
     }
 );
 

@@ -20,4 +20,74 @@ export class AgencyService {
 
     return this.http.post(`${this.uri}/agency/changePassword`, data);
   }
+
+
+  getAgencyWithUsername(agencyUsername){
+    const data = {
+      username : agencyUsername
+    };
+
+    return this.http.post(`${this.uri}/agency/getAgencyWithUsername`, data);
+  }
+
+
+  getAllRequestsForThisAgency(agencyUsername){
+    const data = {
+      username : agencyUsername
+    };
+
+    return this.http.post(`${this.uri}/agency/getAllRequestsForThisAgency`, data);
+  }
+
+
+  acceptClientRequest(reqId, offer){
+
+    const data = {
+      requestId : reqId,
+      agencyOffer : offer
+    };
+
+    return this.http.post(`${this.uri}/agency/acceptClientRequest`, data);
+  }
+
+
+  declineClientRequest(reqId){
+
+    const data = {
+      requestId : reqId
+    };
+
+    return this.http.post(`${this.uri}/agency/declineClientRequest`, data)
+  }
+
+
+  getAllActiveJobs(agencyUsername){
+
+    const data = {
+      username : agencyUsername
+    };
+
+    return this.http.post(`${this.uri}/agency/getActiveJobsForAgency`, data);
+  }
+
+
+  changeRoomColor(roomId, roomColor){
+
+    const data = {
+      roomId : roomId,
+      roomColor : roomColor
+    };
+
+    return this.http.post(`${this.uri}/agency/changeRoomColor`, data);
+  }
+
+
+  setAgencyDone(reqId){
+
+    const data = {
+      requestId : reqId
+    };
+
+    return this.http.post(`${this.uri}/agency/setAgencyDone`, data);
+  }
 }

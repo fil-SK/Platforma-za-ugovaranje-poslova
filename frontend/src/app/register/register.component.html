@@ -21,7 +21,7 @@
         <div *ngIf="registerForm.submitted && passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="validatorMessage">
             <div *ngIf="passwordInput.errors?.['required']">Lozinka je obavezna!</div>
             <div *ngIf="passwordInput.errors?.['pattern']">Lozinka mora da sadrzi najmanje 6, a najvise 12 karaktera, bar jedno veliko slovo, jedan broj i jedan specijalni karakter, i mora poceti velikim slovom.</div>
-          </div>
+        </div>
     <br/>
 
 

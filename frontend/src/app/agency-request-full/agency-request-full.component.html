@@ -1,0 +1,51 @@
+<h2>Pregled posla</h2>
+
+<br/> <br/>
+
+<div>
+    <label class="boldedParag">Klijent: </label>         {{client.firstname}} {{client.lastname}} <br/>
+    <label class="boldedParag">E-mail: </label>          {{client.email}} <br/>
+    <label class="boldedParag">Telefon: </label>         {{client.phoneNumber}} <br/>
+    <hr width="30%" />
+    <label class="boldedParag">Tip objekta: </label>     {{realEstateUnderRenovation.type}} <br/>
+    <label class="boldedParag">Adresa: </label>          {{realEstateUnderRenovation.address}} <br/>
+    <label class="boldedParag">Broj prostorija: </label> {{realEstateUnderRenovation.numberOfRooms}} <br/>
+    <label class="boldedParag">Kvadratura: </label>      {{realEstateUnderRenovation.squareFootage}} <br/>
+</div>
+<!--
+<div>
+    <label class="boldedParag">Naziv agencije: </label>  {{agency.agencyName}} <br/>
+    <label class="boldedParag">Tip objekta: </label>     {{realEstateUnderRenovation.type}} <br/>
+    <label class="boldedParag">Adresa objekta: </label>  {{realEstateUnderRenovation.address}}<br/>
+    <label class="boldedParag">Broj soba: </label>       {{realEstateUnderRenovation.numberOfRooms}} <br/>
+    <label class="boldedParag">Kvadratura: </label>      {{realEstateUnderRenovation.squareFootage}} <br/>
+    <label class="boldedParag">Datum pocetka: </label>   {{requestStartDate}} <br/>
+    <label class="boldedParag">Datum zavrsetka: </label> {{requestEndDate}} <br/>
+    <label class="boldedParag">Status: </label>          {{selectedRequest.requestStatus}} <br/>
+</div>
+-->
+<br/>
+
+<label class="boldedParag">Skica:</label> <br/>
+
+ <canvas #requestSchemaAgency class="canvas-styling" width="500" height="400"></canvas> 
+
+<br />
+    OVDE TREBA DODATI DODELJIVANJE BROJA RADNIKA
+<br /> <br />
+
+
+<h4>Promena statusa sobe</h4>
+<div *ngFor="let roomIterator of realEstateUnderRenovation.roomArray; let i = index">
+    <label>Prostorija {{i + 1}}</label> &nbsp;
+    <button [disabled]="roomIterator.roomColor == 'red' || roomIterator.roomColor == 'green' " (click)="renovateTheRoom(roomIterator)">Opremaj</button> &nbsp;
+    <button [disabled]="roomIterator.roomColor == 'white' || roomIterator.roomColor == 'green' " (click)="finishRenovatingTheRoom(roomIterator)">Zavrsi</button>
+</div>
+
+
+
+
+
+<br/><br/>
+<button (click)="returnToAgencyBusinessPage()">Povratak na stranicu sa poslovima</button>
+<br /> <br />

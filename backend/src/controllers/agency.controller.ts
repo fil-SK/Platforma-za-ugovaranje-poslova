@@ -1,5 +1,8 @@
 import express from 'express';
 import AgencyModel from '../models/agency';
+import ClientModel from '../models/client';
+import RequestModel from '../models/request';
+import RealEstateModel from '../models/realestate';
 
 import path from 'path';
 
@@ -21,6 +24,8 @@ export class AgencyController{
         // We are nesting findOne functions, so that the second one will be called only if first one doesn't find matching user
         
         // Check if username is unique
+
+        // First check with agency
         AgencyModel.findOne({'username' : agency.username}, (err, user) => {
             
             if(user){
@@ -28,25 +33,54 @@ export class AgencyController{
             }
             else{
 
-                // Check if email is unique
-                AgencyModel.findOne({'email' : agency.email}, (err, user) => {
+                // Check username in ClientModel
+                ClientModel.findOne({'username' : agency.username}, (err, client) => {
 
-                    if(user){
-                        return res.json( {'message' : 'emailNotUnique'} );
+                    if(client){
+                        return res.json( {'message' : 'usernameNotUnique'} );
                     }
+
+
                     else{
 
-                        // Check if agencyId is unique
-                        AgencyModel.findOne({'agencyId' : agency.agencyId}, (err, user) =>{
-                            if(user){
-                                return res.json({'message' : 'agencyIdNotUnique'});
+                        // Check if email is unique
+
+                        // First check with agency
+                        AgencyModel.findOne({'email' : agency.email}, (err, user2) => {
+
+                            if(user2){
+                                return res.json( {'message' : 'emailNotUnique'} );
                             }
                             else{
-                                return res.json({'message' : 'userNotInDatabase'});     // If we return this then we can insert agency into database
+
+                                // Check email in ClientModel
+                                ClientModel.findOne({'email' : agency.email}, (err, client2) => {
+                                    
+                                    if(client2){
+                                        return res.json( {'message' : 'emailNotUnique'} );
+                                    }
+
+                                    else{
+
+                                        // Check if agencyId is unique
+                                        AgencyModel.findOne({'agencyId' : agency.agencyId}, (err, user3) =>{
+                                            if(user3){
+                                                return res.json({'message' : 'agencyIdNotUnique'});
+                                            }
+                                            else{
+                                                return res.json({'message' : 'userNotInDatabase'});     // If we return this then we can insert agency into database
+                                            }
+                                        });
+
+                                    }
+                                });
+
                             }
                         });
                     }
+
                 });
+
             }
         });
 
@@ -161,5 +195,130 @@ export class AgencyController{
                 res.json({'message' : 'changedPassword'});
             }
         });
+    }
+
+
+    getAgencyWithUsername = (req : express.Request, res : express.Response) => {
+
+        let username = req.body.username;
+
+        AgencyModel.findOne({'username' : username}, (err, agency) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(agency);
+            }
+        })
+    }
+
+
+    getAllRequestsForThisAgency = (req : express.Request, res : express.Response) => {
+
+        let username = req.body.username;
+
+        // Dohvatamo samo one zahteve koje je klijent tek zatrazio, pa se ceka odluka agencije
+        RequestModel.find({'agencyUsername' : username, 'clientRequestStatus' : 'clientRequested'}, (err, requests) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(requests.length == 0){
+                    res.json({'message' : 'noRequests'});
+                }
+                else{
+                    res.json(requests);
+                }
+            }
+        });
+    }
+
+
+    acceptClientRequest = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+        let agencyOffer = req.body.agencyOffer;
+
+        RequestModel.updateOne({'requestId' : requestId}, {$set : {'clientRequestStatus' : 'agencyAccepted', 'agencyOffer' : agencyOffer}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'requestAccepted'});
+            }
+        });
+    }
+
+
+    declineClientRequest = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        RequestModel.updateOne({'requestId' : requestId}, {$set : {'clientRequestStatus' : 'agencyRejected'}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'requestRejected'});
+            }
+        });
+
+    }
+
+
+    getAllActiveJobsForThisAgency = (req : express.Request, res : express.Response) => {
+
+        let username = req.body.username;
+
+        // Odradi isto kao ovo iznad, samo gledaj koji flag treba da posmatras i koju vrednost, da bi se smatralo aktivnim poslom
+
+        // Dohvatamo samo one zahteve za koje je posao AKTIVAN -- ako je requestStatus jednak ongoing ili agencyDone
+        // Koristim in da bi uzimao u obzir samo vrednosti iz tog skupa
+        RequestModel.find({'agencyUsername' : username, 'requestStatus' : {$in : ['ongoing', 'agencyDone']}}, (err, activeJobs) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(activeJobs.length == 0){
+                    res.json({'message' : 'noActiveJobs'});
+                }
+                else{
+                    res.json(activeJobs);
+                }
+            }
+        });
+    }
+
+
+    changeRoomColor = (req : express.Request, res : express.Response) => {
+
+        let roomId = req.body.roomId;
+        let roomColor = req.body.roomColor;
+
+        // $ se u roomArray.$.roomColor koristi kako bi se match-ovao tacno odgovarajuci indeks unutar roomArray niza
+        RealEstateModel.updateOne({'roomArray.roomId' : roomId}, {$set : {'roomArray.$.roomColor' : roomColor}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'roomUpdated'});
+            }
+        });
+    }
+
+
+    setAgencyDone = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        RequestModel.updateOne({'requestId' : requestId}, {'requestStatus' : 'agencyDone'}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'agencyDoneSet'});
+            }
+        });
+
     }
 }

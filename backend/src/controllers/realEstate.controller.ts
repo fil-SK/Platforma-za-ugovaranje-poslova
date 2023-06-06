@@ -69,4 +69,39 @@ export class RealEstateController{
             }
         });
     }
+
+
+    getRealEstateWithId = (req : express.Request, res : express.Response) => {
+
+        let realEstateId = req.body.realEstateId;
+
+
+        RealEstateModel.findOne({'realEstateId' : realEstateId}, (err, realEstate) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(realEstate);
+            }
+        })
+    }
+
+    /*
+    stara metoda
+
+    getRealEstateWithId = (req : express.Request, res : express.Response) => {
+
+        let realEstateId = req.body.realEstateId;
+
+
+        RealEstateModel.findOne({'realEstateId' : realEstateId}, (err, realEstate) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(realEstate);
+            }
+        })
+    }
+    */
 }

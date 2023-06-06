@@ -14,6 +14,10 @@ import { FullRealEstateDetailsComponent } from './full-real-estate-details/full-
 import { AllAgenciesPageComponent } from './all-agencies-page/all-agencies-page.component';
 import { FullAgencyDetailsAndRequestComponent } from './full-agency-details-and-request/full-agency-details-and-request.component';
 import { BusinessComponent } from './business/business.component';
+import { FullRequestPageComponent } from './full-request-page/full-request-page.component';
+import { AgencyRequestFullComponent } from './agency-request-full/agency-request-full.component';
+import { AdminViewsClientComponent } from './admin-views-client/admin-views-client.component';
+import { AdminViewsAgencyComponent } from './admin-views-agency/admin-views-agency.component';
 
 const routes: Routes = [
   {path : "", component : HomePageComponent},
@@ -33,7 +37,12 @@ const routes: Routes = [
   {path: "allAgenciesPage", component : AllAgenciesPageComponent},
   {path: "agencyDetailsAndRequest", component : FullAgencyDetailsAndRequestComponent},
 
-  {path: "business", component : BusinessComponent}
+  {path: "business", component : BusinessComponent},
+  {path: "fullRequestPage", component : FullRequestPageComponent},
+  {path : "agencyFullRequest", component : AgencyRequestFullComponent},
+
+  {path: "adminViewsClientDetails", component : AdminViewsClientComponent},
+  {path: "adminViewsAgencyDetails", component : AdminViewsAgencyComponent}
 ];
 
 @NgModule({

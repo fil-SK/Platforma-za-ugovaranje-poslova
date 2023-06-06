@@ -2,6 +2,8 @@ import express from 'express';
 
 import ClientModel from '../models/client';
 import AgencyModel from '../models/agency';
+import IdTrackingModel from '../models/idTracking';
+import WorkerModel from '../models/worker';
 
 
 export class AdminController{
@@ -130,5 +132,172 @@ export class AdminController{
                 res.json({'message' : 'agencyDeclined'});
             }
         });
+    }
+
+
+    getLastWorkerId = (req : express.Request, res : express.Response) => {
+
+        // This will fetch all rows from database - need to take only necessary one, which is workerId
+        IdTrackingModel.findOne({}, (err, idData) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(idData);
+            }
+        });
+    }
+
+
+    insertNewLastWorkerId = (req : express.Request, res : express.Response) => {
+        
+        let workerId = req.body.workerId;
+
+        // Filter is {}, because there is only one row in the collection, therefore I'm updating entire collection, which consists of only one element (with three fields)
+        IdTrackingModel.updateOne({}, {$set : {'workerId' : workerId}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            if(resp){
+                res.json({'message' : 'updatedWorkerId'});
+            }
+        });
+    }
+
+
+    insertNewWorkerIntoDatabase = (req : express.Request, res : express.Response) => {
+
+        let worker = new WorkerModel(
+            {
+                workerId : req.body.workerId,
+                firstname : req.body.firstname,
+                lastname : req.body.lastname,
+                email : req.body.email,
+                phoneNumber : req.body.phoneNumber,
+                expertise : req.body.expertise
+            }
+        );
+
+        worker.save( (err, resp) => {
+            if(err){
+                console.log(err);
+                return res.json({'message' : 'error'});
+            }
+            else {
+                return res.json({'message' : 'insertedWorker'});
+            }
+        });
+
+    }
+
+
+    deleteClientWithUsername = (req : express.Request, res : express.Response) => {
+
+        let clientUsername = req.body.username;
+
+        ClientModel.deleteOne({'username' : clientUsername}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'clientDeleted'});
+            }
+        });
+
+    }
+
+
+    updateClientWithUsername = (req : express.Request, res : express.Response) => {
+
+        let clientUsername = req.body.username;
+
+        let firstname = req.body.firstname;
+        let lastname = req.body.lastname;
+        let email = req.body.email;
+        let phone = req.body.phoneNumber;
+
+        console.log("Prezime je" + lastname);
+
+
+        ClientModel.updateOne({'username' : clientUsername}, {$set: {'firstname' : firstname, 'lastname' : lastname, 'email' : email, 'phoneNumber' : phone}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'clientUpdated'});
+            }
+        });
+    }
+
+
+    deleteAgencyWithUsername = (req : express.Request, res : express.Response) => {
+
+        let agencyUsername = req.body.username;
+
+        AgencyModel.deleteOne({'username' : agencyUsername}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'agencyDeleted'});
+            }
+        });
+    }
+
+
+    updateAgencyWithUsername =  (req : express.Request, res : express.Response) => {
+
+        let username = req.body.username;
+        
+        let agencyName = req.body.agencyName;
+        let streetAddress = req.body.streetAddress;
+        let streetNumber = req.body.streetNumber;
+        let city = req.body.city;
+        let state = req.body.state;
+        let description = req.body.description;
+        let phoneNumber = req.body.phoneNumber;
+        let email = req.body.email;
+
+        
+        AgencyModel.updateOne({'username' : username}, {$set : {'agencyName' : agencyName, 'streetAddress' : streetAddress,
+                                                                'streetNumber' : streetNumber, 'city' : city, 'state' : state, 'description' : description,
+                                                                'phoneNumber' : phoneNumber, 'email' : email}}, (err, resp) => {
+
+                                                                    if(err){
+                                                                        console.log(err);
+                                                                    }
+                                                                    else{
+                                                                        res.json({'message' : 'agencyUpdated'});
+                                                                    }
+                                                                });
+    }
+
+
+    setRegStatusToAccepted =  (req : express.Request, res : express.Response) => {
+
+        let type = req.body.type;
+        let username = req.body.username;
+
+        if(type == 'agency'){
+            AgencyModel.updateOne({'username' : username}, {$set : {'regStatus' : 'accepted'}}, (err, resp) => {
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.json({'message' : 'adminRegConfirmed'});
+                }
+            })
+        }
+
+        else if(type == 'client'){
+            ClientModel.updateOne({'username' : username}, {$set : {'regStatus' : 'accepted'}}, (err, resp) => {
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.json({'message' : 'adminRegConfirmed'});
+                }
+            })
+        }
     }
 }

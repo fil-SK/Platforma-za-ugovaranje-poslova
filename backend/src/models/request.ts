@@ -20,8 +20,9 @@ let Request = new Schema(
         endDate : {type : Date},
 
         clientRequestStatus : {type : String},          // clientRequested, agencyAccepted, agencyRejected
+        agencyOffer : {type : Number},
         clientResponseToOffer : {type : String},        // offerAccepted, offerRejected
-        requestStatus : {type : String},                // awaitingApproval (initially), ongoing, agencyDone, completed
+        requestStatus : {type : String},                // awaitingApproval (initially), rejected, ongoing, agencyDone (agencija zavrsila, sad klijent treba plati i time postavi na completed), completed (completed je kad je klijent platio i posao zvanicno gotov)
 
         review : {type : Review}
     }

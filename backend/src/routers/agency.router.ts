@@ -40,4 +40,39 @@ agencyRouter.route('/changePassword').post(
 );
 
 
+agencyRouter.route('/getAgencyWithUsername').post(
+    (req, res) => new AgencyController().getAgencyWithUsername(req, res)
+);
+
+
+agencyRouter.route('/getAllRequestsForThisAgency').post(
+    (req, res) => new AgencyController().getAllRequestsForThisAgency(req, res)
+);
+
+
+agencyRouter.route('/acceptClientRequest').post(
+    (req, res) => new AgencyController().acceptClientRequest(req, res)
+);
+
+
+agencyRouter.route('/declineClientRequest').post(
+    (req, res) => new AgencyController().declineClientRequest(req, res)
+);
+
+
+agencyRouter.route('/getActiveJobsForAgency').post(
+    (req, res) => new AgencyController().getAllActiveJobsForThisAgency(req, res)
+);
+
+
+agencyRouter.route('/changeRoomColor').post(
+    (req, res) => new AgencyController().changeRoomColor(req, res)
+);
+
+
+agencyRouter.route('/setAgencyDone').post(
+    (req, res) => new AgencyController().setAgencyDone(req, res)
+);
+
+
 export default agencyRouter;

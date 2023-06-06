@@ -86,4 +86,15 @@ export class UserService {
 
     return this.http.post(`${this.uri}/client/loginAdmin`, data);
   }
+
+
+  setRegStatusToAccepted(username, type){
+
+    const data = {
+      username : username,
+      type : type
+    };
+
+    return this.http.post(`${this.uri}/admin/adminRegisteringUser`, data);
+  }
 }

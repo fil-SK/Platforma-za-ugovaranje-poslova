@@ -1,0 +1,47 @@
+<h3>Stranica klijenta {{client.firstname}} {{client.lastname}}</h3>
+
+
+<br /><br />
+<form #updateClientForm="ngForm" (ngSubmit)="updateClient(updateClientForm)">
+    <img [src]="getClientImage()"> <br />
+
+    <label>Ime</label> <br />
+    <input type="text" name="clientName" [(ngModel)]="clientFirstname" #clientFirstnameInput="ngModel" required> <br />
+    <div *ngIf="updateClientForm.submitted && clientFirstnameInput.invalid && (clientFirstnameInput.dirty || clientFirstnameInput.touched)" class="validatorMessage">
+        <div *ngIf="clientFirstnameInput.errors?.['required']">Morate uneti ime klijenta!</div>
+    </div>
+
+
+    <label>Prezime</label> <br />
+    <input type="text" name="clientLastname" [(ngModel)]="clientLastname" #clientLastnameInput="ngModel" required> <br />
+    <div *ngIf="updateClientForm.submitted && clientLastnameInput.invalid && (clientLastnameInput.dirty || clientLastnameInput.touched)" class="validatorMessage">
+        <div *ngIf="clientLastnameInput.errors?.['required']">Morate uneti prezime klijenta!</div>
+    </div>
+
+
+    <label>E-mail</label> <br />
+    <input type="text" name="clientEmail" [(ngModel)]="clientEmail" #clientEmailInput="ngModel" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"> <br />
+    <div *ngIf="updateClientForm.submitted && clientEmailInput.invalid && (clientEmailInput.dirty || clientEmailInput.touched)" class="validatorMessage">
+        <div *ngIf="clientEmailInput.errors?.['required']">Morate uneti email!</div>
+        <div *ngIf="clientEmailInput.errors?.['pattern']">Email ne zadovoljava format! Uneti format nesto@nesto.domen, gde je domen duzine 2-3 karaktera.</div>
+    </div>
+
+
+    <label>Broj telefona</label> <br />
+    <input type="text" name="clientPhone" [(ngModel)]="clientPhone" #clientPhoneInput="ngModel" required pattern="^\+?\d{1,14}$"> <br />
+    <div *ngIf="updateClientForm.submitted && clientPhoneInput.invalid && (clientPhoneInput.dirty || clientPhoneInput.touched)" class="validatorMessage">
+        <div *ngIf="clientPhoneInput.errors?.['required']">Morate uneti broj telefona!</div>
+        <div *ngIf="clientPhoneInput.errors?.['pattern']">Morate uneti broj! Broj je maksimalne duzine do 15 karaktera (ukljucujuci znak '+')</div>
+    </div>
+
+    
+    <br /><label>Akcija</label><br />
+    <button type="submit">Azuriraj</button> &nbsp;
+    <button type="button" (click)="deleteClient()">Obrisi</button>
+</form>
+
+
+
+<br /><br />
+<button (click)="returnToAdminPage()">Povratak na admin panel</button>
+<br /><br />

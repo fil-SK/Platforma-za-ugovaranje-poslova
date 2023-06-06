@@ -1,0 +1,79 @@
+<h2>Pregled posla</h2>
+
+<br/> <br/>
+
+<div>
+    <label class="boldedParag">Naziv agencije: </label>  {{agency.agencyName}} <br/>
+    <label class="boldedParag">Tip objekta: </label>     {{realEstateUnderRenovation.type}} <br/>
+    <label class="boldedParag">Adresa objekta: </label>  {{realEstateUnderRenovation.address}}<br/>
+    <label class="boldedParag">Broj soba: </label>       {{realEstateUnderRenovation.numberOfRooms}} <br/>
+    <label class="boldedParag">Kvadratura: </label>      {{realEstateUnderRenovation.squareFootage}} <br/>
+    <label class="boldedParag">Datum pocetka: </label>   {{requestStartDate}} <br/>
+    <label class="boldedParag">Datum zavrsetka: </label> {{requestEndDate}} <br/>
+    <label class="boldedParag">Status: </label>          {{selectedRequest.requestStatus}} <br/>
+    <hr width="30%" />
+
+    <div *ngIf="selectedRequest.clientRequestStatus == 'agencyAccepted'">
+        <label class="boldedParag">Ponuda agencije: </label> {{selectedRequest.agencyOffer}} <br />
+
+        <div *ngIf="selectedRequest.requestStatus == 'awaitingApproval' ">
+            <button (click)="acceptOffer()">Prihvati ponudu</button> &nbsp;
+            <button (click)="rejectOffer()">Odbij ponudu</button>
+        </div>
+    </div>
+
+</div>
+
+<br/>
+
+<label class="boldedParag">Skica:</label> <br/>
+
+<canvas #requestSchema class="canvas-styling" width="500" height="400"></canvas>
+<br/>
+
+
+
+<div *ngIf="requestStatusAgencyDone == true">
+    <label>Plati agenciji</label> &nbsp;
+    <button [hidden]="selectedRequest.requestStatus == 'completed' " (click)="setRequestStatusToCompleted()">Plati</button>
+</div>
+<br/> <br/>
+
+
+
+<div *ngIf="selectedRequest.requestStatus == 'completed'">
+    
+    <!-- Koristim strict equality check jer bas hocu da samo undefined bude kada se ovo prikazuje -->
+    <div *ngIf="selectedRequest.review === undefined">
+        <h4>Ostavite recenziju</h4>
+
+        <label>Ocena:</label> <br/>
+        <input type="text" name="rating" [(ngModel)]="reviewRating" pattern="^[1-5]$" required><br/>
+        <label>Komentar</label> <br/>
+        <textarea name="comment" [(ngModel)]="reviewComment" required></textarea> <br/>
+
+        <button (click)="makeReview()">Ostavi recenziju</button> <br/>
+
+        <p class="validatorMessage">{{reviewErrorMessage}}</p>
+    </div>
+
+    <div *ngIf="selectedRequest.review">
+        <h4>Izmenite ili obrisite recenziju</h4>
+
+        <label>Ocena:</label> <br/>
+        <input type="text" name="ratingFromDB" [(ngModel)]="reviewRatingFromDB"><br/>
+        <label>Komentar</label> <br/>
+        <textarea name="commentFromDB" [(ngModel)]="reviewCommentFromDB"></textarea> <br/>
+
+        <button (click)="editReview()">Izmeni recenziju</button> <br/>
+        <button (click)="deleteReview()">Obrisi recenziju</button>
+    </div>
+    
+</div>
+<br/> <br/>
+
+
+
+<button (click)="returnToBusinessPage()">Povratak na stranicu sa poslovima</button>
+
+<br/><br/><br/>

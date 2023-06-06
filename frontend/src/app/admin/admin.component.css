@@ -1,0 +1,21 @@
+.validatorMessage{
+    color: red;
+}
+
+.tableIsBordered {
+    border-collapse: collapse;
+    table-layout: auto;
+    /*margin: 0 auto;*/     /* Ako ukljucis ovaj red onda ce tabela biti centrirana na stranici */
+    max-width: 100%;
+  }
+  
+  .tableIsBordered th,
+  .tableIsBordered td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .tableIsBordered th {
+    background-color: #bfe2f7;
+  }

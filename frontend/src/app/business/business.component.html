@@ -2,12 +2,75 @@
 
 <br/>
 
-<form>
-    <label>Sortiraj poslove po:</label>
-    <select>
-        <option></option>
-    </select>
-</form>
+<!-- Sadrzaj koji se prikazuje za klijenta -->
+<div *ngIf="loggedUser">
+    <form>
+        <label>Prikazi samo:</label>
+        <select name="selectedFilterFromList" [(ngModel)]="selectedFilter" #selectedFilterFromList="ngModel" (change)="filterBusiness()" >
+            <option *ngFor="let sortValueIterator of sortBy" [value]="sortValueIterator">{{sortValueIterator}}</option>
+        </select>
+        <button (click)="ngOnInit()">Resetuj</button>
+    </form>
+    
+    <hr width="30%" />
+    
+    {{infoMessage}}
+    
+    
+    <div class="outerDivStyle">
+        <div *ngFor = "let requestIterator of allRequests" (click)="goToRequestPage(requestIterator)">
+            <app-simple-business-details [requestInstance]="requestIterator"></app-simple-business-details>
+        </div>
+    </div>
+</div>
 
-<hr width="30%" />
 
+<!-- Sadrzaj koji se prikazuje za agenciju -->
+<div *ngIf="loggedAgency">
+
+    <h4>Zahtevi</h4>
+
+    {{agencyNoRequestsMessage}}
+
+    <div class="outerDivStyle">
+        <div *ngFor = "let requestIterator of allRequestsAgency"> 
+            <div (click)="goToAgencyRequestPage(requestIterator)">
+                <app-agency-request-simple [requestInstance]="requestIterator"></app-agency-request-simple>
+            </div>
+            <div>
+                
+                <form #acceptDenyReqForm="ngForm" (ngSubmit)="acceptRequest(acceptDenyReqForm, requestIterator)">
+                    <button type="button" (click)="denyRequest(requestIterator)">Odbij zahtev</button>
+                    <button type="submit">Prihvati zahtev</button>
+                    <label>Ponuda: </label>
+                    <input type="text" name="offer" [(ngModel)]="offerArray[requestIterator.requestId]" #offerInput="ngModel" pattern="^[1-9][0-9]*$" required>
+                    <div *ngIf="acceptDenyReqForm.submitted && offerInput.invalid && (offerInput.dirty || offerInput.touched)" class="validatorMessage">
+                        <div *ngIf="offerInput.errors?.['required']">Ponuda je obavezna pre prihvatanja zahteva!</div>
+                        <div *ngIf="offerInput.errors?.['pattern']">Ponuda mora biti ceo broj i ne sme poceti nulom</div>
+                    </div>
+                    <br /> <br />
+                </form>
+                
+            </div>  
+        </div>
+    </div>
+
+    <br/> <hr width="30%" /> <br/>
+    
+    <h4>Aktivni poslovi</h4>
+
+    {{agencyNoActiveJobsMessage}}
+
+    <div class="outerDivStyle">
+
+        <div *ngFor = "let activeJobsIterator of allActiveJobsAgency"> 
+            <div (click)="goToAgencyRequestPage(activeJobsIterator)">
+                <app-agency-request-simple [requestInstance]="activeJobsIterator"></app-agency-request-simple>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>

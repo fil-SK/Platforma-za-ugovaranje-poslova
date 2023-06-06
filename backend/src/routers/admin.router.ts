@@ -52,4 +52,43 @@ adminRouter.route('/declineAgency').post(
 );
 
 
+adminRouter.route('/getLastWorkerId').get(
+    (req, res) => new AdminController().getLastWorkerId(req, res)
+);
+
+
+adminRouter.route('/insertNewLastWorkerId').post(
+    (req, res) => new AdminController().insertNewLastWorkerId(req ,res)
+);
+
+adminRouter.route('/insertNewWorker').post(
+    (req, res) => new AdminController().insertNewWorkerIntoDatabase(req, res)
+);
+
+
+adminRouter.route('/deleteClient').post(
+    (req, res) => new AdminController().deleteClientWithUsername(req, res)
+);
+
+
+adminRouter.route('/updateClientInDB').post(
+    (req, res) => new AdminController().updateClientWithUsername(req, res)
+);
+
+
+adminRouter.route('/deleteAgencyFromDB').post(
+    (req, res) => new AdminController().deleteAgencyWithUsername(req, res)
+);
+
+
+adminRouter.route('/updateAgencyFromDB').post(
+    (req, res) => new AdminController().updateAgencyWithUsername(req, res)
+);
+
+
+adminRouter.route('/adminRegisteringUser').post(
+    (req, res) => new AdminController().setRegStatusToAccepted(req, res)
+);
+
+
 export default adminRouter;
