@@ -73,16 +73,60 @@ export class AdminViewsClientComponent implements OnInit {
     }
 
 
-    this.adminService.updateClientWithUsername(this.client.username, this.clientFirstname, this.clientLastname, this.clientEmail, this.clientPhone).subscribe( res => {
-      if(res['message'] == 'clientUpdated'){
-        alert("Klijent uspesno azuriran!");
+    // Pre azuriranja mora se proveriti da li je email i dalje jedinstven u sistemu
+    if(this.client.email == this.clientEmail){
 
-        this.ngOnInit();
-      }
-      else{
-        console.log("Greska pri azuriranju klijenta!");
-      }
-    });
+      // Novouneti mejl je isti kao i trenutni - samim tim i dalje je jedinstven jer je isti pa tada sme da se radi azuriranje
+
+      this.adminService.updateClientWithUsername(this.client.username, this.clientFirstname, this.clientLastname, this.clientEmail, this.clientPhone).subscribe( res => {
+        if(res['message'] == 'clientUpdated'){
+          alert("Klijent uspesno azuriran!");
+  
+          this.ngOnInit();
+        }
+        else{
+          console.log("Greska pri azuriranju klijenta!");
+        }
+      });
+
+    }
+
+    else{
+
+      // Unet je drugaciji mejl - neophodno je proveriti da li je taj novi mejl jedinstven
+
+      this.adminService.verifyEmailUnique(this.clientEmail).subscribe( response => {
+
+        if(response['message'] == 'emailNotUnique'){
+          alert("Greska! Email nije jedinstven!");
+        }
+
+        else if(response['message'] == 'emailUnique'){
+
+          // Jeste jedinstven, moze da se radi azuriranje
+
+          this.adminService.updateClientWithUsername(this.client.username, this.clientFirstname, this.clientLastname, this.clientEmail, this.clientPhone).subscribe( res => {
+            if(res['message'] == 'clientUpdated'){
+              alert("Klijent uspesno azuriran!");
+      
+              this.ngOnInit();
+            }
+            else{
+              console.log("Greska pri azuriranju klijenta!");
+            }
+          });
+
+        }
+
+      });
+
+
+    }
+
+
+
+    
+
   }
 
 

@@ -71,6 +71,49 @@
     <button type="button" (click)="deleteAgencyFromDB()">Obrisi</button>
 </form>
 
+<br /><hr />
+
+
+<h3>Unos novog radnika</h3>
+<form #insertWorkerForm="ngForm" (ngSubmit)="insertNewWorker(insertWorkerForm)">
+    <label>Ime: </label> <br />
+    <input type="text" name="workerName" [(ngModel)]="workerFirstname" #workerFirstnameInput="ngModel" required> <br />
+    <div *ngIf="insertWorkerForm.submitted && workerFirstnameInput.invalid && (workerFirstnameInput.dirty || workerFirstnameInput.touched)">
+        <div *ngIf="workerFirstnameInput.errors?.['required']" class="validatorMessage">Ime radnika je obavezno!</div>
+    </div>
+
+    <label>Prezime: </label> <br />
+    <input type="text" name="workerLastname" [(ngModel)]="workerLastname" #workerLastnameInput="ngModel" required> <br />
+    <div *ngIf="insertWorkerForm.submitted && workerLastnameInput.invalid && (workerLastnameInput.dirty || workerLastnameInput.touched)">
+        <div *ngIf="workerLastnameInput.errors?.['required']" class="validatorMessage">Prezime radnika je obavezno!</div>
+    </div>
+
+    <label>E-mail: </label> <br />
+    <input type="text" name="workerEmail" [(ngModel)]="workerEmail" #workerEmailInput="ngModel" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"> <br />
+    <div *ngIf="insertWorkerForm.submitted && workerEmailInput.invalid && (workerEmailInput.dirty || workerEmailInput.touched)" class="validatorMessage">
+        <div *ngIf="workerEmailInput.errors?.['required']">Email radnika je obavezan!</div>
+        <div *ngIf="workerEmailInput.errors?.['pattern']">Email ne zadovoljava format! Uneti format nesto@nesto.domen, gde je domen duzine 2-3 karaktera.</div>
+    </div>
+
+    <label>Broj telefona: </label> <br />
+    <input type="text" name="workerPhone" [(ngModel)]="workerPhone" #workerPhoneInput="ngModel" required pattern="^\+?\d{1,14}$"> <br />
+    <div *ngIf="insertWorkerForm.submitted && workerPhoneInput.invalid && (workerPhoneInput.dirty || workerPhoneInput.touched)" class="validatorMessage">
+        <div *ngIf="workerPhoneInput.errors?.['required']">Broj telefona radnika je obavezan!</div>
+        <div *ngIf="workerPhoneInput.errors?.['pattern']">Morate uneti broj! Broj je maksimalne duzine do 15 karaktera (ukljucujuci znak '+')</div>
+    </div>
+
+    <label>Specijalizacija:</label> <br />
+    <input type="text" name="workerExpertise" [(ngModel)]="workerExpertise" #workerExpertiseInput="ngModel" required> <br /> <br />
+    <div *ngIf="insertWorkerForm.submitted && workerExpertiseInput.invalid && (workerExpertiseInput.dirty || workerExpertiseInput.touched)">
+        <div *ngIf="workerExpertiseInput.errors?.['required']" class="validatorMessage">Specijalizacija radnika je obavezna!</div>
+    </div>
+
+    <button type="submit">Unesi radnika</button>
+</form>
+<hr/> <br />
+
+
+
 
 <br /><br />
 <button (click)="returnToAdminPage()">Povratak na admin panel</button>

@@ -136,4 +136,13 @@ export class AdminService {
     return this.http.post(`${this.uri}/admin/updateAgencyFromDB`, data);
   }
 
+
+  verifyEmailUnique(email){
+
+    const data = {
+      email : email
+    };
+
+    return this.http.post(`${this.uri}/admin/verifyEmailUnique`, data);
+  }
 }

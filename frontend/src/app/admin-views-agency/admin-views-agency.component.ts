@@ -4,6 +4,7 @@ import { AgencyService } from '../services/agency.service';
 import { Agency } from '../models/agency';
 import { AdminService } from '../services/admin.service';
 import { NgForm } from '@angular/forms';
+import { IdTracking } from '../models/idTracking';
 
 @Component({
   selector: 'app-admin-views-agency',
@@ -95,16 +96,49 @@ export class AdminViewsAgencyComponent implements OnInit {
       email : this.agencyEmail
     };
 
-    this.adminService.updateAgencyWithUsername(data).subscribe( res => {
-      if(res['message'] == 'agencyUpdated'){
-        alert("Uspesno azurirana agencija!");
+    if(this.agency.email == this.agencyEmail){
+      // Email je ostao isti, samim tim nije promenjen, pa je tada zadovoljeno da je email jedinstven na nivou sistema
+
+      this.adminService.updateAgencyWithUsername(data).subscribe( res => {
+        if(res['message'] == 'agencyUpdated'){
+          alert("Uspesno azurirana agencija!");
+          
+          this.ngOnInit();
+        }
+        else{
+          console.log("Greska pri azuriranju agencije!")
+        }
+      });
+
+    }
+    else{
+      // Uneti email je drugaciji od starog - mora se proveriti da li je taj novi email jedinstven
+      this.adminService.verifyEmailUnique(this.agencyEmail).subscribe( response => {
         
-        this.ngOnInit();
-      }
-      else{
-        console.log("Greska pri azuriranju agencije!")
-      }
-    });
+        if(response['message'] == 'emailNotUnique'){
+          alert("Greska! Email nije jedinstven!");
+        }
+
+        else if(response['message'] == 'emailUnique'){
+
+          // Jeste jedinstven, moze da se odradi azuriranje
+
+          this.adminService.updateAgencyWithUsername(data).subscribe( resDone => {
+            if(resDone['message'] == 'agencyUpdated'){
+              alert("Uspesno azurirana agencija!");
+                    
+              this.ngOnInit();
+            }
+            else{
+              console.log("Greska pri azuriranju agencije!")
+            }
+          });
+
+        }
+      });
+    }
+
+    
 
   }
 
@@ -122,6 +156,96 @@ export class AdminViewsAgencyComponent implements OnInit {
       
     });
   }
+
+
+  // --------- Za dodavanje novog radnika ------------
+
+  workerId : number;
+  workerFirstname : string;
+  workerLastname : string;
+  workerEmail : string;
+  workerPhone : string;
+  workerExpertise : string;
+
+
+
+  insertNewWorker(form : NgForm){
+
+    if(form.invalid){
+
+      // If form is invalid by validators, mark every form as touched, so that validator message could be displayed
+      Object.keys(form.controls).forEach(key => {
+        form.controls[key].markAsTouched();
+      });
+
+      return;
+    }
+
+    //alert("Prosla prijava");
+    //return; // Dok ne istestiram validatore
+
+    // Dohvatamo poslednji dodeljeni WorkerID, kako bismo novom radniku dodelili za 1 veci
+    this.adminService.getLastWorkerId().subscribe( (res : IdTracking) => {
+      let lastWorkerId = res.workerId;
+
+      this.workerId = ++lastWorkerId;
+
+      // Formiramo novi Worker objekat koji cemo dodati u bazu
+      const worker = {
+        workerId : this.workerId,
+        worksFor : this.agency.username,
+        firstname : this.workerFirstname,
+        lastname : this.workerLastname,
+        email : this.workerEmail,
+        phoneNumber : this.workerPhone,
+        expertise : this.workerExpertise
+      }
+
+
+      // Moramo da proverimo da li je email novog radnika jedistven u sistemu
+      this.adminService.verifyEmailUnique(this.workerEmail).subscribe( response => {
+        if(response['message'] == 'emailNotUnique'){
+          alert("Greska! Email nije jedinstven!");
+        }
+
+        else if(response['message'] == 'emailUnique'){
+
+          // Email jeste jedinstven i smemo da dodamo u bazu
+
+          // Dodamo novog workera u bazu
+          this.adminService.insertNewWorker(worker).subscribe( res => {
+            if(res['message'] == 'error'){
+              console.log("Greska pri dodavanju radnika u bazu podataka!");
+            }
+            else if(res['message'] == 'insertedWorker'){
+              console.log("Radnik uspesno dodat u bazu podataka!");
+
+
+              // U bazu unosimo workerId koji smo upravo dodelili poslednjem radniku
+              this.adminService.insertNewWorkerId(this.workerId).subscribe( res => {
+                if(res['message'] == 'updatedWorkerId'){
+                  console.log("Uspesno azuriran workerId u bazi!");
+
+                  alert("Uspesno dodat radnik!");
+
+                  form.resetForm();
+                  this.router.navigate(['/admin']);
+                }
+                else{
+                  console.log("Greska pri azuriranju workerId u bazi!");
+                }
+              });
+            }
+          });
+
+        }
+      });
+
+    });
+  }
+
+
+
 
 
   returnToAdminPage(){

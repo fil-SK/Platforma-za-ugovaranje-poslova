@@ -170,6 +170,7 @@ export class AdminController{
         let worker = new WorkerModel(
             {
                 workerId : req.body.workerId,
+                worksFor : req.body.worksFor,
                 firstname : req.body.firstname,
                 lastname : req.body.lastname,
                 email : req.body.email,
@@ -299,5 +300,56 @@ export class AdminController{
                 }
             })
         }
+    }
+
+
+    verifyIfEmailIsUnique = (req : express.Request, res : express.Response) => {
+
+        let email = req.body.email;
+
+        // Proveri prvo za ClientModel
+        ClientModel.findOne({'email' : email}, (err, client) => {
+            if(err){
+                console.log(err);
+            }
+
+            else{
+
+                if(client){
+                    res.json({'message' : 'emailNotUnique'});
+                }
+
+                else{
+
+                    AgencyModel.findOne({'email' : email}, (err, agency) => {
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            if(agency){
+                                res.json({'message' : 'emailNotUnique'});
+                            }
+                            else{
+
+                                WorkerModel.findOne({'email' : email}, (err, worker) => {
+                                    if(err){
+                                        console.log(err);
+                                    }
+                                    else{
+                                        if(worker){
+                                            res.json({'message' : 'emailNotUnique'});
+                                        }
+                                        else{
+                                            res.json({'message' : 'emailUnique'});
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        })
+
     }
 }

@@ -91,4 +91,9 @@ adminRouter.route('/adminRegisteringUser').post(
 );
 
 
+adminRouter.route('/verifyEmailUnique').post(
+    (req, res) => new AdminController().verifyIfEmailIsUnique(req, res)
+);
+
+
 export default adminRouter;

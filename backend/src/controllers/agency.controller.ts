@@ -3,6 +3,7 @@ import AgencyModel from '../models/agency';
 import ClientModel from '../models/client';
 import RequestModel from '../models/request';
 import RealEstateModel from '../models/realestate';
+import WorkerModel from '../models/worker';
 
 import path from 'path';
 
@@ -62,15 +63,28 @@ export class AgencyController{
 
                                     else{
 
-                                        // Check if agencyId is unique
-                                        AgencyModel.findOne({'agencyId' : agency.agencyId}, (err, user3) =>{
-                                            if(user3){
-                                                return res.json({'message' : 'agencyIdNotUnique'});
+                                        WorkerModel.findOne({'email' : agency.email}, (err, worker) => {
+                                            if(worker){
+                                                return res.json( {'message' : 'emailNotUnique'} );
                                             }
+
                                             else{
-                                                return res.json({'message' : 'userNotInDatabase'});     // If we return this then we can insert agency into database
+
+                                                // Check if agencyId is unique
+                                                AgencyModel.findOne({'agencyId' : agency.agencyId}, (err, user3) =>{
+                                                    if(user3){
+                                                        return res.json({'message' : 'agencyIdNotUnique'});
+                                                    }
+                                                    else{
+                                                        return res.json({'message' : 'userNotInDatabase'});     // If we return this then we can insert agency into database
+                                                    }
+                                                });
+
                                             }
                                         });
+
+
+                                        
 
                                     }
                                 });

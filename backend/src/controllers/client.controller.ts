@@ -3,6 +3,7 @@ import ClientModel from '../models/client';
 import IdTrackingModel from '../models/idTracking';
 import AgencyModel from '../models/agency';
 import RequestModel from '../models/request';
+import WorkerModel from '../models/worker';
 
 const multiparty = require('multiparty');
 
@@ -68,8 +69,22 @@ export class ClientController{
                                     }
 
                                     else{
-                                        return res.json({'message' : 'userNotInDatabase'});     // If this returns, we can insert the user in database
+
+                                        // Then check in WorkersModel
+                                        WorkerModel.findOne({'email' : client.email}, (err, worker) => {
+
+                                            if(worker){
+                                                return res.json({'message' : 'emailNotUnique'})
+                                            }
+
+                                            else{
+                                                return res.json({'message' : 'userNotInDatabase'});     // If this returns, we can insert the user in database
+                                            }
+
+                                        });
+
                                     }
+   
                                 });
 
                             }

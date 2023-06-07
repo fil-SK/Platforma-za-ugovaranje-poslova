@@ -97,4 +97,5 @@ export class UserService {
 
     return this.http.post(`${this.uri}/admin/adminRegisteringUser`, data);
   }
+
 }
