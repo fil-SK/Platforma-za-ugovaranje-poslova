@@ -18,6 +18,7 @@ import { FullRequestPageComponent } from './full-request-page/full-request-page.
 import { AgencyRequestFullComponent } from './agency-request-full/agency-request-full.component';
 import { AdminViewsClientComponent } from './admin-views-client/admin-views-client.component';
 import { AdminViewsAgencyComponent } from './admin-views-agency/admin-views-agency.component';
+import { WorkerDetailsComponent } from './worker-details/worker-details.component';
 
 const routes: Routes = [
   {path : "", component : HomePageComponent},
@@ -42,7 +43,8 @@ const routes: Routes = [
   {path : "agencyFullRequest", component : AgencyRequestFullComponent},
 
   {path: "adminViewsClientDetails", component : AdminViewsClientComponent},
-  {path: "adminViewsAgencyDetails", component : AdminViewsAgencyComponent}
+  {path: "adminViewsAgencyDetails", component : AdminViewsAgencyComponent},
+  {path: "workerDetailsPage", component : WorkerDetailsComponent}
 ];
 
 @NgModule({

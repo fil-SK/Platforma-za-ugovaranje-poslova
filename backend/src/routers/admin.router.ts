@@ -96,4 +96,39 @@ adminRouter.route('/verifyEmailUnique').post(
 );
 
 
+adminRouter.route('/insertWorkerToWorkersArray').post(
+    (req, res) => new AdminController().insertWorkerToAgencyWorkersArray(req, res)
+);
+
+
+adminRouter.route('/getAllWorkersForAgency').post(
+    (req, res) => new AdminController().getAllWorkersForAgency(req, res)
+);
+
+
+adminRouter.route('/getWorkerWithThisId').post(
+    (req, res) => new AdminController().getWorkerWithId(req, res)
+);
+
+
+adminRouter.route('/updateWorkerWithId').post(
+    (req, res) => new AdminController().updateWorkerWithId(req, res)
+);
+
+
+adminRouter.route('/checkIfWorkerIsOnTheJob').post(
+    (req, res) => new AdminController().checkIfWorkerIsOnTheJob(req, res)
+);
+
+
+adminRouter.route('/deleteWorkerFromCollection').post(
+    (req, res) => new AdminController().deleteWorkerFromCollection(req, res)
+);
+
+
+adminRouter.route('/deleteWorkerFromAgency').post(
+    (req, res) => new AdminController().deleteWorkerFromAgency(req, res)
+);
+
+
 export default adminRouter;

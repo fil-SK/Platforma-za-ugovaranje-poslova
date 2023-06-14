@@ -5,6 +5,7 @@ import { Request } from '../models/request';
 import { RealEstate } from '../models/realestate';
 import { ClientService } from '../services/client.service';
 import { Client } from '../models/client';
+import { Worker } from '../models/worker';
 
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { Room } from '../models/room';
@@ -60,6 +61,12 @@ export class AgencyRequestFullComponent implements OnInit, AfterViewInit {
     let user = localStorage.getItem('user');
     if(user){
       this.loggedAgency = JSON.parse(user);
+
+      // Ipak je bolje da dohvatis iz baze sveze podatke!
+      this.agencyService.getAgencyWithUsername(this.loggedAgency.username).subscribe((res : Agency) => {
+        this.loggedAgency = res;
+      });
+
     }
   }
 
@@ -68,6 +75,11 @@ export class AgencyRequestFullComponent implements OnInit, AfterViewInit {
     let request = localStorage.getItem('request');
     if(request){
       this.selectedRequest = JSON.parse(request);
+
+      // Ipak dohvati request iz baze!
+      this.clientService.getRequestWithThisId(this.selectedRequest.requestId).subscribe( (res : Request) => {
+        this.selectedRequest = res;
+      });
     }
   }
 
@@ -186,6 +198,8 @@ export class AgencyRequestFullComponent implements OnInit, AfterViewInit {
 
       this.allRoomsFinished();      // Proveravamo da li su sve sobe zavrsene, kako bismo mogli da postavimo status zahteva na agencyDone
 
+      this.setFormForWorkers();     // Posto sam dohvatio objekat, onda mogu da postavim i elemente forme za dodelu radnika
+
       // Tek kada si dohvatio objekat, pozovi dohvatanje klijenta s kojim radis
       this.getClientDoingBusiness();
     });
@@ -245,12 +259,28 @@ export class AgencyRequestFullComponent implements OnInit, AfterViewInit {
         console.log("Greska u promeni boje sobe!");
       }
     });
+
   }
 
 
   // Kada nema dovoljno radnika, potrebno je postaviti boju svih soba na zutu
-  notEnoughWorkers(room : Room){
-    // TODO
+  // Ova metoda ce se pozvati tamo gde se proveri da nema dovoljno radnika, i iziterirace se za svaku sobu i pozvati ova metoda
+  notEnoughWorkers(room : Room, roomColor : string){
+    
+    let roomId = room.roomId;
+
+      this.agencyService.changeRoomColor(roomId, roomColor).subscribe( res => {
+        if(res['message'] == 'roomUpdated'){
+          console.log("Uspesno promenjena boja sobe!");
+          //alert('Uspesno zavrseni radovi na sobi!');
+
+          //this.ngOnInit();
+          //this.router.navigate(['agencyFullRequest']);
+        }
+        else{
+          console.log("Greska u promeni boje sobe!");
+        }
+      });
   }
 
 
@@ -303,6 +333,237 @@ export class AgencyRequestFullComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+
+
+  // ------------- Deo za dodeljivanje radnika START ------------------
+
+  localWorkersIdArray : Number[] = [];                              // Niz ID-jeva svih radnika, dohvacen iz ulogovane agencije
+  localWorkersObjectsArray : Worker[] = [];                         // Niz objekata radnika, dohvacen iz kolekcije workers
+  notEnoughWorkersForRealEstate : boolean;                          // Flag koji postavljamo ako ova agencija nema dovoljan broj radnika koji treba dodeliti objektu
+
+  selectedRoomFromRadio : number;                                   // Vrednost u kojoj se cuva koji radio button je odabran
+  selectedWorkerFromDDList : number;                                // Radnik koji je odabran iz padajuce liste
+
+  // Ova tri niza cuvaju ID-jeve radnika koji su dodeljeni konkretnoj sobi
+  workersRoom1 : Number[] = [];
+  workersRoom2 : Number[] = []; 
+  workersRoom3 : Number[] = [];
+
+  allWorkersCombined :Number[] = [];        // Ovaj niz cuva ID-jeve SVIH radnika koji su dodeljeni za rad tom objektu
+
+
+
+  setFormForWorkers(){
+    // Dohvati sve radnike agencije
+    this.localWorkersIdArray = this.loggedAgency.workersArray;     // Niz ID-jeva svih radnika, ali ja zelim da prikazem radnike kao Ime+Prezime+Profesija
+
+
+
+    this.agencyService.getAllWorkersAsObjects(this.loggedAgency.username, this.loggedAgency.workersArray).subscribe( (res : Worker[]) => {
+      this.localWorkersObjectsArray = res;
+
+
+      // Proveravamo da li agencija ima dovoljan broj radnika
+      if(this.localWorkersObjectsArray.length < this.realEstateUnderRenovation.numberOfRooms){
+        this.notEnoughWorkersForRealEstate = true;
+
+
+
+        // Proveri da li je niz radnika nedefinisan ili je duzine 0
+        // Ako jeste, to znaci da manjak radnika nije zato sto smo ih dodavali pa su se smanjivali u listi, vec bukvalno nema dovoljno radnika
+        if(this.selectedRequest.allWorkers === undefined || this.selectedRequest.allWorkers.length == 0){
+
+          // Ali prvo proveri da li su zidovi vec postavljeni na zutu boju - ako jesu ne treba to da radis ponovo
+          let yellowCounter : number = 0;
+          let i : number;
+
+          for(i = 0; i < this.realEstateUnderRenovation.roomArray.length; i++){
+            if(this.realEstateUnderRenovation.roomArray[i].roomColor == 'yellow'){
+              yellowCounter++;
+            }
+          }
+
+          if(yellowCounter == this.realEstateUnderRenovation.roomArray.length){
+            // Ne radi nista, vec su obojene u zuto
+          }
+          else{
+            // Oboj u zuto svaku sobu
+            for(i = 0; i < this.realEstateUnderRenovation.roomArray.length; i++){
+              this.notEnoughWorkers(this.realEstateUnderRenovation.roomArray[i], 'yellow');
+            }
+
+            this.ngOnInit();    // Ponovo inicijalizuj komponentu da bi se to videlo
+          }
+
+        }
+
+      }
+
+      else{
+        this.notEnoughWorkersForRealEstate = false;
+
+        // Ima dovoljno radnika i jos nijedan nije dodat - dakle na pocetku si
+        if(this.selectedRequest.allWorkers === undefined || this.selectedRequest.allWorkers.length == 0){
+
+          // Da li su zidovi vec postavljeni na belu boju - ako jesu ne radi to ponovo
+          let whiteCounter : number = 0;
+          let i : number;
+
+          for(i = 0; i < this.realEstateUnderRenovation.roomArray.length; i++){
+            if(this.realEstateUnderRenovation.roomArray[i].roomColor == 'white'){
+              whiteCounter++;
+            }
+          }
+
+          if(whiteCounter == this.realEstateUnderRenovation.roomArray.length){
+            // Ne radi nista, vec su obojene u belo
+          }
+          else{
+            // Bile su zute ali sada ima dovoljno radnika pa treba da obojimo u belo
+
+            for(i = 0; i < this.realEstateUnderRenovation.roomArray.length; i++){
+              this.notEnoughWorkers(this.realEstateUnderRenovation.roomArray[i], 'white');
+            }
+
+            this.ngOnInit();    // Ponovo inicijalizuj komponentu da bi se to videlo
+          }
+
+
+        }
+      }
+
+    });
+  }
+
+  assignWorker(){
+    alert("Odabrana soba " + this.selectedRoomFromRadio + " a odabran radnik je " + this.selectedWorkerFromDDList);
+
+    // Odabranog radnika dodati u odgovarajuci niz, a tog radnika izbaciti iz niza svih radnika iz liste
+    let workerIndex;    // Indeks radnika kojeg zelimo da izbacimo iz niza localWorkersObjectsArray
+
+    if(this.selectedRoomFromRadio == 1){
+      this.workersRoom1.push(this.selectedWorkerFromDDList);
+
+      workerIndex = this.localWorkersObjectsArray.findIndex( searchedWorker => searchedWorker.workerId == this.selectedWorkerFromDDList);
+      this.localWorkersObjectsArray.splice(workerIndex, 1);   // Izbaci jedan element pocevsi od ovog indeksa (efektivno izbacujemo samo tog radnika)
+    }
+    else if(this.selectedRoomFromRadio == 2){
+      this.workersRoom2.push(this.selectedWorkerFromDDList);
+
+      workerIndex = this.localWorkersObjectsArray.findIndex( searchedWorker => searchedWorker.workerId == this.selectedWorkerFromDDList);
+      this.localWorkersObjectsArray.splice(workerIndex, 1);
+    }
+    else if(this.selectedRoomFromRadio == 3){
+      this.workersRoom3.push(this.selectedWorkerFromDDList);
+
+      workerIndex = this.localWorkersObjectsArray.findIndex( searchedWorker => searchedWorker.workerId == this.selectedWorkerFromDDList);
+      this.localWorkersObjectsArray.splice(workerIndex, 1);
+    }
+
+  }
+
+  finishAssignmentOfWorkers(){
+
+    let numOfRooms = this.realEstateUnderRenovation.numberOfRooms;
+
+    // Moramo da proverimo da li svaka soba ima BAR JEDNOG radnika
+    if(numOfRooms == 1){
+
+      if(this.workersRoom1.length == 0){
+        alert("Greska! Nedovoljno radnika je dodeljeno objektu!");
+      }
+
+      else{
+        // Dodaj radnike u celokupni niz radnika
+        this.allWorkersCombined.push(...this.workersRoom1);
+        console.log("Svi radnici su " + this.allWorkersCombined);
+
+        // Sad ovaj niz treba dodati u request u kolekciji a ukloniti ih iz spiska radnika agencije
+        this.agencyService.assignWorkersToRequestCollection(this.selectedRequest.requestId, this.allWorkersCombined).subscribe( res => {
+          if(res['message'] == 'allWorkersAssignedToRequest'){
+
+            // Uspesno dodato u request kolekciju, sada ih ukloni iz agencije
+            this.agencyService.deleteWorkersFromAgency(this.loggedAgency.username, this.allWorkersCombined).subscribe( resp => {
+              if(resp['message'] == 'workersDeletedFromAgency'){
+
+                alert("Uspesno zavrsena dodela radnika!");
+
+                this.ngOnInit();
+              }
+            });
+          }
+        });
+
+      }
+    }
+
+    else if(numOfRooms == 2){
+
+      if(this.workersRoom1.length == 0 || this.workersRoom2.length == 0){
+        alert("Greska! Nedovoljno radnika je dodeljeno objektu!");
+      }
+
+      else{
+        // Dodaj radnike u celokupni niz radnika
+        this.allWorkersCombined = this.workersRoom1.concat(this.workersRoom2);
+        console.log("Svi radnici su " + this.allWorkersCombined);
+
+        // Sad ovaj niz treba dodati u request u kolekciji a ukloniti ih iz spiska radnika agencije
+        this.agencyService.assignWorkersToRequestCollection(this.selectedRequest.requestId, this.allWorkersCombined).subscribe( res => {
+          if(res['message'] == 'allWorkersAssignedToRequest'){
+
+            // Uspesno dodato u request kolekciju, sada ih ukloni iz agencije
+            this.agencyService.deleteWorkersFromAgency(this.loggedAgency.username, this.allWorkersCombined).subscribe( resp => {
+              if(resp['message'] == 'workersDeletedFromAgency'){
+
+                alert("Uspesno zavrsena dodela radnika!");
+
+                this.ngOnInit();
+              }
+            });
+          }
+        });
+
+      }
+    }
+
+    else if(numOfRooms == 3){
+
+      if(this.workersRoom1.length == 0 || this.workersRoom2.length == 0 || this.workersRoom3.length == 0){
+        alert("Greska! Nedovoljno radnika je dodeljeno objektu!");
+      }
+
+      else{
+        // Dodaj radnike u celokupni niz radnika
+        this.allWorkersCombined = this.workersRoom1.concat(this.workersRoom2, this.workersRoom3);
+        console.log("Svi radnici su " + this.allWorkersCombined);
+
+
+        // Sad ovaj niz treba dodati u request u kolekciji a ukloniti ih iz spiska radnika agencije
+        this.agencyService.assignWorkersToRequestCollection(this.selectedRequest.requestId, this.allWorkersCombined).subscribe( res => {
+          if(res['message'] == 'allWorkersAssignedToRequest'){
+
+            // Uspesno dodato u request kolekciju, sada ih ukloni iz agencije
+            this.agencyService.deleteWorkersFromAgency(this.loggedAgency.username, this.allWorkersCombined).subscribe( resp => {
+              if(resp['message'] == 'workersDeletedFromAgency'){
+
+                alert("Uspesno zavrsena dodela radnika!");
+
+                this.ngOnInit();
+              }
+            });
+          }
+        });
+
+      }
+    }
+
+
+  }
+
+  // ------------- Deo za dodeljivanje radnika END ------------------
+
 
 
 

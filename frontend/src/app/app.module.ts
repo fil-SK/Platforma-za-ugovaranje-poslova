@@ -30,6 +30,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AdminViewsClientComponent } from './admin-views-client/admin-views-client.component';
 import { AdminViewsAgencyComponent } from './admin-views-agency/admin-views-agency.component';
 import { AdminDoingRegistrationComponent } from './admin-doing-registration/admin-doing-registration.component';
+import { WorkerDetailsComponent } from './worker-details/worker-details.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { AdminDoingRegistrationComponent } from './admin-doing-registration/admi
     FooterComponent,
     AdminViewsClientComponent,
     AdminViewsAgencyComponent,
-    AdminDoingRegistrationComponent
+    AdminDoingRegistrationComponent,
+    WorkerDetailsComponent
   ],
   imports: [
     BrowserModule,

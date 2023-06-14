@@ -352,4 +352,126 @@ export class AdminController{
         })
 
     }
+
+
+    insertWorkerToAgencyWorkersArray = (req : express.Request, res : express.Response) => {
+
+        let usernameAgency = req.body.username;
+        let workerId = req.body.workerId;
+
+        // Cuvas ID radnika te agencije
+        AgencyModel.updateOne({'username' : usernameAgency}, {$push : {'workersArray' : workerId}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'workerInsertedToArray'});
+            }
+        })
+
+    }
+
+
+    getAllWorkersForAgency = (req : express.Request, res : express.Response) => {
+
+        let agencyUsername = req.body.username;
+
+        WorkerModel.find({'worksFor' : agencyUsername}, (err, workers) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(workers);
+            }
+        });
+
+    }
+
+
+    getWorkerWithId = (req : express.Request, res : express.Response) => {
+
+        let workerId = req.body.workerId;
+
+        WorkerModel.findOne({'workerId' : workerId}, (err, worker) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(worker);
+            }
+        });
+    }
+
+
+    updateWorkerWithId = (req : express.Request, res : express.Response) => {
+
+        let workerId = req.body.workerId;
+        let phone = req.body.phone;
+        let expertise = req.body.expertise;
+
+        WorkerModel.updateOne({'workerId' : workerId}, {$set : {'phoneNumber' : phone, 'expertise' : expertise}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'workerUpdated'});
+            }
+        });
+    }
+
+
+    checkIfWorkerIsOnTheJob = (req : express.Request, res : express.Response) => {
+
+        let workerId = req.body.workerId;
+        let agencyUsername = req.body.username;
+
+        // Time sto pretrazujem sa [workerId] ce se postici da ce se proveriti da li workerId postoji u CELOM workerArray nizu
+        // Da sam to izostavio i napisao bez [ ] on bi proverio workerArray==workerId, sto nije ispravno ponasanje
+        AgencyModel.findOne({'username' : agencyUsername, 'workersArray' : {$in : [workerId]}}, (err, status) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(status){
+                    res.json({'message' : 'workerFound'});
+                }
+                else{
+                    res.json({'message' : 'workerNotFound'});
+                }
+            }
+        });
+    }
+
+
+    deleteWorkerFromCollection = (req : express.Request, res : express.Response) => {
+
+        let workerId = req.body.workerId;
+
+        WorkerModel.deleteOne({'workerId' : workerId}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'deletedFromCollection'});
+            }
+        });
+
+    }
+
+
+    deleteWorkerFromAgency = (req : express.Request, res : express.Response) => {
+
+        let workerId = req.body.workerId;
+        let agencyUsername = req.body.username;
+
+
+        AgencyModel.updateOne({'username' : agencyUsername}, {$pull : {'workersArray' : workerId}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'removedFromAgency'});
+            }
+        });
+    }
 }

@@ -113,6 +113,31 @@
 <hr/> <br />
 
 
+<h3>Svi radnici</h3>
+
+<div *ngIf="allWorkersForAgency.length == 0">
+    Agencija trenutno nema radnike!
+</div>
+
+<div *ngIf="allWorkersForAgency.length > 0">
+    <table class="tableIsBordered">
+        <tr>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>E-mail</th>
+            <th>Specijalizacija</th>
+        </tr>
+    
+        <tr *ngFor="let workersIterator of allWorkersForAgency" (click)="goToWorkerPage(workersIterator)">
+            <td>{{workersIterator.firstname}}</td>
+            <td>{{workersIterator.lastname}}</td>
+            <td>{{workersIterator.email}}</td>
+            <td>{{workersIterator.expertise}}</td>
+        </tr>
+    </table>
+</div>
+
+
 
 
 <br /><br />

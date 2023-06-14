@@ -17,4 +17,6 @@ export class Request{
     requestStatus : string;             // none (initially), ongoing, agencyDone, completed
 
     review : Review;
+
+    allWorkers : Array<number> = [];
 }

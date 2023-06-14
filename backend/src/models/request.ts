@@ -24,7 +24,9 @@ let Request = new Schema(
         clientResponseToOffer : {type : String},        // offerAccepted, offerRejected
         requestStatus : {type : String},                // awaitingApproval (initially), rejected, ongoing, agencyDone (agencija zavrsila, sad klijent treba plati i time postavi na completed), completed (completed je kad je klijent platio i posao zvanicno gotov)
 
-        review : {type : Review}
+        review : {type : Review},
+
+        allWorkers : [Number]
     }
 );
 

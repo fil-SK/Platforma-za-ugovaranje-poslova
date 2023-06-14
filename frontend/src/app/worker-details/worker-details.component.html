@@ -1,0 +1,38 @@
+
+
+<h2>Pregled radnika {{specificWorker.firstname}} {{specificWorker.lastname}}</h2><br />
+
+
+<form #updateWorkerForm="ngForm" (ngSubmit)="editWorker(updateWorkerForm)">
+    <label>Ime</label><br />
+    <input type="text" name="workerName" [(ngModel)]="specificWorker.firstname" disabled><br />
+    
+    <label>Prezime</label><br />
+    <input type="text" name="workerLastname" [(ngModel)]="specificWorker.lastname" disabled><br />
+    
+    <label>Email</label><br />
+    <input type="text" name="workerEmail" [(ngModel)]="specificWorker.email" disabled><br />
+    
+    <label>Broj telefona</label><br />
+    <input type="text" name="workerPhoneNew" [(ngModel)]="workerPhoneNew" #updateWorkerPhoneInput="ngModel" required pattern="^\+?\d{1,14}$"><br />
+    <div *ngIf="updateWorkerForm.submitted && updateWorkerPhoneInput.invalid && (updateWorkerPhoneInput.dirty || updateWorkerPhoneInput.touched)" class="validatorMessage">
+        <div *ngIf="updateWorkerPhoneInput.errors?.['required']">Broj telefona radnika je obavezan!</div>
+        <div *ngIf="updateWorkerPhoneInput.errors?.['pattern']">Morate uneti broj! Broj je maksimalne duzine do 15 karaktera (ukljucujuci znak '+')</div>
+    </div>
+    
+    <label>Specijalizacija</label><br />
+    <input type="text" name="workerExpertiseNew" [(ngModel)]="workerExpertiseNew" #updateWorkerExpertiseInput="ngModel" required><br />
+    <div *ngIf="updateWorkerForm.submitted && updateWorkerExpertiseInput.invalid && (updateWorkerExpertiseInput.dirty || updateWorkerExpertiseInput.touched)">
+        <div *ngIf="updateWorkerExpertiseInput.errors?.['required']" class="validatorMessage">Specijalizacija radnika je obavezna!</div>
+    </div>
+    
+    <br /><button type="submit">Unesi izmene</button>
+    <br /><button  type="button" (click)="deleteWorker()">Obrisi radnika</button>
+</form>
+
+
+
+
+<br /><br /><br /><button (click)="returnToAdmin()">Povratak na pregled agencije</button>
+
+<br /><br /><br />

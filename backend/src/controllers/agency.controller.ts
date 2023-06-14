@@ -335,4 +335,83 @@ export class AgencyController{
         });
 
     }
+
+
+
+
+    getAllWorkerObjectsForAgency = (req : express.Request, res : express.Response) => {
+
+        let agencyUsername = req.body.username;
+        let workersArray = req.body.workersArray;
+
+       
+        WorkerModel.find({'worksFor' : agencyUsername, 'workerId' : {$in : workersArray}}, (err, workers) => {
+
+            if(err){
+                console.log(err);
+            }
+            else{
+
+
+
+                res.json(workers);
+            }
+        });
+
+    }
+
+
+    // Ova metoda se poziva kada su konacno svi radnici prikupljeni i potrebno ih je dodati objektu time sto ce se evidentirati u zahtevu
+    assignCollectedWorkersToTheRequest = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+        let allWorkers = req.body.allWorkers;
+
+
+        RequestModel.updateOne({'requestId' : requestId}, {$set : {'allWorkers' : allWorkers}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'allWorkersAssignedToRequest'});
+            }
+        });
+    }
+
+
+    // Ova metoda poziva se nakon sto su u request-u sacuvani svi radnici koji su dodeljeni poslu
+    // Sada u ovoj metodi te radnike treba ukloniti, kako se ne bi videli kod ostalih poslova kao da su slobodni
+    deleteWorkersFromAgency = (req : express.Request, res : express.Response) => {
+
+        let agencyUsername = req.body.username;
+        let allWorkers = req.body.allWorkers;
+
+        AgencyModel.updateOne({'username' : agencyUsername}, {$pull : {'workersArray' : {$in : allWorkers}}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'workersDeletedFromAgency'});
+            }
+        });
+    }
+
+
+    // Ova metoda se poziva nakon sto je klijent potvrdio placanje i time finalizirao posao
+    // Svi radnici koji su bili dodeljeni tom poslu vracaju se nazad u agenciju, u niz workersArray
+    releaseWorkersFromJob = (req : express.Request, res : express.Response) => {
+
+        let agencyUsername = req.body.username;
+        let allWorkersFromJob = req.body.allWorkers;
+
+
+        AgencyModel.updateOne({'username' : agencyUsername}, {$push : {'workersArray' : {$each : allWorkersFromJob}}}, (err, resp) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'workersSuccessfullyRestored'});
+            }
+        });
+    }
 }

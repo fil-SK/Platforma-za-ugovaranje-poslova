@@ -75,4 +75,24 @@ agencyRouter.route('/setAgencyDone').post(
 );
 
 
+agencyRouter.route('/getAllWorkersAsObjects').post(
+    (req, res) => new AgencyController().getAllWorkerObjectsForAgency(req, res)
+);
+
+
+agencyRouter.route('/assignWorkersToRequest').post(
+    (req, res) => new AgencyController().assignCollectedWorkersToTheRequest(req ,res)
+);
+
+
+agencyRouter.route('/deleteWorkersFromAgency').post(
+    (req, res) => new AgencyController().deleteWorkersFromAgency(req, res)
+);
+
+
+agencyRouter.route('/releaseWorkersFromJob').post(
+    (req, res) => new AgencyController().releaseWorkersFromJob(req, res)
+);
+
+
 export default agencyRouter;

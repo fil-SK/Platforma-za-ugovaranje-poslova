@@ -228,10 +228,19 @@ export class FullRequestPageComponent implements OnInit, AfterViewInit {
   setRequestStatusToCompleted(){
     this.clientService.markRequestAsCompleted(this.selectedRequest.requestId).subscribe( res => {
       if(res['message'] == 'setAsCompleted'){
-        alert("Uspesno finalizirao posao!");
+        
 
-        this.ngOnInit();        // Pozovi ponovnu inicijalizaciju komponente da bi se izvrsilo azuriranje i dohvatanje podataka iz baze
+        // Posto si finalizirao posao, oslobodi radnike koji su radili na tom poslu
+        this.agencyService.releaseWorkersFromJob(this.agency.username, this.selectedRequest.allWorkers).subscribe( response => {
+          if(response['message'] == 'workersSuccessfullyRestored'){
+            alert("Uspesno finalizirao posao!");
+
+            this.ngOnInit();        // Pozovi ponovnu inicijalizaciju komponente da bi se izvrsilo azuriranje i dohvatanje podataka iz baze
+          }
+        });
+
       }
+      
       else{
         console.log("Greska pri finaliziranju posla");
       }

@@ -145,4 +145,79 @@ export class AdminService {
 
     return this.http.post(`${this.uri}/admin/verifyEmailUnique`, data);
   }
+
+
+  insertWorkerToWorkersArray(agencyUsername, workerId){
+
+    const data = {
+      username : agencyUsername,
+      workerId : workerId
+    };
+
+    return this.http.post(`${this.uri}/admin/insertWorkerToWorkersArray`, data);
+  }
+
+
+  getAllWorkersForAgency(username){
+
+    const data = {
+      username : username
+    };
+
+    return this.http.post(`${this.uri}/admin/getAllWorkersForAgency`, data);
+  }
+
+
+  getWorkerWithThisId(workerId){
+
+    const data = {
+      workerId : workerId
+    };
+
+    return this.http.post(`${this.uri}/admin/getWorkerWithThisId`, data);
+  }
+
+
+  updateWorkerWithId(workerId, phone, expertise){
+
+    const data = {
+      workerId : workerId,
+      phone : phone,
+      expertise : expertise
+    };
+
+    return this.http.post(`${this.uri}/admin/updateWorkerWithId`, data);
+  }
+
+
+  checkIfWorkerIsOnTheJob(workerId, agencyUsername){
+
+    const data = {
+      username : agencyUsername,
+      workerId : workerId
+    };
+
+    return this.http.post(`${this.uri}/admin/checkIfWorkerIsOnTheJob`, data);
+  }
+
+
+  deleteWorkerFromCollection(workerId){
+
+    const data = {
+      workerId : workerId
+    };
+
+    return this.http.post(`${this.uri}/admin/deleteWorkerFromCollection`, data);
+  }
+
+
+  deleteWorkerFromAgency(workerId, agencyUsername){
+
+    const data = {
+      workerId : workerId,
+      username : agencyUsername
+    };
+
+    return this.http.post(`${this.uri}/admin/deleteWorkerFromAgency`, data);
+  }
 }

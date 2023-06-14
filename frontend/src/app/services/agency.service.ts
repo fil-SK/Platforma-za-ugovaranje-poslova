@@ -90,4 +90,48 @@ export class AgencyService {
 
     return this.http.post(`${this.uri}/agency/setAgencyDone`, data);
   }
+
+
+  getAllWorkersAsObjects(agencyUsername, workersArray){
+
+    const data = {
+      username : agencyUsername,
+      workersArray : workersArray
+    };
+
+    return this.http.post(`${this.uri}/agency/getAllWorkersAsObjects`, data);
+  }
+
+
+  assignWorkersToRequestCollection(reqId, workersArray){
+
+    const data = {
+      requestId : reqId,
+      allWorkers : workersArray
+    };
+
+    return this.http.post(`${this.uri}/agency/assignWorkersToRequest`, data);
+  }
+
+
+  deleteWorkersFromAgency(agencyUsername, workersArray){
+
+    const data = {
+      username : agencyUsername,
+      allWorkers : workersArray
+    };
+
+    return this.http.post(`${this.uri}/agency/deleteWorkersFromAgency`, data);
+  }
+
+
+  releaseWorkersFromJob(agencyUsername, workersArray){
+
+    const data = {
+      username : agencyUsername,
+      allWorkers : workersArray
+    };
+
+    return this.http.post(`${this.uri}/agency/releaseWorkersFromJob`, data);
+  }
 }

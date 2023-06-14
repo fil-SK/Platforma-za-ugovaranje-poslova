@@ -18,7 +18,8 @@ let Agency = new Schema(
         email : {type : String},
         type : {type : String},
         imagePath : {type : String},
-        regStatus : {type : String}     // pending, accepted, denied
+        regStatus : {type : String},     // pending, accepted, denied
+        workersArray : [Number]          // Array that consists of the ID's of workers that work for that agency
     }
 );
 

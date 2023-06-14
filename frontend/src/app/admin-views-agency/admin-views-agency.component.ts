@@ -5,6 +5,7 @@ import { Agency } from '../models/agency';
 import { AdminService } from '../services/admin.service';
 import { NgForm } from '@angular/forms';
 import { IdTracking } from '../models/idTracking';
+import { Worker } from '../models/worker';
 
 @Component({
   selector: 'app-admin-views-agency',
@@ -40,6 +41,12 @@ export class AdminViewsAgencyComponent implements OnInit {
 
     this.agencyService.getAgencyWithUsername(agencyUsername).subscribe( (res : Agency) => {
       this.agency = res;
+
+
+      // Dohvati radnike te agencije
+      this.adminService.getAllWorkersForAgency(this.agency.username).subscribe( (allWorkers : Worker[]) => {
+        this.allWorkersForAgency = allWorkers;
+      });
 
       this.populateForm();
     });
@@ -226,10 +233,25 @@ export class AdminViewsAgencyComponent implements OnInit {
                 if(res['message'] == 'updatedWorkerId'){
                   console.log("Uspesno azuriran workerId u bazi!");
 
-                  alert("Uspesno dodat radnik!");
 
-                  form.resetForm();
-                  this.router.navigate(['/admin']);
+                  // Dodatno, tog radnika moramo da evidentiramo i u toj konkretnoj agenciji, u nizu workersArray
+                  this.adminService.insertWorkerToWorkersArray(this.agency.username, this.workerId).subscribe( res => {
+
+                    if(res['message'] == 'workerInsertedToArray'){
+                      alert("Uspesno dodat radnik!");
+
+                      form.resetForm();
+                      this.router.navigate(['/admin']);
+                    }
+                    else{
+                      console.log("Greska pri dodavanju radnika u niz agencije!");
+                    }
+
+                    
+                  });
+
+
+                  
                 }
                 else{
                   console.log("Greska pri azuriranju workerId u bazi!");
@@ -245,6 +267,15 @@ export class AdminViewsAgencyComponent implements OnInit {
   }
 
 
+
+  // -------------- Za rad sa radnicima ----------------
+
+  allWorkersForAgency : Worker[] = [];
+
+  goToWorkerPage(worker : Worker){
+    localStorage.setItem('workerDetails', worker.workerId.toString());
+    this.router.navigate(['workerDetailsPage']);
+  }
 
 
 

@@ -12,4 +12,6 @@ export class Agency{
     email : string;
     type : string;
     imagePath : string;
+    workersArray : Array<number> = [];
+
 }
