@@ -23,46 +23,61 @@
 
 <br/> <br/> <br/>
 
-<!-- TODO UBACI DIV DA SE OVAJ DEO VIDI SAMO AKO JE KORISNIK ULOGOVAN -->
-<h3>Zatrazi saradnju</h3>
 
-<form #makeRequestForm="ngForm" (ngSubmit)="makeRequest(makeRequestForm)">
+<div *ngIf="loggedUser">
 
-    <label>Odaberite objekat za uredjivanje:</label> <br/>
-    <label>Objekti dati kao: <i>tip, adresa, broj prostorija, kvadratura</i></label> <br/>
-    <select name="dropDownSelectedRealEstate" [(ngModel)]="selectedRealEstate" #dropDownSelectedRealEstate="ngModel" (change)="getRealEstateId()" required>
-        <option *ngFor="let realEstateIterator of stringList" [value]="realEstateIterator">{{realEstateIterator}}</option>
-    </select> <br/>
-    <div *ngIf="makeRequestForm.submitted">
-        <div *ngIf="dropDownSelectedRealEstate.errors?.['required']" class="validatorMessage">Morate odabrati objekat!</div>
-    </div>
+    <h3>Zatrazi saradnju</h3>
+    <form #makeRequestForm="ngForm" (ngSubmit)="makeRequest(makeRequestForm)">
 
-    <label>Vremenski period izvrsavanja zahteva:</label> <br/>
-    <label>Datum pocetka:</label> <input type="date" name="inputStartDate" [(ngModel)]="inputStartDate" #startingDate="ngModel" required> <br/>
-    <div *ngIf="makeRequestForm.submitted && startingDate.invalid">
-        <div *ngIf="startingDate.errors?.['required']" class="validatorMessage">Morate odabrati datum pocetka!</div>
-    </div>
-    <label>Datum zavrsetka:</label> <input type="date" name="inputEndDate" [(ngModel)]="inputEndDate" #endingDate="ngModel" required> <br/>
-    <div *ngIf="makeRequestForm.submitted && endingDate.invalid">
-        <div *ngIf="endingDate.errors?.['required']" class="validatorMessage">Morate odabrati datum zavrsetka!</div>
-    </div>
-    <p class="validatorMessage">{{error}}</p>
+        <label>Odaberite objekat za uredjivanje:</label> <br/>
+        <label>Objekti dati kao: <i>tip, adresa, broj prostorija, kvadratura</i></label> <br/>
+        <select name="dropDownSelectedRealEstate" [(ngModel)]="selectedRealEstate" #dropDownSelectedRealEstate="ngModel" (change)="getRealEstateId()" required>
+            <option *ngFor="let realEstateIterator of stringList" [value]="realEstateIterator">{{realEstateIterator}}</option>
+        </select> <br/>
+        <div *ngIf="makeRequestForm.submitted">
+            <div *ngIf="dropDownSelectedRealEstate.errors?.['required']" class="validatorMessage">Morate odabrati objekat!</div>
+        </div>
+    
+        <label>Vremenski period izvrsavanja zahteva:</label> <br/>
+        <label>Datum pocetka:</label> <input type="date" name="inputStartDate" [(ngModel)]="inputStartDate" #startingDate="ngModel" required> <br/>
+        <div *ngIf="makeRequestForm.submitted && startingDate.invalid">
+            <div *ngIf="startingDate.errors?.['required']" class="validatorMessage">Morate odabrati datum pocetka!</div>
+        </div>
+        <label>Datum zavrsetka:</label> <input type="date" name="inputEndDate" [(ngModel)]="inputEndDate" #endingDate="ngModel" required> <br/>
+        <div *ngIf="makeRequestForm.submitted && endingDate.invalid">
+            <div *ngIf="endingDate.errors?.['required']" class="validatorMessage">Morate odabrati datum zavrsetka!</div>
+        </div>
+        <p class="validatorMessage">{{error}}</p>
+    
+        <button type="submit">Podnesi zahtev</button>
+    </form>
+    
+    <hr width="30%" />
+    
+    <br/> <br/> <br/>
+</div>
 
-    <button type="submit">Podnesi zahtev</button>
-</form>
-
-<hr width="30%" />
-
-<br/> <br/> <br/>
 
 <h3>Ocene i komentari</h3>
-<!-- 
-    <div *ngIf="!agencyReviews || agencyReviews.length == 0">
+
+ <div *ngIf="noReviews">
     Za ovu agenciju nema ocena i komentara!
-</div>
- -->
- <div>
-   UBACI SVE ZAHTEVE I PRIKAZI IH
  </div>
+
+ <div *ngIf="!noReviews">
+    <div *ngFor="let reviewIterator of allReviews | keyvalue">
+        <label class="boldedText">Klijent:</label>
+        {{ displayClientName(reviewIterator.key) }} <br />
+    
+        <label class="boldedText">Ocena:</label>
+        {{reviewIterator.value.rating}}<br />
+    
+        <label class="boldedText">Komentar:</label> <br />
+        <p>{{reviewIterator.value.comment}}</p>
+        <hr width="20%" />
+     </div>
+ </div>
+
+
 
 <hr width="30%" />

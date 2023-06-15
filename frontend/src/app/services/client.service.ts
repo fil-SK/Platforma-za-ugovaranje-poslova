@@ -232,4 +232,14 @@ export class ClientService {
 
     return this.http.post(`${this.uri}/client/deleteReview`, data);
   }
+
+
+  getAllClientUsernames(){
+    return this.http.get(`${this.uri}/client/getAllClientUsernames`);
+  }
+
+
+  getAllClientFullNames(){
+    return this.http.get(`${this.uri}/client/getAllClientsFullNames`);
+  }
 }

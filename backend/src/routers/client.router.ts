@@ -148,5 +148,14 @@ clientRouter.route('/deleteReview').post(
 );
 
 
+clientRouter.route('/getAllClientUsernames').get(
+    (req, res) => new ClientController().getAllClientUsernames(req, res)
+);
+
+
+clientRouter.route('/getAllClientsFullNames').get(
+    (req, res) => new ClientController().getAllClientFirstAndLastNames(req, res)
+);
+
 
 export default clientRouter;

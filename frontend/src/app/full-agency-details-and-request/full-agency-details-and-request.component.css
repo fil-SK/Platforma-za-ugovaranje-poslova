@@ -14,3 +14,7 @@
 .validatorMessage{
     color: red;
 }
+
+.boldedText{
+    font-weight: bold;
+}

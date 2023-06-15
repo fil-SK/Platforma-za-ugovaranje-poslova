@@ -134,4 +134,14 @@ export class AgencyService {
 
     return this.http.post(`${this.uri}/agency/releaseWorkersFromJob`, data);
   }
+
+
+  getAllRequestsWithReviews(agencyUsername){
+
+    const data = {
+      username : agencyUsername
+    };
+
+    return this.http.post(`${this.uri}/agency/getAllRequestsWithReviews`, data);
+  }
 }

@@ -8,6 +8,7 @@ import { ClientService } from '../services/client.service';
 import { NgForm } from '@angular/forms';
 import { IdTracking } from '../models/idTracking';
 import { Request } from '../models/request';
+import { AgencyService } from '../services/agency.service';
 
 @Component({
   selector: 'app-full-agency-details-and-request',
@@ -16,14 +17,15 @@ import { Request } from '../models/request';
 })
 export class FullAgencyDetailsAndRequestComponent implements OnInit {
 
-  constructor(private clientService : ClientService, private router : Router) { }
+  constructor(private clientService : ClientService, private router : Router, private agencyService : AgencyService) { }
 
   ngOnInit(): void {
 
     this.getLoggedUserFromLocalStorage();
     this.getAgencyFromLocalStorage();
 
-    this.getAllClientRealEstates();
+    this.getAllRequestsWithReviews();     // Da dohvatimo sve poslove
+    this.mapClientUsernamesToNames();
   }
 
 
@@ -43,14 +45,23 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
 
   error : string;                                           // For displaying error messages
 
-  allAgencyRequests : Request[] = [];                       // Dovlacimo sve zahteve / poslove te agencije, kako bismo mogli da iteriramo kroz njih i prikazemo ocene
+  allAgencyRequestsWithReviews : Request[] = [];            // Dovlacimo sve zahteve / poslove te agencije koji imaju recenzije. Ovo nam treba da bismo formirali allReviews polje
+  allReviews = new Map<number, Review>();                   // Hes mapa gde cuvamo parove (requestId, review)
+  mapClientToReview = new Map<number, string>();            // Hes mapa gde cuvamo parove (requestId, client username)
 
+  allClientUsernames : String[] = [];                       // Niz svih username-ova klijenata   
+  allClientNames : String[] = [];                           // Niz svih imena i prezimena klijenata
+  mapUsernameToName = new Map<string, string>();            // Hes mapa gde cuvamo 
+
+  noReviews : boolean;                                      // Da li se prikazuje poruka kada nema recenzija
 
 
   getLoggedUserFromLocalStorage(){
     let user = localStorage.getItem('user');
     if(user){
       this.loggedUser = JSON.parse(user);
+
+      this.getAllClientRealEstates();
     }
   }
 
@@ -142,7 +153,6 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
     }
 
 
-    // Make a request TODO
     // Napravi u kolekciji red gde ces voditi evidenciju o requestId
 
     let newRequestId : number;
@@ -205,11 +215,68 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
   }
 
 
+  // Da dohvatimo sve poslove kako bismo mogli da ocitamo recenzije
+  getAllRequestsWithReviews(){
+    this.agencyService.getAllRequestsWithReviews(this.selectedAgency.username).subscribe( (requests : Request[]) => {
+      
+      if(requests.length > 0){   // Ako ima recenzije radimo ovo, inace ne radimo
+        this.noReviews = false;
 
-  getAllAgencyRequestsAndJobs(){
-    
+        this.allAgencyRequestsWithReviews = requests;
+
+
+        // Sad prolazimo kroz ovu kolekciju i izdvajamo sve recenzije. Ako recenzija postoji, dodaj je u hesmapu
+        let i : number;
+        for(i = 0; i < requests.length; i++){
+            this.allReviews.set(requests[i].requestId, requests[i].review);
+            this.mapClientToReview.set(requests[i].requestId, requests[i].clientUsername);
+        }
+  
+        // Prikaz sadrzaja hes mape
+        this.allReviews.forEach((value, key) => {
+          console.log(`Key: ${key}, Value: ${value}`);
+        });
+      }
+      
+      else{
+        this.noReviews = true;
+      }
+
+
+    });
   }
 
+  // Dohvatamo puna imena svih klijenata zato sto ce nam biti potrebna kasnije kada budemo prikazivali recenzije
+
+  mapClientUsernamesToNames(){
+    this.clientService.getAllClientUsernames().subscribe( (usernames : String[]) => {
+      this.allClientUsernames = usernames;
+
+      this.clientService.getAllClientFullNames().subscribe( (fullNames : String[]) => {
+        this.allClientNames = fullNames;
+
+        let i : number;
+        for(i = 0; i < fullNames.length; i++){
+          this.mapUsernameToName.set(this.allClientUsernames[i].toString(), this.allClientNames[i].toString());
+        }
+      });
+    });
+  }
+
+
+
+  displayClientName(requestId : number){
+
+    if(this.loggedUser == null){
+      return "Depersonalizovan"
+    }
+    
+    // Za taj requestId dohvati username klijenta
+    let clientUsername = this.mapClientToReview.get(requestId);
+
+    // Za taj username klijenta dohvati njegovo ime
+    return this.mapUsernameToName.get(clientUsername);
+  }
 
 
   returnToAllAgenciesPage(){

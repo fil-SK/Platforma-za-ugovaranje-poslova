@@ -591,4 +591,45 @@ export class ClientController{
 
     }
 
+
+
+    getAllClientUsernames = (req : express.Request, res : express.Response) => {
+
+        ClientModel.find({}, (err, clients) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+
+                let i : number;
+                let clientUsernames : String[] = [];
+
+                for(i = 0; i < clients.length; i++){
+                    clientUsernames.push(clients[i].username);
+                }
+
+                res.json(clientUsernames);
+            }
+        });
+    }
+
+    getAllClientFirstAndLastNames = (req : express.Request, res : express.Response) => {
+
+        ClientModel.find({}, (err, clients) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                let i : number;
+                let clientNames : String[] = [];
+
+                for(i = 0; i < clients.length; i++){
+                    clientNames.push(clients[i].firstname + " " + clients[i].lastname)
+                }
+
+                res.json(clientNames);
+            }
+        });
+    }
+
 }

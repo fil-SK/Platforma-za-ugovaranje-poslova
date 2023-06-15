@@ -95,4 +95,9 @@ agencyRouter.route('/releaseWorkersFromJob').post(
 );
 
 
+agencyRouter.route('/getAllRequestsWithReviews').post(
+    (req, res) => new AgencyController().getAllRequestsWithReviews(req, res)
+);
+
+
 export default agencyRouter;

@@ -414,4 +414,28 @@ export class AgencyController{
             }
         });
     }
+
+
+    // Ovu metodu pozivamo da dohvatimo sve iz kolekcije requests za tu agenciju, kako bismo prosli kroz to i dohvatili sve recenzije
+    getAllRequestsWithReviews = (req : express.Request, res : express.Response) => {
+
+        let agencyUsername = req.body.username;
+
+        RequestModel.find({'agencyUsername' : agencyUsername}, (err, jobs) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                let i : number;
+                let jobsWithReviews = [];
+
+                for(i = 0; i < jobs.length; i++){
+                    if(jobs[i].review !== null && jobs[i].review !== undefined){        // Ako polje review nije null ili undefined onda taj element dodaj
+                        jobsWithReviews.push(jobs[i]);
+                    }
+                }
+                res.json(jobsWithReviews);
+            }
+        });
+    }
 }
