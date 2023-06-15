@@ -220,4 +220,39 @@ export class AdminService {
 
     return this.http.post(`${this.uri}/admin/deleteWorkerFromAgency`, data);
   }
+
+
+  getAllRequestsFromCollection(){
+    return this.http.get(`${this.uri}/admin/getAllRequestsFromCollection`);
+  }
+
+
+  getClientFirstAndLastNames(clientList){
+
+    const data = {
+      clientUsernames : clientList
+    };
+
+    return this.http.post(`${this.uri}/admin/getClientNamesAndLastnames`, data);
+  }
+
+
+  getAgencyNames(agencyList){
+
+    const data = {
+      agencyUsernames : agencyList
+    };
+
+    return this.http.post(`${this.uri}/admin/getAgencyNameForUsernames`, data);
+  }
+  
+
+  getRequestWithThisId(reqId){
+
+    const data = {
+      requestId : reqId
+    };
+
+    return this.http.post(`${this.uri}/admin/getThisRequest`, data);
+  }
 }

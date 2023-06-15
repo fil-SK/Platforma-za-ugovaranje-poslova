@@ -100,6 +100,22 @@
 <hr/> <br />
 
 
-
+<h3>Svi poslovi</h3><br/>
+<table class="tableIsBordered">
+    <tr>
+        <th>ID</th>
+        <th>Agencija</th>
+        <th>Klijent</th>
+        <th>Datum(DD-MM-GGGG)</th>
+        <th>Status</th>
+    </tr>
+    <tr *ngFor="let requestIterator of allRequests" (click)="adminViewsJob(requestIterator)">
+        <td>{{requestIterator.requestId}}</td>
+        <td>{{ displayAgencyName(requestIterator) }}</td>
+        <td>{{ displayClientName(requestIterator) }}</td>
+        <td>{{ displayDate(requestIterator) }}</td>
+        <td>{{requestIterator.requestStatus}}</td>
+    </tr>
+</table>
 
 <br /> <br /> <br />

@@ -131,4 +131,24 @@ adminRouter.route('/deleteWorkerFromAgency').post(
 );
 
 
+adminRouter.route('/getAllRequestsFromCollection').get(
+    (req, res) => new AdminController().getAllRequestsFromCollection(req, res)
+);
+
+
+adminRouter.route('/getClientNamesAndLastnames').post(
+    (req, res) => new AdminController().getClientNamesAndLastnamesForUsernameList(req, res)
+);
+
+
+adminRouter.route('/getAgencyNameForUsernames').post(
+    (req, res) => new AdminController().getAgencyNamesForUsernameList(req, res)
+);
+
+
+adminRouter.route('/getThisRequest').post(
+    (req, res) => new AdminController().getRequestWithThisId(req, res)
+);
+
+
 export default adminRouter;

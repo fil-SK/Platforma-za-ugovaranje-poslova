@@ -31,6 +31,7 @@ import { AdminViewsClientComponent } from './admin-views-client/admin-views-clie
 import { AdminViewsAgencyComponent } from './admin-views-agency/admin-views-agency.component';
 import { AdminDoingRegistrationComponent } from './admin-doing-registration/admin-doing-registration.component';
 import { WorkerDetailsComponent } from './worker-details/worker-details.component';
+import { AdminViewsJobsComponent } from './admin-views-jobs/admin-views-jobs.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { WorkerDetailsComponent } from './worker-details/worker-details.componen
     AdminViewsClientComponent,
     AdminViewsAgencyComponent,
     AdminDoingRegistrationComponent,
-    WorkerDetailsComponent
+    WorkerDetailsComponent,
+    AdminViewsJobsComponent
   ],
   imports: [
     BrowserModule,

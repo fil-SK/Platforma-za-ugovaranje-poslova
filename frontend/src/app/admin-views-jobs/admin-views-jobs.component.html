@@ -1,0 +1,31 @@
+<h2>Pregled posla</h2>
+
+<br /><br />
+
+
+<label class="boldedText">ID posla:</label> &nbsp;
+{{selectedRequest.requestId}}<br />
+
+<label class="boldedText">Agencija:</label> &nbsp;
+{{agencyName}}<br />
+
+<label class="boldedText">Klijent:</label> &nbsp;
+{{clientFirstAndLastName}}<br />
+
+<label class="boldedText">ID objekta:</label> &nbsp;
+{{selectedRequest.realEstateId}}<br />
+
+<label class="boldedText">Datum:</label> &nbsp;
+{{requestDate}}<br />
+
+<label class="boldedText">Ponuda agencije:</label> &nbsp;
+{{selectedRequest.agencyOffer}}<br />
+
+<label class="boldedText">Status:</label> &nbsp;
+{{selectedRequest.requestStatus}}<br />
+
+
+<canvas #displayRealEstateSchema class="canvas-styling" width="500" height="400"></canvas>
+
+
+<br /><br /><button (click)="returnToAdminPage()">Povratak na admin panel</button><br /><br /><br />

@@ -4,6 +4,7 @@ import ClientModel from '../models/client';
 import AgencyModel from '../models/agency';
 import IdTrackingModel from '../models/idTracking';
 import WorkerModel from '../models/worker';
+import RequestModel from '../models/request';
 
 
 export class AdminController{
@@ -443,6 +444,7 @@ export class AdminController{
     }
 
 
+    // Za brisanje radnika - da se obrise iz kolekcije i iz agencije kojoj je dodeljen
     deleteWorkerFromCollection = (req : express.Request, res : express.Response) => {
 
         let workerId = req.body.workerId;
@@ -471,6 +473,87 @@ export class AdminController{
             }
             else{
                 res.json({'message' : 'removedFromAgency'});
+            }
+        });
+    }
+
+
+    // Za deo gde admin treba da ima uvid u sve poslove svih klijenata
+    getAllRequestsFromCollection = (req : express.Request, res : express.Response) => {
+
+        RequestModel.find({}, (err, requests) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(requests);
+            }
+        });
+
+    }
+
+
+    // Admin dohvata imena svih klijenata za koje ima korisnicka imena u pregledu poslova
+    getClientNamesAndLastnamesForUsernameList =  (req : express.Request, res : express.Response) => {
+
+        let clientUsernames = req.body.clientUsernames;
+
+        ClientModel.find({'username' : {$in : clientUsernames}}, (err, clients) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+
+                // Prodji kroz sve dohvacene klijente i vrati par username-ime+prezime
+                let clientNameAndLastname : String[] = [];
+
+                let i : number;
+                for(i = 0; i < clients.length; i++){
+                    clientNameAndLastname.push(clients[i].firstname + " " + clients[i].lastname)
+                }
+
+                res.json(clientNameAndLastname);
+            }
+        });
+    }
+
+
+    // Admin dohvata nazive svih agencija za koje ima korisnicka imena u pregledu poslova
+    getAgencyNamesForUsernameList = (req : express.Request, res : express.Response) => {
+
+        let agencyUsernames = req.body.agencyUsernames;
+
+        AgencyModel.find({'username' : {$in : agencyUsernames}}, (err, agencies) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                
+                // Prodji kroz sve dohvacene agencije i vrati nazive
+                let agencyNameArray : String[] = [];
+
+                let i : number;
+                for(i = 0; i < agencies.length; i++){
+                    agencyNameArray.push(agencies[i].agencyName);
+                }
+
+                res.json(agencyNameArray);
+            }
+        });
+    }
+
+
+    // Kada admin treba da pogleda detaljno posao izmedju klijenta i agencije
+    getRequestWithThisId = (req : express.Request, res : express.Response) => {
+
+        let requestId = req.body.requestId;
+
+        RequestModel.findOne({'requestId' : requestId}, (err, request) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(request);
             }
         });
     }

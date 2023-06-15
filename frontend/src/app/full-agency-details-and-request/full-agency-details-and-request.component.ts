@@ -7,6 +7,7 @@ import { RealEstate } from '../models/realestate';
 import { ClientService } from '../services/client.service';
 import { NgForm } from '@angular/forms';
 import { IdTracking } from '../models/idTracking';
+import { Request } from '../models/request';
 
 @Component({
   selector: 'app-full-agency-details-and-request',
@@ -28,7 +29,7 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
 
   loggedUser : Client;                                      // Ulogovani korisnik (klijent)
   selectedAgency : Agency;                                  // Agencija iz local Storage-a, ona se prikazuje na ovoj stranici
-  // agencyReviews : Review[] = [];
+  
   allClientRealEstates : RealEstate[] = [];                 // Za klijenta iz baze dohvatamo sve njegove objekte i cuvamo ih ovde
   realEstateHashMap = new Map<string, number>();            // Sadrzi parove (string, realEstateId) - koristice se za dohvatanje realEstateId-a, za odabranu vrednost iz dropdown liste
   stringList : string[] = [];                               // Nazivi za objekte, koje cu koristiti u drop down listi, lakse mi da radim ovako
@@ -41,6 +42,8 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
   inputEndDate;
 
   error : string;                                           // For displaying error messages
+
+  allAgencyRequests : Request[] = [];                       // Dovlacimo sve zahteve / poslove te agencije, kako bismo mogli da iteriramo kroz njih i prikazemo ocene
 
 
 
@@ -199,6 +202,12 @@ export class FullAgencyDetailsAndRequestComponent implements OnInit {
 
     });
 
+  }
+
+
+
+  getAllAgencyRequestsAndJobs(){
+    
   }
 
 
