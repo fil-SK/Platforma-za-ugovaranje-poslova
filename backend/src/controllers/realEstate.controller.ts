@@ -123,4 +123,20 @@ export class RealEstateController{
         })
     }
     */
+
+
+    setWallsToWhiteAndRenovationToFalse = (req : express.Request, res : express.Response) => {
+
+        let realEstateId = req.body.realEstateId;
+
+        RealEstateModel.updateOne({'realEstateId' : realEstateId}, {$set : {'underRenovation' : false, 'roomArray.$[].roomColor': 'white'}}, (err, done) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json({'message' : 'renovFalseColorWhiteDone'});
+            }
+        });
+
+    }
 }

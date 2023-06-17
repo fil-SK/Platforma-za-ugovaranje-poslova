@@ -242,4 +242,14 @@ export class ClientService {
   getAllClientFullNames(){
     return this.http.get(`${this.uri}/client/getAllClientsFullNames`);
   }
+
+
+  setWallsToWhiteAndRenovToFalse(realEstateId){
+
+    const data = {
+      realEstateId : realEstateId
+    };
+
+    return this.http.post(`${this.uri}/realEstate/wallsToWhiteRenovToFalse`, data);
+  }
 }

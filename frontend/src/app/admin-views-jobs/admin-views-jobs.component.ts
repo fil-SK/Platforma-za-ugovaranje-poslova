@@ -81,7 +81,15 @@ export class AdminViewsJobsComponent implements OnInit, AfterViewInit {
 
 
       // Draw room shape and fill the color of the room
-      context.fillStyle = roomColor;
+      // If it's completed then paint it with green, else use the color of the room
+      if(this.selectedRequest.requestStatus == "completed"){
+        context.fillStyle = "green";
+      }
+      else{
+        context.fillStyle = roomColor;
+      }
+      
+      
       context.strokeRect(xCoord, yCoord, roomWidth, roomHeight);
       context.fillRect(xCoord, yCoord, roomWidth, roomHeight);
 

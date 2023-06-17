@@ -136,7 +136,14 @@ export class FullRequestPageComponent implements OnInit, AfterViewInit {
 
 
       // Draw room shape and fill the color of the room
-      context.fillStyle = roomColor;
+      if(this.selectedRequest.requestStatus == "completed"){
+        context.fillStyle = "green";
+      }
+      else{
+        context.fillStyle = roomColor;
+      }
+
+      
       context.strokeRect(xCoord, yCoord, roomWidth, roomHeight);
       context.fillRect(xCoord, yCoord, roomWidth, roomHeight);
 
@@ -233,9 +240,19 @@ export class FullRequestPageComponent implements OnInit, AfterViewInit {
         // Posto si finalizirao posao, oslobodi radnike koji su radili na tom poslu
         this.agencyService.releaseWorkersFromJob(this.agency.username, this.selectedRequest.allWorkers).subscribe( response => {
           if(response['message'] == 'workersSuccessfullyRestored'){
-            alert("Uspesno finalizirao posao!");
+            
 
-            this.ngOnInit();        // Pozovi ponovnu inicijalizaciju komponente da bi se izvrsilo azuriranje i dohvatanje podataka iz baze
+
+            // Postavi da je underRenovation = false, kako bi mogao kasnije da se odabere, i da su zidovi beli
+            this.clientService.setWallsToWhiteAndRenovToFalse(this.realEstateUnderRenovation.realEstateId).subscribe( (rEstResp => {
+              if(rEstResp['message'] == 'renovFalseColorWhiteDone'){
+                alert("Uspesno finalizirao posao!");
+
+                this.ngOnInit();        // Pozovi ponovnu inicijalizaciju komponente da bi se izvrsilo azuriranje i dohvatanje podataka iz baze
+              }
+            }));
+
+            
           }
         });
 

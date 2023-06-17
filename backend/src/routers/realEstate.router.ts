@@ -24,4 +24,9 @@ realEstateRouter.route('/getRealEstateWithId').post(
 );
 
 
+realEstateRouter.route('/wallsToWhiteRenovToFalse').post(
+    (req, res) => new RealEstateController().setWallsToWhiteAndRenovationToFalse(req, res)
+);
+
+
 export default realEstateRouter;
