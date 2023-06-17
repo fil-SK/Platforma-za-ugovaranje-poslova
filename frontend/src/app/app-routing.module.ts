@@ -20,6 +20,8 @@ import { AdminViewsClientComponent } from './admin-views-client/admin-views-clie
 import { AdminViewsAgencyComponent } from './admin-views-agency/admin-views-agency.component';
 import { WorkerDetailsComponent } from './worker-details/worker-details.component';
 import { AdminViewsJobsComponent } from './admin-views-jobs/admin-views-jobs.component';
+import { AuthService } from './services/auth.service';
+import { WorkersComponent } from './workers/workers.component';
 
 const routes: Routes = [
   {path : "", component : HomePageComponent},
@@ -38,6 +40,8 @@ const routes: Routes = [
 
   {path: "allAgenciesPage", component : AllAgenciesPageComponent},
   {path: "agencyDetailsAndRequest", component : FullAgencyDetailsAndRequestComponent},
+
+  {path: "workers", component: WorkersComponent},
 
   {path: "business", component : BusinessComponent},
   {path: "fullRequestPage", component : FullRequestPageComponent},

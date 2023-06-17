@@ -32,6 +32,8 @@ import { AdminViewsAgencyComponent } from './admin-views-agency/admin-views-agen
 import { AdminDoingRegistrationComponent } from './admin-doing-registration/admin-doing-registration.component';
 import { WorkerDetailsComponent } from './worker-details/worker-details.component';
 import { AdminViewsJobsComponent } from './admin-views-jobs/admin-views-jobs.component';
+import { AuthService } from './services/auth.service';
+import { WorkersComponent } from './workers/workers.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { AdminViewsJobsComponent } from './admin-views-jobs/admin-views-jobs.com
     AdminViewsAgencyComponent,
     AdminDoingRegistrationComponent,
     WorkerDetailsComponent,
-    AdminViewsJobsComponent
+    AdminViewsJobsComponent,
+    WorkersComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,7 @@ import { AdminViewsJobsComponent } from './admin-views-jobs/admin-views-jobs.com
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

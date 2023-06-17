@@ -25,34 +25,47 @@
                     <a class="nav-link" [routerLink]="['/register']">Registracija</a>
                   </li>
 
-                  <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/admin']">Admin panel</a>
-                  </li>
+                  <div *ngIf="loggedAdmin">
+                    <li class="nav-item">
+                      <a class="nav-link" [routerLink]="['/admin']">Admin panel</a>
+                    </li>
+                  </div>
+                  
 
-                  <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/profile']">Profil</a>
-                  </li>
+                  <div *ngIf="loggedAdmin || loggedClient || loggedAgency">
+                    <li class="nav-item">
+                      <a class="nav-link" [routerLink]="['/profile']">Profil</a>
+                    </li>
+                  </div>
+                  
+                  <div *ngIf="loggedClient">
+                    <li class="nav-item">
+                      <a class="nav-link" [routerLink]="['/realEstate']">Objekti</a>
+                    </li>
+                  </div>
 
-                  <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/realEstate']">Objekti</a>
-                  </li>
+                  <div *ngIf="loggedAgency">
+                    <li class="nav-item">
+                      <a class="nav-link" [routerLink]="['/workers']">Radnici</a>
+                    </li>
+                  </div>
 
-                  <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/allAgenciesPage']">Agencije</a>
-                  </li>
+                  <div *ngIf="!loggedAdmin && !loggedAgency">
+                    <!-- Prikazuje se za klijenta i neregistrovanog korisnika -->
+                    <li class="nav-item">
+                      <a class="nav-link" [routerLink]="['/allAgenciesPage']">Agencije</a>
+                    </li>
+                  </div>
 
-                  <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/']">Radnici</a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/business']">Poslovi</a>
-                  </li>
+                  <div *ngIf="loggedClient || loggedAgency">
+                    <li class="nav-item">
+                      <a class="nav-link" [routerLink]="['/business']">Poslovi</a>
+                    </li>
+                  </div>
 
                   <li class="nav-item">
                     <a class="nav-link" [routerLink]="['/logout']">Odjavi se</a>
                   </li>
-
 
                 </ul>
               </div>
