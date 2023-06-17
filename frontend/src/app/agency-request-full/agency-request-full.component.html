@@ -1,78 +1,89 @@
-<h2>Pregled posla</h2>
+<div class="text-center">
+    <h2>Pregled posla</h2>
 
-<br/> <br/>
-
-<div>
-    <label class="boldedParag">Klijent: </label>         {{client.firstname}} {{client.lastname}} <br/>
-    <label class="boldedParag">E-mail: </label>          {{client.email}} <br/>
-    <label class="boldedParag">Telefon: </label>         {{client.phoneNumber}} <br/>
-    <hr width="30%" />
-    <label class="boldedParag">Tip objekta: </label>     {{realEstateUnderRenovation.type}} <br/>
-    <label class="boldedParag">Adresa: </label>          {{realEstateUnderRenovation.address}} <br/>
-    <label class="boldedParag">Broj prostorija: </label> {{realEstateUnderRenovation.numberOfRooms}} <br/>
-    <label class="boldedParag">Kvadratura: </label>      {{realEstateUnderRenovation.squareFootage}} <br/>
-</div>
-<!--
-<div>
-    <label class="boldedParag">Naziv agencije: </label>  {{agency.agencyName}} <br/>
-    <label class="boldedParag">Tip objekta: </label>     {{realEstateUnderRenovation.type}} <br/>
-    <label class="boldedParag">Adresa objekta: </label>  {{realEstateUnderRenovation.address}}<br/>
-    <label class="boldedParag">Broj soba: </label>       {{realEstateUnderRenovation.numberOfRooms}} <br/>
-    <label class="boldedParag">Kvadratura: </label>      {{realEstateUnderRenovation.squareFootage}} <br/>
-    <label class="boldedParag">Datum pocetka: </label>   {{requestStartDate}} <br/>
-    <label class="boldedParag">Datum zavrsetka: </label> {{requestEndDate}} <br/>
-    <label class="boldedParag">Status: </label>          {{selectedRequest.requestStatus}} <br/>
-</div>
--->
-<br/>
-
-<label class="boldedParag">Skica:</label> <br/>
-
- <canvas #requestSchemaAgency class="canvas-styling" width="500" height="400"></canvas> 
-
-<br />
-
-<!-- Ne sme da se proverava samo notEnoughWorkersForRealEstate zato sto je to lokalna promenljiva iz koje se brisu podaci redom kako se selektuju
-        pa samim tim se tokom dodavanja moze desiti da se doda toliko radnika da ovaj uslov postane nezadovoljen, iako nije greska do radnika nego prosto se dodeljivanjem smanjio broj na ispod granice  -->
-<div *ngIf="notEnoughWorkersForRealEstate && ( selectedRequest?.allWorkers === undefined || selectedRequest?.allWorkers.length == 0 )">
-    <h4>Dodela radnika</h4>
-    <p class="validatorMessage">Nedovoljno radnika za ovaj objekat!</p>
-</div>
-
-<!-- Mora da se proveri uslov da li je klijent prihvatio zahtev zato sto ne mozes da dodeljujes radnike ako klijent nije odlucio da li zeli da radi posao za tu ponudu agencije -->
-<div *ngIf="!notEnoughWorkersForRealEstate && ( selectedRequest?.allWorkers === undefined || selectedRequest?.allWorkers.length == 0 ) && selectedRequest?.clientResponseToOffer == 'offerAccepted' ">
-    <h4>Dodela radnika</h4>
-    <select name="selectedWorker" [(ngModel)]="selectedWorkerFromDDList">
-        <option *ngFor="let workersIterator of localWorkersObjectsArray" [value]="workersIterator.workerId">
-            {{workersIterator.firstname}} {{workersIterator.lastname}}, {{workersIterator.expertise}}
-        </option>
-    </select>
+    <br/> <br/>
     
-    <div *ngFor="let roomIterator of realEstateUnderRenovation.roomArray; let i = index">
-        <input type="radio" name="roomNumber" [(ngModel)]="selectedRoomFromRadio" [value]="i+1">Prostorija {{i + 1}}
-    </div>
     <div>
-        <button (click)="assignWorker()">Dodeli radnika</button><br /><br />
-        <button (click)="finishAssignmentOfWorkers()">Zavrsi dodelu</button>
+        <label class="boldedParag">Klijent: </label>         {{client.firstname}} {{client.lastname}} <br/>
+        <label class="boldedParag">E-mail: </label>          {{client.email}} <br/>
+        <label class="boldedParag">Telefon: </label>         {{client.phoneNumber}} <br/>
+        <hr  />
+        <label class="boldedParag">Tip objekta: </label>     {{realEstateUnderRenovation.type}} <br/>
+        <label class="boldedParag">Adresa: </label>          {{realEstateUnderRenovation.address}} <br/>
+        <label class="boldedParag">Broj prostorija: </label> {{realEstateUnderRenovation.numberOfRooms}} <br/>
+        <label class="boldedParag">Kvadratura: </label>      {{realEstateUnderRenovation.squareFootage}} <br/>
     </div>
-</div>
-
-
-
-
-<br /><br /><br />
-
-<div *ngIf="selectedRequest?.allWorkers === undefined || selectedRequest?.allWorkers.length > 0">
-    <h4>Promena statusa sobe</h4>
-    <div *ngFor="let roomIterator of realEstateUnderRenovation.roomArray; let i = index">
-        <label>Prostorija {{i + 1}}</label> &nbsp;
-        <button [disabled]="roomIterator.roomColor == 'red' || roomIterator.roomColor == 'green' " (click)="renovateTheRoom(roomIterator)">Opremaj</button> &nbsp;
-        <button [disabled]="roomIterator.roomColor == 'white' || roomIterator.roomColor == 'green' " (click)="finishRenovatingTheRoom(roomIterator)">Zavrsi</button>
+    <!--
+    <div>
+        <label class="boldedParag">Naziv agencije: </label>  {{agency.agencyName}} <br/>
+        <label class="boldedParag">Tip objekta: </label>     {{realEstateUnderRenovation.type}} <br/>
+        <label class="boldedParag">Adresa objekta: </label>  {{realEstateUnderRenovation.address}}<br/>
+        <label class="boldedParag">Broj soba: </label>       {{realEstateUnderRenovation.numberOfRooms}} <br/>
+        <label class="boldedParag">Kvadratura: </label>      {{realEstateUnderRenovation.squareFootage}} <br/>
+        <label class="boldedParag">Datum pocetka: </label>   {{requestStartDate}} <br/>
+        <label class="boldedParag">Datum zavrsetka: </label> {{requestEndDate}} <br/>
+        <label class="boldedParag">Status: </label>          {{selectedRequest.requestStatus}} <br/>
     </div>
+    -->
+    <br/>
+    
+    <label class="boldedParag">Skica:</label> <br/>
+    
+     <canvas #requestSchemaAgency class="canvas-styling" width="500" height="400"></canvas> 
+    
+    <br />
+    
+    <!-- Ne sme da se proverava samo notEnoughWorkersForRealEstate zato sto je to lokalna promenljiva iz koje se brisu podaci redom kako se selektuju
+            pa samim tim se tokom dodavanja moze desiti da se doda toliko radnika da ovaj uslov postane nezadovoljen, iako nije greska do radnika nego prosto se dodeljivanjem smanjio broj na ispod granice  -->
+    <div *ngIf="notEnoughWorkersForRealEstate && ( selectedRequest?.allWorkers === undefined || selectedRequest?.allWorkers.length == 0 )">
+        <h4>Dodela radnika</h4>
+        <p class="validatorMessage">Nedovoljno radnika za ovaj objekat!</p>
+    </div>
+    
+    <!-- Mora da se proveri uslov da li je klijent prihvatio zahtev zato sto ne mozes da dodeljujes radnike ako klijent nije odlucio da li zeli da radi posao za tu ponudu agencije -->
+    <div *ngIf="!notEnoughWorkersForRealEstate && ( selectedRequest?.allWorkers === undefined || selectedRequest?.allWorkers.length == 0 ) && selectedRequest?.clientResponseToOffer == 'offerAccepted' ">
+        <h4>Dodela radnika</h4>
+
+        <div class="form-group row">
+            <div class="col-md-6 mx-auto">
+                <select name="selectedWorker" class="form-select" [(ngModel)]="selectedWorkerFromDDList">
+                    <option *ngFor="let workersIterator of localWorkersObjectsArray" [value]="workersIterator.workerId">
+                        {{workersIterator.firstname}} {{workersIterator.lastname}}, {{workersIterator.expertise}}
+                    </option>
+                </select>
+            </div>
+            
+        </div>
+        
+        
+        <div class="d-flex justify-content-center" *ngFor="let roomIterator of realEstateUnderRenovation.roomArray; let i = index">
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="roomNumber" [(ngModel)]="selectedRoomFromRadio" [value]="i+1">Prostorija {{i + 1}}
+                </div>
+            </div>
+            
+        </div>
+        <div>
+            <button class="btn btn-outline-primary" (click)="assignWorker()">Dodeli radnika</button><br /><br />
+            <button class="btn btn-primary" (click)="finishAssignmentOfWorkers()">Završi dodelu</button>
+        </div>
+    </div>
+    
+    <br /><br /><br />
+    
+    <div *ngIf="selectedRequest?.allWorkers === undefined || selectedRequest?.allWorkers.length > 0">
+        <h4>Promena statusa sobe</h4>
+        <div *ngFor="let roomIterator of realEstateUnderRenovation.roomArray; let i = index">
+            <label>Prostorija {{i + 1}}</label> &nbsp;
+            <button class="btn btn-outline-warning" [disabled]="roomIterator.roomColor == 'red' || roomIterator.roomColor == 'green' " (click)="renovateTheRoom(roomIterator)">Opremaj</button> &nbsp;
+            <button class="btn btn-outline-success" [disabled]="roomIterator.roomColor == 'white' || roomIterator.roomColor == 'green' " (click)="finishRenovatingTheRoom(roomIterator)">Završi</button>
+        </div>
+    </div>
+    
+    
+    
+    <br/><br/>
+    <button class="btn btn-primary" (click)="returnToAgencyBusinessPage()">Povratak na stranicu sa poslovima</button>
+    
 </div>
-
-
-
-<br/><br/>
-<button (click)="returnToAgencyBusinessPage()">Povratak na stranicu sa poslovima</button>
-<br /> <br />

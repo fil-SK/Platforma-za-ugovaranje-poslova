@@ -1,4 +1,4 @@
-<h1>Admin pocetna strana</h1> <br /> <br />
+<h1 class="text-center">Admin početna strana</h1> <br /> <br /> <br />
 
 <h3>Neodobreni klijenti</h3>
 
@@ -20,10 +20,10 @@
             <td>{{pendingClientIterator.lastname}}</td>
             <td>{{pendingClientIterator.username}}</td>
             <td>
-                <button (click)="acceptClientRegRequest(pendingClientIterator)">Prihvati</button>
+                <button class="btn btn-success" (click)="acceptClientRegRequest(pendingClientIterator)">Prihvati</button>
             </td>
             <td>
-                <button (click)="declineClientRegRequest(pendingClientIterator)">Odbij</button>
+                <button class="btn btn-danger" (click)="declineClientRegRequest(pendingClientIterator)">Odbij</button>
             </td>
         </tr>
     </table>
@@ -50,10 +50,10 @@
             <td>{{pendingAgencyIterator.agencyId}}</td>
             <td>{{pendingAgencyIterator.email}}</td>
             <td>
-                <button (click)="acceptAgencyRegRequest(pendingAgencyIterator)">Prihvati</button>
+                <button class="btn btn-success" (click)="acceptAgencyRegRequest(pendingAgencyIterator)">Prihvati</button>
             </td>
             <td>
-                <button (click)="declineAgencyRegRequest(pendingAgencyIterator)">Odbij</button>
+                <button class="btn btn-danger" (click)="declineAgencyRegRequest(pendingAgencyIterator)">Odbij</button>
             </td>
         </tr>
     </table>

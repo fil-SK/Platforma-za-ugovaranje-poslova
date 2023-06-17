@@ -3,24 +3,43 @@
 
 <br/> <br/>
 
-<h4>Pretrazi agenciju</h4>
+<h4>Pretraži agenciju</h4>
+
 <form>
-    <label>Pretrazujem po:</label> <br/>
-    <input id="nazivPretraga" type="checkbox" name="searchByName" [(ngModel)]="searchByName"><label for="nazivPretraga">nazivu</label> <br/>
-    <input id="adresaPretraga" type="checkbox" name="searchByAddress" [(ngModel)]="searchByAddress"><label for="adresaPretraga">adresi</label> <br/>
+    <fieldset>
 
-    <div *ngIf="searchByName">
-        <input placeholder="Naziv agencije" name="searchParamName" [(ngModel)]="searchParamName">
-    </div>
+        <div class="form-group">
+            <label class="form-label mt-4">Pretražujem po:</label> <br/>
 
-    <div *ngIf="searchByAddress">
-        <input name="searchParamStreet" placeholder="Naziv ulice" [(ngModel)]="searchParamStreet"> <br/>
-        <input name="searchParamStreetNumber" placeholder="Broj ulice" [(ngModel)]="searchParamStreetNumber">
-    </div>
+            <div class="form-check">
+                <input id="nazivPretraga" type="checkbox" class="form-check-input" name="searchByName" [(ngModel)]="searchByName"><label for="nazivPretraga">nazivu</label>
+            </div>
 
+            <div class="form-check">
+                <input id="adresaPretraga" type="checkbox" class="form-check-input" name="searchByAddress" [(ngModel)]="searchByAddress"><label for="adresaPretraga">adresi</label>
+            </div>
 
-    <br/>
-    <button type="submit" (click)="searchForAgencies()">Pretrazi</button>
+            
+            <div class="col-md-4">
+                <div *ngIf="searchByName">
+                    <div class="form-group">
+                        <input placeholder="Naziv agencije" name="searchParamName" class="form-control" [(ngModel)]="searchParamName">
+                    </div>
+                </div>
+            
+                <div *ngIf="searchByAddress">
+                    <div class="form-group">
+                        <input name="searchParamStreet" class="form-control" placeholder="Naziv ulice" [(ngModel)]="searchParamStreet"> <br/>
+                        <input name="searchParamStreetNumber" class="form-control" placeholder="Broj ulice" [(ngModel)]="searchParamStreetNumber">
+                    </div>
+                </div>
+            </div>  
+        </div>
+        
+    
+        <br/>
+        <button type="submit" class="btn btn-primary" (click)="searchForAgencies()">Pretraži</button>
+    </fieldset>    
   </form>
 
 <p style="color: red">{{error}}</p>
@@ -33,24 +52,28 @@
 
 
 <br/>
-<label>Sortiraj agencije po:</label>
-<select name="dropDownSelectedValue" [(ngModel)]="dropDownSelectedValue" (change)="sortAgencies()">
-    <option *ngFor="let valueIterator of dropDownListValues" [value]="valueIterator">{{valueIterator}}</option>
-</select>
-<br/>
-
-<br/>
-
-<div *ngIf="!allAgencies || allAgencies.length == 0">
-    Nema agencija u sistemu!
+<div class="form-group">
+    <label class="form-label mt-4">Sortiraj agencije po:</label>
+    <div class="col-md-4">
+        <select name="dropDownSelectedValue" class="form-select" [(ngModel)]="dropDownSelectedValue" (change)="sortAgencies()">
+            <option *ngFor="let valueIterator of dropDownListValues" [value]="valueIterator">{{valueIterator}}</option>
+        </select>
+    </div>
+    
 </div>
 
-<div *ngIf="allAgencies && allAgencies.length > 0">
-    <div class="outerDivStyle">
-        <div *ngFor = "let agenciesIterator of allAgencies" (click)="goToAgencyPage(agenciesIterator)">
-            <app-simple-agency-details [agencyInstance]="agenciesIterator"></app-simple-agency-details>
+<br/><br/>
+
+<div class="text-center">
+    <div *ngIf="!allAgencies || allAgencies.length == 0">
+        Nema agencija u sistemu!
+    </div>
+    
+    <div *ngIf="allAgencies && allAgencies.length > 0">
+        <div class="outerDivStyle">
+            <div *ngFor = "let agenciesIterator of allAgencies" (click)="goToAgencyPage(agenciesIterator)">
+                <app-simple-agency-details [agencyInstance]="agenciesIterator"></app-simple-agency-details>
+            </div>
         </div>
     </div>
 </div>
-
-<br/> <br/>

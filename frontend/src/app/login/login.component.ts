@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     
 
       if(databaseUserClient['message'] == 'userIsAdmin'){
-        this.message = "Admin se ne moze ulogovati preko ove forme!";
+        this.message = "Admin se ne može ulogovati preko ove forme!";
         return;
       }
 
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
             // Check if agency is marked as 'pending' or 'declined' - if it is then deny login
             if(databaseUserAgency['message'] == 'regStatusPending'){
-              this.message = "Administrator jos uvek nije odobrio regisraciju ovoj agenciji!";
+              this.message = "Administrator još uvek nije odobrio regisraciju ovoj agenciji!";
               return;
             }
             else if(databaseUserAgency['message'] == 'regStatusDeclined'){
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
               return;
             }
             else if(databaseUserAgency['message'] == 'userIsntAgency'){
-              this.message = "Trazeni korisnik ne postoji u bazi!";
+              this.message = "Traženi korisnik ne postoji u bazi!";
             }
             else{
               // Agency is 'accepted' - navigate to agency page
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
           }
           else{ // If returned null
             // It's not admin, client or agency - user doesn't exist in database
-            this.message = "Trazeni korisnik ne postoji u bazi!";
+            this.message = "Traženi korisnik ne postoji u bazi!";
             return;
           }
         });
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
 
         // Check if client is marked as 'pending' or 'declined' - if it is then deny login
         if(databaseUserClient['message'] == 'regStatusPending'){
-          this.message = "Administrator jos uvek nije odobrio registraciju ovom klijentu!";
+          this.message = "Administrator još uvek nije odobrio registraciju ovom klijentu!";
           return;
         }
         else if(databaseUserClient['message'] == 'regStatusDeclined'){

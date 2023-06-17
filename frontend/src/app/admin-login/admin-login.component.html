@@ -1,15 +1,21 @@
-<h2>Prijava administratora u sistem</h2>
+
+<h2>Prijava administratora u sistem</h2><br />
 
 <form>
-    <label>Korisničko ime</label> &nbsp;
-    <input type="text" name="username" [(ngModel)]="username">
-    <br/>
+    <fieldset>
+        <div class="form-group">
+            <label class="form-label mt-4">Korisničko ime</label> &nbsp;
+            <input type="text" class="form-control" name="username" [(ngModel)]="username">
+        </div>
 
-    <label>Lozinka</label> &nbsp;
-    <input type="password" name="password" [(ngModel)]="password">
-    <br/><br/>
+        <div class="form-group">
+            <label class="form-label mt-4">Lozinka</label> &nbsp;
+            <input type="password" class="form-control" name="password" [(ngModel)]="password">
+        </div>
+    </fieldset>
+    
+    <br /><br /><button class="btn btn-info" (click)="login()">Prijava na sistem</button>
 
-    <button (click)="login()">Prijava na sistem</button>
 </form>
 
-{{message}}
+<br /><p style="color: red">{{message}}</p>

@@ -1,116 +1,150 @@
 
 
-<h1>Ovo je profil korisnika {{loggedUser.username}}</h1>
+<h1 class="text-center">Profil korisnika {{loggedUser.username}}</h1>
 
+<br />
+<div class="text-center">
+    <img [src]="getImageUrl()">
+</div>
 
-<img [src]="getImageUrl()">
+<br /><br />
 
-<form>
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <form class="border border-primary p-4">
+            <fieldset>
+        
+                <h3>Podaci</h3>
+        
+                <div *ngIf="loggedUser.type == 'client' ">
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Ime</label>
+                        <input type="text" class="form-control" name="firstname" [(ngModel)]="firstname">
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Prezime</label>
+                        <input type="text" class="form-control" name="lastname" [(ngModel)]="lastname">
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">E-mail</label>
+                        <input type="text" class="form-control" name="email" [(ngModel)]="email">
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Kontakt telefon</label>
+                        <input type="text" class="form-control" name="phone" [(ngModel)]="phoneNumber">
+                    </div>
+        
+                </div>
+        
+                <div *ngIf="loggedUser.type == 'admin' ">
 
-    
+                    <div class="form-group">
+                        <label class="form-label mt-4">Ime</label>
+                        <input type="text" class="form-control" name="firstname" [(ngModel)]="firstname">
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Prezime</label>
+                        <input type="text" class="form-control" name="lastname" [(ngModel)]="lastname">
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">E-mail</label>
+                        <input type="text" class="form-control" name="email" [(ngModel)]="email">
+                    </div>
 
-    <div *ngIf="loggedUser.type == 'client' ">
-        <label>Ime</label>
-        <input type="text" name="firstname" [(ngModel)]="firstname">
-        <br/>
+                    <div class="form-group">
+                        <label class="form-label mt-4">Kontakt telefon</label>
+                        <input type="text" class="form-control" name="phone" [(ngModel)]="phoneNumber">
+                    </div>
 
-        <label>Prezime</label>
-        <input type="text" name="lastname" [(ngModel)]="lastname">
-        <br/>
+                </div>
+        
+                <div *ngIf="loggedUser.type == 'agency' ">
 
-        <label>E-mail</label>
-        <input type="text" name="email" [(ngModel)]="email">
-        <br/>
+                    <div class="form-group">
+                        <label class="form-label mt-4">Naziv agencije</label>
+                        <input type="text" class="form-control" name="agencyName" [(ngModel)]="agencyName">
+                    </div>
 
-        <label>Kontakt telefon</label>
-        <input type="text" name="phone" [(ngModel)]="phoneNumber">
-        <br/>
+                    <div class="form-group">
+                        <label  class="form-label mt-4">Ulica</label>
+                        <input type="text" class="form-control" name="streetAddress" [(ngModel)]="streetAddress">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label mt-4">Broj</label>
+                        <input type="text" class="form-control" name="streetNumber" [(ngModel)]="streetNumber">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label mt-4">Kratak opis</label>
+                        <textarea name="description" class="form-control" [(ngModel)]="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label mt-4">E-mail</label>
+                        <input type="text" class="form-control" name="email" [(ngModel)]="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label mt-4">Kontakt telefon</label>
+                        <input type="text" class="form-control" name="phone" [(ngModel)]="phoneNumber">
+                    </div>
+
+                </div>
+        
+            </fieldset>
+            
+            <br />
+            <button class="btn btn-primary" (click)="updateData()">Ažuriraj podatke</button>
+        </form>
     </div>
+</div>
 
-    <div *ngIf="loggedUser.type == 'admin' ">
-        <label>Ime</label>
-        <input type="text" name="firstname" [(ngModel)]="firstname">
-        <br/>
-
-        <label>Prezime</label>
-        <input type="text" name="lastname" [(ngModel)]="lastname">
-        <br/>
-
-        <label>E-mail</label>
-        <input type="text" name="email" [(ngModel)]="email">
-        <br/>
-
-        <label>Kontakt telefon</label>
-        <input type="text" name="phone" [(ngModel)]="phoneNumber">
-        <br/>
-    </div>
-
-    <div *ngIf="loggedUser.type == 'agency' ">
-        <label>Naziv agencije</label>
-        <input type="text" name="agencyName" [(ngModel)]="agencyName">
-        <br/>
-    
-        <label>Ulica</label>
-        <input type="text" name="streetAddress" [(ngModel)]="streetAddress">
-        <br/>
-
-        <label>Broj</label>
-        <input type="text" name="streetNumber" [(ngModel)]="streetNumber">
-        <br/>
-    
-        <label>Kratak opis</label>
-        <textarea name="description" [(ngModel)]="description"></textarea>
-        <br/>
-    
-        <label>E-mail</label>
-        <input type="text" name="email" [(ngModel)]="email">
-        <br/>
-    
-        <label>Kontakt telefon</label>
-        <input type="text" name="phone" [(ngModel)]="phoneNumber">
-        <br/>
-    </div>
-
-    <br/>
-    <button (click)="updateData()">Azuriraj podatke</button>
-</form>
 
 <br/><br/><br/><br/>
 
-<form #changePasswordForm="ngForm" (ngSubmit)="changePassword(changePasswordForm)" enctype="application/x-www-form-urlencoded">
-    <h3>Promeni lozinku</h3>
-    <br/>
-
-    <label>Stara lozinka</label>
-    <input type="password" name="oldPassword" [(ngModel)]="oldPassword" #oldPasswordInput="ngModel" required >
-    <div *ngIf="changePasswordForm.submitted && oldPasswordInput.invalid && (oldPasswordInput.dirty || oldPasswordInput.touched)" class="validatorMessage">
-        <div *ngIf="oldPasswordInput.errors?.['required']">Morate uneti staru lozinku!</div>
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <form class="border border-primary p-4" #changePasswordForm="ngForm" (ngSubmit)="changePassword(changePasswordForm)" enctype="application/x-www-form-urlencoded">
+            <h3>Promeni lozinku</h3>
+            <br/>
+        
+            <div class="form-group">
+                <label class="form-label mt-4">Stara lozinka</label>
+                <input type="password" class="form-control" name="oldPassword" [(ngModel)]="oldPassword" #oldPasswordInput="ngModel" required >
+                <div *ngIf="changePasswordForm.submitted && oldPasswordInput.invalid && (oldPasswordInput.dirty || oldPasswordInput.touched)" class="validatorMessage">
+                    <div *ngIf="oldPasswordInput.errors?.['required']">Morate uneti staru lozinku!</div>
+                </div>
+                <div *ngIf="changePasswordForm.submitted && (oldPassword != loggedUser.password) && (oldPassword != '')" class="validatorMessage">Pogrešno uneta stara lozinka!</div>
+            </div>
+        
+            <div class="form-group">
+                <label class="form-label mt-4">Nova lozinka</label>
+                <input type="password" class="form-control" name="newPassword" [(ngModel)]="newPassword" #newPasswordInput="ngModel"
+                pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?]{6,12}$" required >
+                <!-- \x22 je heksadecimalni zapis za " znake navoda -->
+                <div *ngIf="changePasswordForm.submitted && newPasswordInput.invalid && (newPasswordInput.dirty || newPasswordInput.touched)" class="validatorMessage">
+                    <div *ngIf="newPasswordInput.errors?.['required']">Morate uneti novu lozinku!</div>
+                    <div *ngIf="newPasswordInput.errors?.['pattern']">Lozinka mora da sadrži najmanje 6, a najviše 12 karaktera, bar jedno veliko slovo, jedan broj i jedan specijalni karakter, i mora početi velikim slovom.</div>
+                  </div>
+            </div>
+        
+            <div class="form-group">
+                <label class="form-label mt-4">Nova lozinka (još jednom)</label>
+                <input type="password" class="form-control" name="againNewPassword" [(ngModel)]="againNewPassword" #againNewPasswordInput="ngModel" required>
+                <div *ngIf="changePasswordForm.submitted && againNewPasswordInput.invalid && (againNewPasswordInput.dirty || againNewPasswordInput.touched)" class="validatorMessage">
+                    <div *ngIf="againNewPasswordInput.errors?.['required']">Morate ponovo uneti lozinku!</div>
+                </div>
+                <div *ngIf="changePasswordForm.submitted && newPassword != againNewPassword" class="validatorMessage">Lozinke se ne poklapaju!</div>
+            </div>
+        
+            <br /><button class="btn btn-primary" type="submit">Promeni lozinku</button>
+        </form>
     </div>
-    <div *ngIf="changePasswordForm.submitted && (oldPassword != loggedUser.password) && (oldPassword != '')" class="validatorMessage">Pogrešno uneta stara lozinka!</div>
-    <br/>
-
-    
-    <label>Nova lozinka</label>
-    <input type="password" name="newPassword" [(ngModel)]="newPassword" #newPasswordInput="ngModel"
-    pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?]{6,12}$" required >
-    <!-- \x22 je heksadecimalni zapis za " znake navoda -->
-    <div *ngIf="changePasswordForm.submitted && newPasswordInput.invalid && (newPasswordInput.dirty || newPasswordInput.touched)" class="validatorMessage">
-        <div *ngIf="newPasswordInput.errors?.['required']">Morate uneti novu lozinku!</div>
-        <div *ngIf="newPasswordInput.errors?.['pattern']">Lozinka mora da sadrzi najmanje 6, a najvise 12 karaktera, bar jedno veliko slovo, jedan broj i jedan specijalni karakter, i mora poceti velikim slovom.</div>
-      </div>
-    <br/>
-
-
-    <label>Nova lozinka (još jednom)</label>
-    <input type="password" name="againNewPassword" [(ngModel)]="againNewPassword" #againNewPasswordInput="ngModel" required>
-    <div *ngIf="changePasswordForm.submitted && againNewPasswordInput.invalid && (againNewPasswordInput.dirty || againNewPasswordInput.touched)" class="validatorMessage">
-        <div *ngIf="againNewPasswordInput.errors?.['required']">Morate ponovo uneti lozinku!</div>
-    </div>
-    <div *ngIf="changePasswordForm.submitted && newPassword != againNewPassword" class="validatorMessage">Lozinke se ne poklapaju!</div>
-    <br/>
-
-
-    <button type="submit">Promeni lozinku</button>
-</form>
-
-<br/><br/><br/><br/>
+</div>

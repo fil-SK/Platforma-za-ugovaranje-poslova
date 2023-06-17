@@ -1,31 +1,52 @@
-<h2>Pregled posla</h2>
+<h2 class="text-center">Pregled posla</h2>
 
 <br /><br />
 
+<div class="text-center">
 
-<label class="boldedText">ID posla:</label> &nbsp;
-{{selectedRequest.requestId}}<br />
+        <div class="form-group">
+            <label class="boldedText ">ID posla:</label> &nbsp;
+            {{selectedRequest.requestId}}
+        </div>
 
-<label class="boldedText">Agencija:</label> &nbsp;
-{{agencyName}}<br />
+        <div class="form-group">
+            <label class="boldedText">Agencija:</label> &nbsp;
+            {{agencyName}}
+        </div>
 
-<label class="boldedText">Klijent:</label> &nbsp;
-{{clientFirstAndLastName}}<br />
+        <div class="form-group">
+            <label class="boldedText">Klijent:</label> &nbsp;
+            {{clientFirstAndLastName}}
+        </div>
 
-<label class="boldedText">ID objekta:</label> &nbsp;
-{{selectedRequest.realEstateId}}<br />
+        <div class="form-group">
+            <label class="boldedText">ID objekta:</label> &nbsp;
+            {{selectedRequest.realEstateId}}
+        </div>
 
-<label class="boldedText">Datum:</label> &nbsp;
-{{requestDate}}<br />
+        <div class="form-group">
+            <label class="boldedText">Datum:</label> &nbsp;
+            {{requestDate}}
+        </div>
 
-<label class="boldedText">Ponuda agencije:</label> &nbsp;
-{{selectedRequest.agencyOffer}}<br />
+        <div class="form-group">
+            <label class="boldedText">Ponuda agencije:</label> &nbsp;
+            {{selectedRequest.agencyOffer}}
+        </div>
 
-<label class="boldedText">Status:</label> &nbsp;
-{{selectedRequest.requestStatus}}<br />
+        <div class="form-group">
+            <label class="boldedText">Status:</label> &nbsp;
+            {{selectedRequest.requestStatus}}
+        </div>
+
+</div>
+
+<div class="text-center">
+    <canvas #displayRealEstateSchema class="canvas-styling" width="500" height="400"></canvas>
+</div>
 
 
-<canvas #displayRealEstateSchema class="canvas-styling" width="500" height="400"></canvas>
-
-
-<br /><br /><button (click)="returnToAdminPage()">Povratak na admin panel</button><br /><br /><br />
+<br /><br />
+<div class="text-center">
+    <button class="btn btn-primary" (click)="returnToAdminPage()">Povratak na admin panel</button>
+</div>

@@ -1,22 +1,32 @@
-<h2>Svi poslovi</h2>
+<h2 class="text-center">Svi poslovi</h2>
 
 <br/>
 
 <!-- Sadrzaj koji se prikazuje za klijenta -->
 <div *ngIf="loggedUser">
     <form>
-        <label>Prikazi samo:</label>
-        <select name="selectedFilterFromList" [(ngModel)]="selectedFilter" #selectedFilterFromList="ngModel" (change)="filterBusiness()" >
-            <option *ngFor="let sortValueIterator of sortBy" [value]="sortValueIterator">{{sortValueIterator}}</option>
-        </select>
-        <button (click)="ngOnInit()">Resetuj</button>
+        <fieldset>
+
+            <div class="form-group">
+                <label class="form-label mt-4">Prikaži samo:</label>
+                <div class="col-md-4">
+                    <select name="selectedFilterFromList" class="form-select" [(ngModel)]="selectedFilter" #selectedFilterFromList="ngModel" (change)="filterBusiness()" >
+                        <option *ngFor="let sortValueIterator of sortBy" [value]="sortValueIterator">{{sortValueIterator}}</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" (click)="ngOnInit()">Resetuj</button>
+            </div>
+            
+            
+        </fieldset>
     </form>
-    
     <hr width="30%" />
     
     {{infoMessage}}
     
     
+    <br />
     <div class="outerDivStyle">
         <div *ngFor = "let requestIterator of allRequests" (click)="goToRequestPage(requestIterator)">
             <app-simple-business-details [requestInstance]="requestIterator"></app-simple-business-details>
@@ -37,21 +47,30 @@
             <div (click)="goToAgencyRequestPage(requestIterator)">
                 <app-agency-request-simple [requestInstance]="requestIterator"></app-agency-request-simple>
             </div>
+            
             <div>
-                
                 <form #acceptDenyReqForm="ngForm" (ngSubmit)="acceptRequest(acceptDenyReqForm, requestIterator)">
-                    <button type="button" (click)="denyRequest(requestIterator)">Odbij zahtev</button>
-                    <button type="submit">Prihvati zahtev</button>
-                    <label>Ponuda: </label>
-                    <input type="text" name="offer" [(ngModel)]="offerArray[requestIterator.requestId]" #offerInput="ngModel" pattern="^[1-9][0-9]*$" required>
+                    
+                    <div class="form-group">
+                        <label>Ponuda:</label>
+                        <input type="text" name="offer" class="form-control" [(ngModel)]="offerArray[requestIterator.requestId]" #offerInput="ngModel" pattern="^[1-9][0-9]*$" required>
+                    </div>
+
+                    <br />
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger" (click)="denyRequest(requestIterator)">Odbij zahtev</button> &nbsp;
+                        <button type="submit" class="btn btn-success">Prihvati zahtev</button>
+                    </div>   
+
                     <div *ngIf="acceptDenyReqForm.submitted && offerInput.invalid && (offerInput.dirty || offerInput.touched)" class="validatorMessage">
                         <div *ngIf="offerInput.errors?.['required']">Ponuda je obavezna pre prihvatanja zahteva!</div>
-                        <div *ngIf="offerInput.errors?.['pattern']">Ponuda mora biti ceo broj i ne sme poceti nulom</div>
+                        <div *ngIf="offerInput.errors?.['pattern']">Ponuda mora biti ceo broj i ne sme početi nulom</div>
                     </div>
-                    <br /> <br />
+                    
                 </form>
-                
             </div>  
+
         </div>
     </div>
 
@@ -71,6 +90,7 @@
 
     </div>
 
+    <br/> <hr width="30%" /> <br/>
 
 
 </div>

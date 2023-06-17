@@ -2,161 +2,178 @@
 
 <h3>Registracija klijenta ili agencije</h3>
 
-<form #registerForm="ngForm" (ngSubmit)="register(registerForm)" enctype="multipart/form-data">
+<div class="row">
+    <div class="col-md-4">
+        <form #registerForm="ngForm" (ngSubmit)="register(registerForm)" enctype="multipart/form-data">
 
-<!-- application/x-www-form-urlencoded  use for sending form data without file send -->
-    <!-- #xInput is used to display validation messages -->
-    <label>Korisničko ime</label> &nbsp;
-    <input type="text" name="username" [(ngModel)]="username" #usernameInput="ngModel" required>
-    <div *ngIf="registerForm.submitted && usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)">
-        <div *ngIf="usernameInput.errors?.['required']" class="validatorMessage">Korisnicko ime je obavezno!</div>
-    </div>
-    <br/>
-
-
-    <label>Lozinka</label> &nbsp;
-    <input type="password" name="password" [(ngModel)]="password" #passwordInput="ngModel"
-        pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?]{6,12}$" required >
-        <!-- \x22 je heksadecimalni zapis za " znake navoda -->
-        <div *ngIf="registerForm.submitted && passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="validatorMessage">
-            <div *ngIf="passwordInput.errors?.['required']">Lozinka je obavezna!</div>
-            <div *ngIf="passwordInput.errors?.['pattern']">Lozinka mora da sadrzi najmanje 6, a najvise 12 karaktera, bar jedno veliko slovo, jedan broj i jedan specijalni karakter, i mora poceti velikim slovom.</div>
-        </div>
-    <br/>
-
-
-    <label>Potvrdite lozinku</label>
-    <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" #confirmPasswordInput="ngModel" required>
-    <div *ngIf="registerForm.submitted && confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)" class="validatorMessage">
-        <div *ngIf="confirmPasswordInput.errors?.['required']">Morate potvrditi lozinku!</div>
-    </div>
-    <div *ngIf="registerForm.submitted && password != confirmPassword" class="validatorMessage">Lozinke se ne poklapaju!</div>
-    <br/>
-
-
-    <label>Kontakt telefon</label> &nbsp;
-    <input type="text" name="phone" [(ngModel)]="phoneNumber" #phoneInput="ngModel" required pattern="^\+?\d{1,14}$">
-    <div *ngIf="registerForm.submitted && phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="validatorMessage">
-        <div *ngIf="phoneInput.errors?.['required']">Morate uneti broj telefona!</div>
-        <div *ngIf="phoneInput.errors?.['pattern']">Morate uneti broj! Broj je maksimalne duzine do 15 karaktera (ukljucujuci znak '+')</div>
-    </div>
-    <br/>
-
-
-    <label>E-mail adresa</label> &nbsp;
-    <input type="text" name="email" [(ngModel)]="email" #emailInput="ngModel" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}">
-    <div *ngIf="registerForm.submitted && emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="validatorMessage">
-        <div *ngIf="emailInput.errors?.['required']">Morate uneti email!</div>
-        <div *ngIf="emailInput.errors?.['pattern']">Email ne zadovoljava format! Uneti format nesto@nesto.domen, gde je domen duzine 2-3 karaktera.</div>
-    </div>
-    <br/>
-
-
-    <label>Ubaci sliku (opciono):</label>
-    <input type="file" name="image" (change)="selectedImage($event)">
-    <div *ngIf="registerForm.submitted && imageWidth < 100 || imageWidth > 300 || imageHeight < 100 || imageHeight > 300">
-        <p class="validatorMessage">{{wrongImageDimensionsMessage}}</p>
-    </div>
-    <div *ngIf="wrongImageExtensionMessage != ''">
-        <p class="validatorMessage">{{wrongImageExtensionMessage}}</p>
-    </div>
-    <br/>
-
-
-
-    <label>Registruj kao</label>
-    <br/>
-    <input type="radio" name="userTypeRadio" value="client" [(ngModel)]="userType" #typeInput="ngModel" required>Klijent
-    <br/>
-    <input type="radio" name="userTypeRadio" value="agency" [(ngModel)]="userType" #typeInput="ngModel" required>Agencija
-    <br/>
-    <div *ngIf="registerForm.submitted && typeInput.invalid" class="validatorMessage">
-        <div *ngIf="typeInput.errors?.['required']">Morate odabrati tip korisnika!</div>
-    </div>
-
-
-    <div *ngIf="userType == 'client' ">
-        <br/>
-        <label>Ime</label> &nbsp;
-        <input type="text" name="firstname" [(ngModel)]="firstname" #firstnameInput="ngModel" required>
-        <div *ngIf="registerForm.submitted && firstnameInput.invalid && (firstnameInput.dirty || firstnameInput.touched)" class="validatorMessage">
-            <div *ngIf="firstnameInput.errors?.['required']">Morate uneti ime!</div>
-        </div>
-        <br/>
-
-        <label>Prezime</label> &nbsp;
-        <input type="text" name="lastname" [(ngModel)]="lastname" #lastnameInput="ngModel" required>
-        <div *ngIf="registerForm.submitted && lastnameInput.invalid && (lastnameInput.dirty || lastnameInput.touched)" class="validatorMessage">
-            <div *ngIf="lastnameInput.errors?.['required']">Morate uneti prezime!</div>
-        </div>
-        <br/>
-    </div>
-
-
-    <div *ngIf="userType == 'agency' ">
-        <br/>
-        <label>Naziv agencije</label> &nbsp;
-        <input type="text" name="agencyName" [(ngModel)]="agencyName" #agencyNameInput="ngModel" required>
-        <div *ngIf="registerForm.submitted && agencyNameInput.invalid && (agencyNameInput.dirty || agencyNameInput.touched)" class="validatorMessage">
-            <div *ngIf="agencyNameInput.errors?.['required']">Morate uneti naziv agencije!</div>
-        </div>
-        <br/>
-
-
-        <label>Maticni broj</label> &nbsp;
-        <input type="text" name="agencyId" [(ngModel)]="agencyId" #agencyIdInput="ngModel" required pattern="^\d{8}$">
-        <div *ngIf="registerForm.submitted && agencyIdInput.invalid && (agencyIdInput.dirty || agencyIdInput.touched)" class="validatorMessage">
-            <div *ngIf="agencyIdInput.errors?.['required']">Morate uneti maticni broj agencije!</div>
-            <div *ngIf="agencyIdInput.errors?.['pattern']">Maticni broj je niz od tacno 8 karaktera!</div>
-        </div>
-        <br/>
-
+            <!-- application/x-www-form-urlencoded  use for sending form data without file send -->
+            <!-- #xInput is used to display validation messages -->
         
-        <label>Kratak opis</label> &nbsp;
-        <textarea name="description" [(ngModel)]="description" #descriptionInput="ngModel" required></textarea>
-        <div *ngIf="registerForm.submitted && descriptionInput.invalid && (descriptionInput.dirty || descriptionInput.touched)" class="validatorMessage">
-            <div *ngIf="descriptionInput.errors?.['required']">Morate uneti opis agencije!</div>
-        </div>
-        <br/>
-
-
-        <label>Adresa agencije:</label> <br/>
-        <label>Ulica</label> &nbsp;
-        <input type="text" name="address" [(ngModel)]="agencyAddress" #addressInput="ngModel" required> &nbsp;
-        <div *ngIf="registerForm.submitted && addressInput.invalid && (addressInput.dirty || addressInput.touched)" class="validatorMessage">
-            <div *ngIf="addressInput.errors?.['required']">Morate uneti naziv ulice!</div>
-        </div>
-
-
-        <label>Broj</label> &nbsp;
-        <input type="text" name="streetNumber" [(ngModel)]="streetNumber" #streetNumberInput="ngModel" required pattern="^\d{0,4}$">
-        <div *ngIf="registerForm.submitted && streetNumberInput.invalid && (streetNumberInput.dirty || streetNumberInput.touched)" class="validatorMessage">
-            <div *ngIf="streetNumberInput.errors?.['required']">Morate uneti broj ulice!</div>
-            <div *ngIf="streetNumberInput.errors?.['pattern']">Morate uneti cifru! Broj ulice moze biti najvise do 4 cifre!</div>
-        </div>
-        <br/>
-
-
-        <label>Grad</label> &nbsp;
-        <input type="text" name="city" [(ngModel)]="city" #cityInput="ngModel" required>
-        <div *ngIf="registerForm.submitted && cityInput.invalid && (cityInput.dirty || cityInput.touched)" class="validatorMessage">
-            <div *ngIf="cityInput.errors?.['required']">Morate uneti grad!</div>
-        </div>
-        <br/>
-
-
-        <label>Drzava</label> &nbsp;
-        <input type="text" name="state" [(ngModel)]="state" #stateInput="ngModel" required>
-        <div *ngIf="registerForm.submitted && stateInput.invalid && (stateInput.dirty || stateInput.touched)" class="validatorMessage">
-            <div *ngIf="stateInput.errors?.['required']">Morate uneti drzavu!</div>
-        </div>
-        <br/>
+            <fieldset>
+        
+                <div class="form-group">
+                    <label class="form-label mt-4">Korisničko ime</label> &nbsp;
+                    <input type="text" class="form-control" name="username" [(ngModel)]="username" #usernameInput="ngModel" required>
+                </div>
+                <div *ngIf="registerForm.submitted && usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)">
+                    <div *ngIf="usernameInput.errors?.['required']" class="validatorMessage">Korisnicko ime je obavezno!</div>
+                </div>
+        
+                <div class="form-group">
+                    <label class="form-label mt-4">Lozinka</label> &nbsp;
+                    <input type="password" class="form-control" name="password" [(ngModel)]="password" #passwordInput="ngModel"
+                        pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+={}[\]:;'\x22\\|,.<>/?]{6,12}$" required >
+                        <!-- \x22 je heksadecimalni zapis za " znake navoda -->
+                </div>
+                <div *ngIf="registerForm.submitted && passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="validatorMessage">
+                    <div *ngIf="passwordInput.errors?.['required']">Lozinka je obavezna!</div>
+                    <div *ngIf="passwordInput.errors?.['pattern']">Lozinka mora da sadrzi najmanje 6, a najvise 12 karaktera, bar jedno veliko slovo, jedan broj i jedan specijalni karakter, i mora poceti velikim slovom.</div>
+                </div>
+        
+                <div class="form-group">
+                    <label class="form-label mt-4">Potvrdite lozinku</label>
+                    <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="confirmPassword" #confirmPasswordInput="ngModel" required>
+                </div>
+                <div *ngIf="registerForm.submitted && confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)" class="validatorMessage">
+                    <div *ngIf="confirmPasswordInput.errors?.['required']">Morate potvrditi lozinku!</div>
+                </div>
+                <div *ngIf="registerForm.submitted && password != confirmPassword" class="validatorMessage">Lozinke se ne poklapaju!</div>
+        
+                <div class="form-group">
+                    <label class="form-label mt-4">Kontakt telefon</label> &nbsp;
+                    <input type="text" class="form-control" name="phone" [(ngModel)]="phoneNumber" #phoneInput="ngModel" required pattern="^\+?\d{1,14}$"> 
+                </div>
+                <div *ngIf="registerForm.submitted && phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="validatorMessage">
+                    <div *ngIf="phoneInput.errors?.['required']">Morate uneti broj telefona!</div>
+                    <div *ngIf="phoneInput.errors?.['pattern']">Morate uneti broj! Broj je maksimalne duzine do 15 karaktera (ukljucujuci znak '+')</div>
+                </div>
+        
+                <div class="form-group">
+                    <label class="form-label mt-4">E-mail adresa</label> &nbsp;
+                    <input type="text" class="form-control" name="email" [(ngModel)]="email" #emailInput="ngModel" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}">
+                </div>
+                <div *ngIf="registerForm.submitted && emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="validatorMessage">
+                    <div *ngIf="emailInput.errors?.['required']">Morate uneti email!</div>
+                    <div *ngIf="emailInput.errors?.['pattern']">Email ne zadovoljava format! Uneti format nesto@nesto.domen, gde je domen duzine 2-3 karaktera.</div>
+                </div>
+        
+                <div class="form-group">
+                    <label class="form-label mt-4">Ubaci sliku (opciono):</label>
+                    <input type="file" class="form-control" name="image" (change)="selectedImage($event)">
+                </div>
+                <div *ngIf="registerForm.submitted && imageWidth < 100 || imageWidth > 300 || imageHeight < 100 || imageHeight > 300">
+                    <p class="validatorMessage">{{wrongImageDimensionsMessage}}</p>
+                </div>
+                <div *ngIf="wrongImageExtensionMessage != ''">
+                    <p class="validatorMessage">{{wrongImageExtensionMessage}}</p>
+                </div>
+        
+        
+                <div class="form-group">
+                    <label class="form-label mt-4">Registruj kao</label>
+        
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="userTypeRadio" value="client" [(ngModel)]="userType" #typeInput="ngModel" required>Klijent
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="userTypeRadio" value="agency" [(ngModel)]="userType" #typeInput="ngModel" required>Agencija
+                    </div>
+                </div>
+                <div *ngIf="registerForm.submitted && typeInput.invalid" class="validatorMessage">
+                    <div *ngIf="typeInput.errors?.['required']">Morate odabrati tip korisnika!</div>
+                </div>
+        
+        
+                <div *ngIf="userType == 'client' ">
+                    
+                    <div class="form-group">
+                        <label class="form-label mt-4">Ime</label> &nbsp;
+                        <input type="text" class="form-control" name="firstname" [(ngModel)]="firstname" #firstnameInput="ngModel" required>
+                    </div>
+                    <div *ngIf="registerForm.submitted && firstnameInput.invalid && (firstnameInput.dirty || firstnameInput.touched)" class="validatorMessage">
+                        <div *ngIf="firstnameInput.errors?.['required']">Morate uneti ime!</div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Prezime</label> &nbsp;
+                        <input type="text" class="form-control" name="lastname" [(ngModel)]="lastname" #lastnameInput="ngModel" required>
+                    </div>
+                    <div *ngIf="registerForm.submitted && lastnameInput.invalid && (lastnameInput.dirty || lastnameInput.touched)" class="validatorMessage">
+                        <div *ngIf="lastnameInput.errors?.['required']">Morate uneti prezime!</div>
+                    </div>
+                </div>
+        
+                <div *ngIf="userType == 'agency' ">
+                    <div class="form-group">
+                        <label class="form-label mt-4">Naziv agencije</label> &nbsp;
+                        <input type="text" class="form-control" name="agencyName" [(ngModel)]="agencyName" #agencyNameInput="ngModel" required>
+                    </div>
+                    <div *ngIf="registerForm.submitted && agencyNameInput.invalid && (agencyNameInput.dirty || agencyNameInput.touched)" class="validatorMessage">
+                        <div *ngIf="agencyNameInput.errors?.['required']">Morate uneti naziv agencije!</div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Maticni broj</label> &nbsp;
+                        <input type="text" class="form-control" name="agencyId" [(ngModel)]="agencyId" #agencyIdInput="ngModel" required pattern="^\d{8}$">
+                    </div>
+                    <div *ngIf="registerForm.submitted && agencyIdInput.invalid && (agencyIdInput.dirty || agencyIdInput.touched)" class="validatorMessage">
+                        <div *ngIf="agencyIdInput.errors?.['required']">Morate uneti maticni broj agencije!</div>
+                        <div *ngIf="agencyIdInput.errors?.['pattern']">Maticni broj je niz od tacno 8 karaktera!</div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Kratak opis</label> &nbsp;
+                        <textarea name="description" class="form-control" [(ngModel)]="description" #descriptionInput="ngModel" required></textarea>
+                    </div>
+                    <div *ngIf="registerForm.submitted && descriptionInput.invalid && (descriptionInput.dirty || descriptionInput.touched)" class="validatorMessage">
+                        <div *ngIf="descriptionInput.errors?.['required']">Morate uneti opis agencije!</div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Adresa agencije:</label> <br/>
+                        <label class="form-label mt-4">Ulica</label> &nbsp;
+                        <input type="text" class="form-control" name="address" [(ngModel)]="agencyAddress" #addressInput="ngModel" required> &nbsp;
+                    </div>
+                    <div *ngIf="registerForm.submitted && addressInput.invalid && (addressInput.dirty || addressInput.touched)" class="validatorMessage">
+                        <div *ngIf="addressInput.errors?.['required']">Morate uneti naziv ulice!</div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Broj</label> &nbsp;
+                        <input type="text" class="form-control" name="streetNumber" [(ngModel)]="streetNumber" #streetNumberInput="ngModel" required pattern="^\d{0,4}$">
+                    </div>
+                    <div *ngIf="registerForm.submitted && streetNumberInput.invalid && (streetNumberInput.dirty || streetNumberInput.touched)" class="validatorMessage">
+                        <div *ngIf="streetNumberInput.errors?.['required']">Morate uneti broj ulice!</div>
+                        <div *ngIf="streetNumberInput.errors?.['pattern']">Morate uneti cifru! Broj ulice moze biti najvise do 4 cifre!</div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Grad</label> &nbsp;
+                        <input type="text" class="form-control" name="city" [(ngModel)]="city" #cityInput="ngModel" required>
+                    </div>
+                    <div *ngIf="registerForm.submitted && cityInput.invalid && (cityInput.dirty || cityInput.touched)" class="validatorMessage">
+                        <div *ngIf="cityInput.errors?.['required']">Morate uneti grad!</div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="form-label mt-4">Drzava</label> &nbsp;
+                        <input type="text" class="form-control" name="state" [(ngModel)]="state" #stateInput="ngModel" required>
+                    </div>
+                    <div *ngIf="registerForm.submitted && stateInput.invalid && (stateInput.dirty || stateInput.touched)" class="validatorMessage">
+                        <div *ngIf="stateInput.errors?.['required']">Morate uneti drzavu!</div>
+                    </div>
+                </div>
+               
+        
+                <br/>
+                <button class="btn btn-primary" type="submit">Registruj</button>
+        
+            </fieldset>
+        
+        </form>
     </div>
+</div>
 
-    <br/>
-    <button type="submit">Registruj</button>
-
-</form>
 
 
 {{message}}

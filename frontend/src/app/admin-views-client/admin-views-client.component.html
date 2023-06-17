@@ -1,47 +1,65 @@
-<h3>Stranica klijenta {{client.firstname}} {{client.lastname}}</h3>
+<h3 class="text-center">Stranica klijenta {{client.firstname}} {{client.lastname}}</h3>
 
 
 <br /><br />
-<form #updateClientForm="ngForm" (ngSubmit)="updateClient(updateClientForm)">
-    <img [src]="getClientImage()"> <br />
 
-    <label>Ime</label> <br />
-    <input type="text" name="clientName" [(ngModel)]="clientFirstname" #clientFirstnameInput="ngModel" required> <br />
-    <div *ngIf="updateClientForm.submitted && clientFirstnameInput.invalid && (clientFirstnameInput.dirty || clientFirstnameInput.touched)" class="validatorMessage">
-        <div *ngIf="clientFirstnameInput.errors?.['required']">Morate uneti ime klijenta!</div>
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <form #updateClientForm="ngForm" (ngSubmit)="updateClient(updateClientForm)">
+
+            <fieldset>
+                <div class="text-center">
+                    <img [src]="getClientImage()">
+                </div>
+                <br />
+        
+                <div class="form-group">
+                    <label class="form-label mt-4">Ime</label>
+                    <input type="text" class="form-control" name="clientName" [(ngModel)]="clientFirstname" #clientFirstnameInput="ngModel" required>
+                </div>
+                <div *ngIf="updateClientForm.submitted && clientFirstnameInput.invalid && (clientFirstnameInput.dirty || clientFirstnameInput.touched)" class="validatorMessage">
+                    <div *ngIf="clientFirstnameInput.errors?.['required']">Morate uneti ime klijenta!</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label mt-4">Prezime</label> <br />
+                    <input type="text" class="form-control" name="clientLastname" [(ngModel)]="clientLastname" #clientLastnameInput="ngModel" required> <br />
+                </div>
+                <div *ngIf="updateClientForm.submitted && clientLastnameInput.invalid && (clientLastnameInput.dirty || clientLastnameInput.touched)" class="validatorMessage">
+                    <div *ngIf="clientLastnameInput.errors?.['required']">Morate uneti prezime klijenta!</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label mt-4">E-mail</label> <br />
+                    <input type="text" class="form-control" name="clientEmail" [(ngModel)]="clientEmail" #clientEmailInput="ngModel" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}">
+                </div>
+                <div *ngIf="updateClientForm.submitted && clientEmailInput.invalid && (clientEmailInput.dirty || clientEmailInput.touched)" class="validatorMessage">
+                    <div *ngIf="clientEmailInput.errors?.['required']">Morate uneti email!</div>
+                    <div *ngIf="clientEmailInput.errors?.['pattern']">Email ne zadovoljava format! Uneti format nesto@nesto.domen, gde je domen duzine 2-3 karaktera.</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label mt-4">Broj telefona</label> <br />
+                    <input type="text" class="form-control" name="clientPhone" [(ngModel)]="clientPhone" #clientPhoneInput="ngModel" required pattern="^\+?\d{1,14}$">
+                </div>
+                <div *ngIf="updateClientForm.submitted && clientPhoneInput.invalid && (clientPhoneInput.dirty || clientPhoneInput.touched)" class="validatorMessage">
+                    <div *ngIf="clientPhoneInput.errors?.['required']">Morate uneti broj telefona!</div>
+                    <div *ngIf="clientPhoneInput.errors?.['pattern']">Morate uneti broj! Broj je maksimalne duzine do 15 karaktera (ukljucujuci znak '+')</div>
+                </div>
+                
+                <div class="form-group text-center">
+                    <label class="form-label mt-4">Akcija</label> <br />
+                    <button class="btn btn-success" type="submit">Ažuriraj</button> &nbsp;
+                    <button class="btn btn-danger" type="button" (click)="deleteClient()">Obriši</button>
+                </div>
+
+            </fieldset>
+
+        </form>
     </div>
-
-
-    <label>Prezime</label> <br />
-    <input type="text" name="clientLastname" [(ngModel)]="clientLastname" #clientLastnameInput="ngModel" required> <br />
-    <div *ngIf="updateClientForm.submitted && clientLastnameInput.invalid && (clientLastnameInput.dirty || clientLastnameInput.touched)" class="validatorMessage">
-        <div *ngIf="clientLastnameInput.errors?.['required']">Morate uneti prezime klijenta!</div>
-    </div>
-
-
-    <label>E-mail</label> <br />
-    <input type="text" name="clientEmail" [(ngModel)]="clientEmail" #clientEmailInput="ngModel" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"> <br />
-    <div *ngIf="updateClientForm.submitted && clientEmailInput.invalid && (clientEmailInput.dirty || clientEmailInput.touched)" class="validatorMessage">
-        <div *ngIf="clientEmailInput.errors?.['required']">Morate uneti email!</div>
-        <div *ngIf="clientEmailInput.errors?.['pattern']">Email ne zadovoljava format! Uneti format nesto@nesto.domen, gde je domen duzine 2-3 karaktera.</div>
-    </div>
-
-
-    <label>Broj telefona</label> <br />
-    <input type="text" name="clientPhone" [(ngModel)]="clientPhone" #clientPhoneInput="ngModel" required pattern="^\+?\d{1,14}$"> <br />
-    <div *ngIf="updateClientForm.submitted && clientPhoneInput.invalid && (clientPhoneInput.dirty || clientPhoneInput.touched)" class="validatorMessage">
-        <div *ngIf="clientPhoneInput.errors?.['required']">Morate uneti broj telefona!</div>
-        <div *ngIf="clientPhoneInput.errors?.['pattern']">Morate uneti broj! Broj je maksimalne duzine do 15 karaktera (ukljucujuci znak '+')</div>
-    </div>
-
-    
-    <br /><label>Akcija</label><br />
-    <button type="submit">Azuriraj</button> &nbsp;
-    <button type="button" (click)="deleteClient()">Obrisi</button>
-</form>
-
-
+</div>
 
 <br /><br />
-<button (click)="returnToAdminPage()">Povratak na admin panel</button>
-<br /><br />
+<div class="form-group text-center">
+    <button class="btn btn-primary" (click)="returnToAdminPage()">Povratak na admin panel</button>
+</div>

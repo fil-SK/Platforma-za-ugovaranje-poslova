@@ -39,7 +39,7 @@ export class AdminLoginComponent implements OnInit {
       }
 
       else{
-        this.message = "Neuspesno logovanje kao admin!";
+        this.message = "Neuspešno logovanje kao admin!";
       }
       
     });

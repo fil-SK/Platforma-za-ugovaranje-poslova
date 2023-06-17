@@ -164,6 +164,85 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
   loggedUser : Client;
   
 
+  // ----------- Za proveru JSON fajla --------------
+
+  checkIfRoomsOverlap(room1 : any, room2 : any){
+    // Posmatraju se 4 slucaja, ako je bilo koji od ova 4 uslova TACAN, tada se ove dve sobe NE preklapaju
+    // 1. uslov - leva ivica sobe1 nalazi se DESNO od desne ivice sobe2
+    // 2. uslov - gornja ivica sobe1 nalazi se ISPOD donje ivice sobe2
+    // 3. uslov - desna ivice sobe1 nalazi se LEVO od leve ivice sobe2
+    // 4. uslov - donja ivica sobe1 nalazi se IZNAD gornje ivice sobe2
+
+    if(room1.roomCoord.x >= room2.roomCoord.x + room2.roomCoord.width ||
+       room1.roomCoord.y >= room2.roomCoord.y + room2.roomCoord.height ||
+       room1.roomCoord.x + room1.roomCoord.width <= room2.roomCoord.x ||
+       room1.roomCoord.y + room1.roomCoord.height <= room2.roomCoord.y){
+          return false;   // Sobe se ne preklapaju
+       }
+    else{
+      return true;    // Sobe se preklapaju
+    }
+  }
+
+
+  checkIfRoomsAreTouching(room1 : any, room2 : any){
+    // Stranice za sobe
+    let room1Left = room1.roomCoord.x;
+    let room1Right = room1.roomCoord.x + room1.roomCoord.width;
+    let room1Top = room1.roomCoord.y;
+    let room1Bottom = room1.roomCoord.y + room1.roomCoord.height;
+
+    let room2Left = room2.roomCoord.x;
+    let room2Right = room2.roomCoord.x + room2.roomCoord.width;
+    let room2Top = room2.roomCoord.y;
+    let room2Bottom = room2.roomCoord.y + room2.roomCoord.height;
+
+    let leftWallTouching;
+    let rightWallTouching;
+    let topWallTouching;
+    let bottomWallTouching;
+
+    // Proveravamo da li dodiruje za levu sobu
+
+    // Provera levog zida leve sobe
+    if(room1Left == room2Right && room1Top < room2Bottom && room1Bottom > room2Top){
+      leftWallTouching = true;
+    }
+    else{
+      leftWallTouching = false;
+    }
+
+    // Provera desnog zida leve sobe
+    if(room1Right == room2Left && room1Top < room2Bottom && room1Bottom > room2Top){
+      rightWallTouching = true;
+    }
+    else{
+      rightWallTouching = false;
+    }
+
+    // Provera gornjeg zida leve sobe
+    if(room1Top == room2Bottom && room1Left < room2Right && room1Right > room2Left){
+      topWallTouching = true;
+    }
+    else{
+      topWallTouching = false;
+    }
+
+    // Provera donjeg zida leve sobe
+    if(room1Bottom == room2Top && room1Left < room2Right && room1Right > room2Left){
+      bottomWallTouching = true;
+    }
+    else{
+      bottomWallTouching = false;
+    }
+
+
+    return leftWallTouching || rightWallTouching || topWallTouching || bottomWallTouching;
+    
+  }
+
+
+
 
   insertRealEstate(form : NgForm){
     
@@ -191,6 +270,90 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
     console.log(newRealEstate);
 
 
+    let i : number;
+    let j : number;
+
+    // Proverimo da li se sobe preklapaju
+    for(i = 0; i < newRealEstate.roomArray.length - 1; i++){
+      let room1 = newRealEstate.roomArray[i];
+
+      for(j = i + 1; j < newRealEstate.roomArray.length; j++){
+        let room2 = newRealEstate.roomArray[j];
+
+        if(this.checkIfRoomsOverlap(room1, room2)){
+          alert("Sobe se preklapaju!");
+          return;
+        }
+      }
+    }
+
+    // Proverimo da li se sobe dodiruju
+    for(i = 0; i < newRealEstate.roomArray.length - 1; i++){
+      let room1 = newRealEstate.roomArray[i];
+      let isTouching : boolean = false;       // Ovo proveravamo za svaku sobu
+
+      for(j = i + 1; j < newRealEstate.roomArray.length; j++){
+        let room2 = newRealEstate.roomArray[j];
+
+        if(this.checkIfRoomsAreTouching(room1, room2)){
+          isTouching = true;    // Dodiruju se, to je dobro
+          break;
+        }
+
+      }
+
+      if(!isTouching){
+        alert("Soba ne dodiruje nijednu drugu sobu!");
+        return;
+      }
+    }
+
+
+    // Proverimo da li su vrata u sobi
+    for(i = 0; i < newRealEstate.roomArray.length; i++){
+      let room = newRealEstate.roomArray[i];
+      let door = room.doorCoord;
+      let doorPosition = room.doorPosition;
+
+      if(doorPosition == "normal"){
+        if(door.x < room.roomCoord.x ||
+          door.x + door.width > room.roomCoord.x + room.roomCoord.width ||
+          door.y < room.roomCoord.y ||
+          door.y + door.height > room.roomCoord.y + room.roomCoord.height){
+           alert("Greska! Vrata nisu u sobi!");
+           return;
+          }
+      }
+      else if(doorPosition == "toLeft"){
+        
+      }
+      else if(doorPosition == "toRight"){
+
+      }
+      else if(doorPosition == "reverse"){
+
+      }
+
+      
+
+
+         // Proverimo da li su vrata na zidovima - radis samo jednu proveru
+         // if position - normal    mogu da budu samo na bottom zidu
+         // if position - reverse   mogu da budu samo na top zidu
+         // if position - toLeft    mogu da budu samo na desnom zidu
+         // if position - toRight   mogu da budu samo na levom zidu
+         
+    }
+
+    
+
+
+
+
+
+    // NE ZABORAVI DA ODKOMENTARISES OVAJ DEO DOLE
+
+    /*
     // U OVAJ DEO MORA DA SE PREDJE JEDINO U SLUCAJU DA JE SVE DOBRO PROSLO, POSTO CE SE DOLE MENJATI ID-evi U BAZI! DOLE NE SME DA DODJE DO GRESKE!
 
     // Get last used ID values for roomId and realEstateId from the database
@@ -251,7 +414,7 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
 
       }
     });
-    
+    */
   }
 
 

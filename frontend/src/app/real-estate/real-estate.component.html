@@ -1,7 +1,10 @@
 
 
-<h2>Svi objekti klijenta:</h2>
-<!-- Ovde dodaj prikaz komponente, za sve objekte klijenta, gde ce komponenta znati kako da se prikaze jedan element, i da komponenta bude clickable -->
+<h2 class="text-center">Svi objekti klijenta</h2>
+
+<br/><br/>
+
+
 <div *ngIf="!allClientRealEstates || allClientRealEstates.length == 0">
     Klijent trenutno nema objekata!
 </div>
@@ -13,7 +16,10 @@
         </div>
     </div>
     
-    <!-- <table>
+    <!--
+        Prvobitno ovako, kroz tabelu
+        
+        <table>
         <tr>
             <th>Tip</th>
             <th>Adresa</th>
@@ -35,70 +41,78 @@
 
 <br/>
 
-<h3>Dodaj novi objekat:</h3> <br/>
+<h3 class="text-center">Dodaj novi objekat</h3> <br/>
 
-<form #insertRealEstateForm="ngForm" (ngSubmit)="insertRealEstate(insertRealEstateForm)" enctype="application/x-www-form-urlencoded">
-    <h5>Unesite informacije o objektu</h5> <br/>
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <form class="border border-primary p-4" #insertRealEstateForm="ngForm" (ngSubmit)="insertRealEstate(insertRealEstateForm)" enctype="application/x-www-form-urlencoded">
+            
+            <h5>Unesite informacije o objektu</h5>
+        
+            <div class="form-group">
+                <label class="form-label mt-4">Tip objekta</label>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radioStan" name="realEstateTypeRadio" value="stan" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioStan">Stan</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radioKuca" name="realEstateTypeRadio" value="kuca" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioKuca">Kuća</label>
+                </div>
 
-    <label>Tip objekta</label><br/>
-    <input type="radio" id="radioStan" name="realEstateTypeRadio" value="stan" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioStan">Stan</label>
-    <br/>
-    <input type="radio" id="radioKuca" name="realEstateTypeRadio" value="kuca" [(ngModel)]="realEstateType" #typeInput="ngModel" required><label for="radioKuca">Kuća</label>
-    <br/>
-    <div *ngIf="usingDefaultSchema && insertRealEstateForm.submitted && typeInput.invalid" class="validatorMessage">
-        <div *ngIf="usingDefaultSchema && typeInput.errors?.['required']">Morate odabrati tip objekta!</div>
-    </div>
+                <div *ngIf="usingDefaultSchema && insertRealEstateForm.submitted && typeInput.invalid" class="validatorMessage">
+                    <div *ngIf="usingDefaultSchema && typeInput.errors?.['required']">Morate odabrati tip objekta!</div>
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label class="form-label mt-4">Ulica</label> &nbsp;
+                <input type="text" class="form-control" name="address" [(ngModel)]="realEstateAddress" #realEstateAddressInput="ngModel" required>
+                <br/>
+                <div *ngIf="insertRealEstateForm.submitted && realEstateAddressInput.invalid && (realEstateAddressInput.dirty || realEstateAddressInput.touched)" class="validatorMessage">
+                    <div *ngIf="realEstateAddressInput.errors?.['required']">Morate uneti ulicu!</div>
+                </div>
+            </div>
 
-    <label>Ulica</label> &nbsp;
-    <input type="text" name="address" [(ngModel)]="realEstateAddress" #realEstateAddressInput="ngModel" required>
-    <br/>
-    <div *ngIf="insertRealEstateForm.submitted && realEstateAddressInput.invalid && (realEstateAddressInput.dirty || realEstateAddressInput.touched)" class="validatorMessage">
-        <div *ngIf="realEstateAddressInput.errors?.['required']">Morate uneti ulicu!</div>
-    </div>
+            <div class="form-group">
+                <label class="form-label mt-4">Broj</label> &nbsp;
+                <input type="text" class="form-control" name="streetNumber" [(ngModel)]="realEstateStreetNumber" #realEstateStreetNumberInput="ngModel" required pattern="^\d{0,4}$">
+                <br/>
+                <div *ngIf="insertRealEstateForm.submitted && realEstateStreetNumberInput.invalid && (realEstateStreetNumberInput.dirty || realEstateStreetNumberInput.touched)" class="validatorMessage">
+                    <div *ngIf="realEstateStreetNumberInput.errors?.['required']">Morate uneti broj ulice!</div>
+                    <div *ngIf="realEstateStreetNumberInput.errors?.['pattern']">Morate uneti cifru! Broj ulice moze biti najvise do 4 cifre!</div>
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label class="form-label mt-4">Broj prostorija</label> &nbsp;
+                <input type="text" class="form-control" name="numberOfRooms" [(ngModel)]="numberOfRooms" #numberOfRoomsInput="ngModel" required disabled="true">
+            </div>
 
-    <label>Broj</label> &nbsp;
-    <input type="text" name="streetNumber" [(ngModel)]="realEstateStreetNumber" #realEstateStreetNumberInput="ngModel" required pattern="^\d{0,4}$">
-    <br/>
-    <div *ngIf="insertRealEstateForm.submitted && realEstateStreetNumberInput.invalid && (realEstateStreetNumberInput.dirty || realEstateStreetNumberInput.touched)" class="validatorMessage">
-        <div *ngIf="realEstateStreetNumberInput.errors?.['required']">Morate uneti broj ulice!</div>
-        <div *ngIf="realEstateStreetNumberInput.errors?.['pattern']">Morate uneti cifru! Broj ulice moze biti najvise do 4 cifre!</div>
-    </div>
+            <div class="form-group">
+                <label class="form-label mt-4">Kvadratura</label> &nbsp;
+                <input type="text" class="form-control" name="squareFootage" [(ngModel)]="squareFootage" #squareFootageInput="ngModel" required pattern="^(?!0)\d+(\.\d+)?$">
+                <div *ngIf="insertRealEstateForm.submitted && squareFootageInput.invalid && (squareFootageInput.dirty || squareFootageInput.touched)" class="validatorMessage">
+                    <div *ngIf="squareFootageInput.errors?.['required']">Morate uneti kvadraturu!</div>
+                    <div *ngIf="squareFootageInput.errors?.['pattern']">
+                        <p>Kvadratura je broj! Unos mora biti veći od 0, i ne sme početi cifrom 0!</p>
+                        <p>Decimalne brojeve pisati uz znak '.' i neophodno je napisati bar jednu cifru nakon znaka '.'</p>
+                    </div>
+                </div>
+            </div>
 
+            <br /><br />
+            <div class="form-group">
+                 <!-- Objekat se unosi preko JSON fajla. Inicijalno je ucitan default objekat. Ako klijent ucita svoj, onda se koristi njegov JSON fajl, inace se ucitava defaultni -->
+                <label class="form-label mt-4">Skica objekta</label> <br/>
+                <label class="form-label mt-2">Ukoliko ne unesete ništa, koristite podrazumevanu skicu datu ispod. Ako želite da koristite vašu skicu, unesite je preko dugmeta za unos skice.</label> <br/>
+                <input type="file" class="form-control" name="realEstateSchema" (change)="selectedSchema($event)">
+            </div>
 
-    <label>Broj prostorija</label> &nbsp;
-    <input type="text" name="numberOfRooms" [(ngModel)]="numberOfRooms" #numberOfRoomsInput="ngModel" required disabled="true">
-    <br/>
- 
-
-    <label>Kvadratura</label> &nbsp;
-    <input type="text" name="squareFootage" [(ngModel)]="squareFootage" #squareFootageInput="ngModel" required pattern="^(?!0)\d+(\.\d+)?$">
-    <div *ngIf="insertRealEstateForm.submitted && squareFootageInput.invalid && (squareFootageInput.dirty || squareFootageInput.touched)" class="validatorMessage">
-        <div *ngIf="squareFootageInput.errors?.['required']">Morate uneti kvadraturu!</div>
-        <div *ngIf="squareFootageInput.errors?.['pattern']">
-            <p>Kvadratura je broj! Unos mora biti veći od 0, i ne sme početi cifrom 0!</p>
-            <p>Decimalne brojeve pisati uz znak '.' i neophodno je napisati bar jednu cifru nakon znaka '.'</p>
-        </div>
-    </div>
-    <br/> <br/>
-
+            <div class="form-group text-center">
+                <canvas #realEstateCanvas class="canvas-styling" width="500" height="400"></canvas>
+            </div>
     
-    <label>Skica objekta</label> <br/>
-    <label>Ukoliko ne unesete ništa, koristite podrazumevanu skicu datu ispod. Ako želite da koristite vašu skicu, unesite je preko dugmeta za unos skice.</label> <br/>
-    <input type="file" name="realEstateSchema" (change)="selectedSchema($event)">
-
-    <!-- Objekat se unosi preko JSON fajla. Inicijalno je ucitan default objekat. Ako klijent ucita svoj, onda se koristi njegov JSON fajl, inace se ucitava defaultni -->
-
-    <canvas #realEstateCanvas class="canvas-styling" width="500" height="400"></canvas> <br/>
-
-    <label>Unesite vašu skicu</label> <br/>
-
-    
-    <button type="submit">Dodaj objekat</button>
-
-</form>
-
-
-
-<br/><br/><br/>
+            <button class="btn btn-primary" type="submit">Dodaj objekat</button>
+        
+        </form>
+    </div>
+</div>
