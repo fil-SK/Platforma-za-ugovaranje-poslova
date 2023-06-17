@@ -40,11 +40,29 @@ export class RealEstateController{
 
 
 
-    getAllRealEstatesForClient = async (req : express.Request, res : express.Response) => {
+    getAllRealEstatesForClient = (req : express.Request, res : express.Response) => {
+
+        let username = req.body.username;
+
+        RealEstateModel.find({'ownerUsername' : username}, (err, allRealEstate) => {
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.json(allRealEstate);
+            }
+        });
+
+        
+    }
+
+    /*
+        Stara metoda od ove iznad
+        getAllRealEstatesForClient = async (req : express.Request, res : express.Response) => {
 
 
         try {
-            const username = req.body.clientUsername;
+            const username = req.body.username;
             const allRealEstates = await RealEstateModel.find({ username }).exec();
         
             res.json(allRealEstates);
@@ -54,6 +72,7 @@ export class RealEstateController{
         }
 
     }
+    */
 
 
     markForRenovation = (req : express.Request, res : express.Response) => {
