@@ -52,15 +52,34 @@ export class FullRealEstateDetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
+/*
+  displayRealEstateDetails(context : CanvasRenderingContext2D){
+    let doorImagePath = this.selectedRealEstate.doorImagePath;
+    context.strokeRect(150, 250, 200, 100);
+    
 
+    
+
+
+    const doorImage = new Image();
+      doorImage.src = 'http://localhost:4000/uploads/doorVector.png';
+
+      doorImage.onload = function(){
+        context.translate(280, 210); //200 - 325
+        context.rotate(Math.PI);
+        context.drawImage(doorImage, -25, -80, 25, 40);
+      }
+    
+  }*/
+  
   displayRealEstateDetails(context : CanvasRenderingContext2D){
 
     let doorImagePath = this.selectedRealEstate.doorImagePath;
     let allRooms = this.selectedRealEstate.roomArray;
-/*
-    context.strokeRect(50, 50, 250, 150);
-    context.strokeRect(300, 50, 140, 150);
-    context.strokeRect(160, 200, 280, 150);*/
+
+    //context.strokeRect(50, 50, 250, 150);
+    //context.strokeRect(300, 50, 140, 150);
+    //context.strokeRect(160, 200, 280, 150);
 
 
     let i : number;

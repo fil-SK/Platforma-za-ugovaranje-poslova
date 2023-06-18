@@ -316,6 +316,7 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
       let doorPosition = room.doorPosition;
 
       if(doorPosition == "normal"){
+        // Da li su vrata u sobi
         if(door.x < room.roomCoord.x ||
           door.x + door.width > room.roomCoord.x + room.roomCoord.width ||
           door.y < room.roomCoord.y ||
@@ -323,28 +324,46 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
            alert("Greska! Vrata nisu u sobi!");
            return;
           }
-      }
-      else if(doorPosition == "toLeft"){
         
+        // Da li su vrata oslonjena na zid. Posto se postavljaju kao normal
+        // USLOV: Vrata moraju da budu oslonjena na donji zid tj. donji deo vrata mora biti na ISTOJ visini kao i donji deo sobe
+        if(door.y + door.height != room.roomCoord.y + room.roomCoord.height){
+          alert("Greska za normalna vrata! Vrata ne dodiruju zid!");
+          return;
+        }
       }
-      else if(doorPosition == "toRight"){
 
-      }
       else if(doorPosition == "reverse"){
-
+        // USLOV: Vrata moraju da budu oslonjena na gornji zid. tj. donji deo mora biti na ISTOJ visini kao i gornji deo sobe
+        if(door.x < room.roomCoord.x || door.x + door.width > room.roomCoord.x + room.roomCoord.width ||
+           door.y + door.height != room.roomCoord.y){
+            alert("Greska za obrnuta vrata! Vrata su izvan granice sobe ili ne dodiruju zid!");
+            return;
+           }
       }
 
-      
+      else if(doorPosition == "toLeft"){
+        // USLOV: Vrata moraju da budu oslonjena sa spoljasnje strane zida u uspravnom polozaju
+        // Moraju se naci na istoj x koordinati kao i desni zid, a y koord. vrata mora biti u opsegu (y koord. zida, y koord zida + visina zida - sirina vrata)
+        if(door.x != room.roomCoord.x + room.roomCoord.width ||
+          door.y < room.roomCoord.y || door.y > room.roomCoord.y + room.roomCoord.height - door.width){
+            alert("Greska za vrata ulevo! Vrata su izvan granice sobe ili ne dodiruju zid!");
+            return;
+          }
+      }
 
-
-         // Proverimo da li su vrata na zidovima - radis samo jednu proveru
-         // if position - normal    mogu da budu samo na bottom zidu
-         // if position - reverse   mogu da budu samo na top zidu
-         // if position - toLeft    mogu da budu samo na desnom zidu
-         // if position - toRight   mogu da budu samo na levom zidu
+      else if(doorPosition == "toRight"){
+        // USLOV: Vrata moraju biti iste x koordinate kao i levi zid, a visina vrata mora biti u opsegu (y koord. zida, y koord zida + visina zida - sirina vrata)
+        if(door.x != room.roomCoord.x ||
+           door.y < room.roomCoord.y || door.y > room.roomCoord.y + room.roomCoord.height - door.width){
+            alert("Greska za vrata udesno! Vrata su izvan granice sobe ili ne dodiruju zid!");
+            return;
+           }
+      }
          
     }
 
+    alert("Uspesno dodeljena sema")
     
 
 
@@ -353,7 +372,7 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
 
     // NE ZABORAVI DA ODKOMENTARISES OVAJ DEO DOLE
 
-    /*
+    
     // U OVAJ DEO MORA DA SE PREDJE JEDINO U SLUCAJU DA JE SVE DOBRO PROSLO, POSTO CE SE DOLE MENJATI ID-evi U BAZI! DOLE NE SME DA DODJE DO GRESKE!
 
     // Get last used ID values for roomId and realEstateId from the database
@@ -414,7 +433,7 @@ export class RealEstateComponent implements OnInit, AfterViewInit {
 
       }
     });
-    */
+    
   }
 
 
